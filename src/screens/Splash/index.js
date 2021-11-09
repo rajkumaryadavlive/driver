@@ -1,24 +1,28 @@
 import React from "react";
-import { View, Image, AsyncStorage, NativeModules, Alert, BackHandler } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  AsyncStorage,
+  NativeModules,
+  Alert,
+  BackHandler,
+} from "react-native";
 import styles from "./style";
 import { connect } from "react-redux";
 
-const Splash =()=> {
-  
-    return (
-      <View style={styles.container}>
-        <Image
-          style={styles.imageStyle}
-          source={{
-            uri: "splash",
-            isStatic: true,
-            resizeMode: "contain"
-          }}
-        />
+const Splash = () => {
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.imageStyle}
+        source={require("../../assets/images/logo.png")}
+      />
+      <View>
+        <Text style={styles.logoText}>--Driver--</Text>
       </View>
-    );
-
-}
+    </View>
+  );
+};
 
 export default Splash;
-

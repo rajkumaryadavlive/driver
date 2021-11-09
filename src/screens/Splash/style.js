@@ -4,11 +4,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
-  imageStyle:{
-    width:'100%',
-    height:'100%'
-  }
+  imageStyle: {
+    width: "50%",
+    height: "30%",
+  },
+  logoText: {
+    fontSize: "20px",
+  },
 });
 export default styles;
