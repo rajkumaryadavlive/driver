@@ -40,8 +40,8 @@ const SignUp = () => {
               alignSelf: "center",
               backgroundColor: "white",
               padding: 3,
-              borderRadius: "50%",
-              border: "2px solid blue",
+              borderRadius: 50,
+              borderWidth: 1,
             }}
           >
             <Text style={{ textAlign: "center" }}>III</Text>

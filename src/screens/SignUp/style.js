@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
   },
   imageView: {
     padding: 3,
-    border: "2px solid blue",
-    borderRadius: "50%",
+    borderWidth: 2,
+    borderRadius: 50,
     marginBottom: 40,
     width: "auto",
     alignSelf: "center",
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 120,
     height: 120,
-    borderRadius: "50%",
+    borderRadius: 50,
   },
   textInput: {
     alignSelf: "stretch",

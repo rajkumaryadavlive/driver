@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     height: "30%",
   },
   logoText: {
-    fontSize: "20px",
+    fontSize: 20,
   },
 });
 export default styles;

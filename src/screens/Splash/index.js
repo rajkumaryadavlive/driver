@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Image,
-  Text,
-  AsyncStorage,
-  NativeModules,
-  Alert,
-  BackHandler,
-} from "react-native";
+import { View, Image, Text } from "react-native";
 import styles from "./style";
 import { connect } from "react-redux";
 
