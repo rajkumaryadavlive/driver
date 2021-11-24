@@ -1,44 +1,58 @@
 import { StyleSheet, Platform } from "react-native";
 import * as colors from "../../constants/colors";
-import * as fonts from "../../constants/fonts";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     // backgroundColor: "#364b5f",
-    paddingLeft: 60,
-    paddingRight: 60,
-  },
-  regForm: {
-    alignSelf: "stretch",
+    paddingLeft: 50,
+    paddingRight: 50,
   },
   header: {
     fontSize: 24,
     color: "black",
     paddingBottom: 10,
     alignSelf: "center",
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  iconContainer: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    backgroundColor: "white",
+    padding: 7,
+    borderRadius: 50,
+    elevation: 2,
   },
   imageView: {
-    padding: 3,
+    padding: 5,
     borderWidth: 2,
-    borderRadius: 50,
-    marginBottom: 40,
-    width: "auto",
+    borderRadius: 100,
+    marginBottom: 20,
     alignSelf: "center",
+    borderColor: colors.primaryColor,
+  },
+  pickerContainer: {
+    borderWidth: 2,
+    borderColor: colors.primaryColor,
+    borderRadius: 30,
+    height: 40,
+    justifyContent: "center",
+    marginBottom: 10,
   },
   profileImage: {
     width: 120,
     height: 120,
-    borderRadius: 50,
+    borderRadius: 60,
   },
   textInput: {
     alignSelf: "stretch",
     height: 40,
-    marginBottom: 30,
+    marginBottom: 10,
     color: "black",
-    borderColor: "blue",
+    borderColor: colors.primaryColor,
     borderWidth: 2,
     borderRadius: 50,
     padding: 10,

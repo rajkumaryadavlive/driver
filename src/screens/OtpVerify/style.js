@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   imageStyle: {
-    width: "60%",
-    height: "60%",
+    width: "50%",
+    height: "70%",
   },
   screenText: {
     textAlign: "center",
@@ -60,14 +60,14 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     width: "100%",
-    marginTop: 40,
+    marginTop: 30,
     height: moderateScale(220),
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#37bb44"
+    // backgroundColor: "#37bb44",
   },
   verifyButton: {
-    marginTop: 25,
+    marginTop: 15,
   },
 });
 
