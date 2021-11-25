@@ -48,9 +48,8 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   textInput: {
-    alignSelf: "stretch",
     height: 40,
-    marginBottom: 10,
+    width: "100%",
     color: "black",
     borderColor: colors.primaryColor,
     borderWidth: 2,

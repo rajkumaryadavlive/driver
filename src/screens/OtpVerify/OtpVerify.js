@@ -24,9 +24,10 @@ const OtpVerify = () => {
   useEffect(() => {
     if (seconds > 0) {
       setTimeout(() => setSeconds(seconds - 1), 1000);
-    } else {
-      setSeconds(0);
     }
+    return () => {
+      setSeconds(seconds - 1);
+    };
   });
 
   return (
@@ -86,9 +87,11 @@ const OtpVerify = () => {
                   Resend code{" "}
                 </Text>
               </TouchableOpacity>
-              <Text style={{ color: "black", fontSize: 17 }}>
-                in {seconds} s
-              </Text>
+              {seconds > 0 && (
+                <Text style={{ color: "black", fontSize: 17 }}>
+                  in {seconds}s
+                </Text>
+              )}
             </View>
           </View>
         </SafeAreaView>
