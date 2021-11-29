@@ -35,7 +35,7 @@ const validationSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const [error, setError] = useState();
 
-  const [selectedVehicle, setSelectedVehicle] = useState("");
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
   const FieldTitle = ({ title }) => {
     return (
@@ -87,7 +87,7 @@ const SignUp = ({ navigation }) => {
               <FieldTitle title="Name" required />
               <AppFormField
                 name="userName"
-                autoCapitalize="none"
+                autoCapitalize="words"
                 autoCorrect={false}
                 placeholder="Enter Name"
                 style={styles.textInput}
@@ -108,9 +108,10 @@ const SignUp = ({ navigation }) => {
               <View style={styles.pickerContainer}>
                 <Picker
                   selectedValue={selectedVehicle}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setSelectedVehicle(itemValue)
-                  }
+                  onValueChange={(itemValue, itemIndex) => {
+                    setSelectedVehicle(itemValue);
+                    setError("");
+                  }}
                 >
                   <Picker.Item label="Select Type..." value={null} />
                   <Picker.Item label="Vehicle 1" value="Vehicle 1" />

@@ -7,31 +7,32 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 10,
+    marginHorizontal: hp(1.5),
+    marginVertical: hp(1),
   },
   amountText: {
-    fontSize: 19,
+    fontSize: wp(5.5),
   },
   container: {
-    flex: 1,
     alignItems: "center",
   },
   date: {
-    color: "#04E0E5",
-    fontSize: 16,
+    color: colors.lightBlue,
+    fontSize: wp(4.5),
   },
   image: {
-    width: 100,
-    height: 100,
+    width: wp(35),
+    height: wp(35),
   },
   khr: {
     color: colors.primaryColor,
-    marginLeft: 10,
-    fontSize: 23,
+    marginLeft: hp(1.5),
+    fontSize: wp(7),
+    marginTop: hp(1),
   },
   text: {
-    fontSize: 20,
-    marginTop: 10,
+    fontSize: wp(6),
+    marginTop: hp(1),
     fontFamily: "segoeui",
   },
   withDrawLayout: {
@@ -39,5 +40,7 @@ export default StyleSheet.create({
     width: wp("95%"),
     height: hp("15%"),
     backgroundColor: "#fff",
+    borderRadius: wp(1),
+    marginVertical: hp(1),
   },
 });

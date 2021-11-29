@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     height: 40,
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 2,
   },
   profileImage: {
     width: 120,

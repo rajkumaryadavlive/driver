@@ -1,5 +1,5 @@
 // export const primaryColor = "#40a62c";
-export const primaryColor  = "#0000ff";
+export const primaryColor = "#0000ff";
 export const secondaryColor = "#1c1c6e";
 export const orangeColor = "#ffa500";
 export const sideItemSeparatorColor = "#02a148";
@@ -32,3 +32,8 @@ export const ALERT_COLOR = "#2d3436";
 export const rejectColor = "#ff9f1a";
 
 export const transparentCardColor = "#FFFFFF90";
+
+// Font color
+export const darkGrey = "#505151";
+export const lightBlue = "#04E0E5";
+export const divider = "#d4dddd";
