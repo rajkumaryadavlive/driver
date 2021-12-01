@@ -1,16 +1,35 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { View, Text } from "react-native";
+import { FontAwesome as Icon } from "@expo/vector-icons";
 
-const index = (props) => {
+import styles from "./style";
+import { orangeColor } from "../../constants/colors";
+
+const BillingPlanScreen = () => {
+  const PlanCard = ({ heading, status, offer }) => {
+    return (
+      <View style={styles.contentContainer}>
+        <View style={styles.firstContainer}>
+          <Text style={styles.heading}>{heading}</Text>
+          <Text style={styles.status}>{status}</Text>
+        </View>
+        <View style={styles.secondContainer}>
+          <Icon name="circle" size={20} color={orangeColor} />
+          <Text style={styles.offer}>{offer}</Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text>This is billing plan screen</Text>
+      <PlanCard
+        heading="Personal Plan"
+        status="Current Plan"
+        offer="15% per booking transaction"
+      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-});
-
-export default index;
+export default BillingPlanScreen;

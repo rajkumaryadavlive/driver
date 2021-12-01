@@ -4,17 +4,25 @@ import * as colors from "../../constants/colors";
 
 export default StyleSheet.create({
   body: {
+    paddingHorizontal: wp(2),
+  },
+  bodyText: {
     fontSize: wp(4),
     color: colors.FONT_GREY,
-    marginLeft: wp(2),
   },
   card: {
     elevation: 5,
     backgroundColor: colors.whiteColor,
     width: wp("95%"),
   },
+
+  cardImage: {
+    width: "100%",
+    height: "100%",
+  },
   container: {
     alignItems: "center",
+    marginVertical: hp(1),
   },
   date: {
     color: colors.primaryColor,
@@ -27,12 +35,12 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: wp(2),
+    margin: wp(2),
   },
   icon: {
     backgroundColor: "#fff",
     elevation: 5,
-    borderRadius: 25,
+    borderRadius: wp(25),
   },
   iconContainer: {
     alignItems: "center",
@@ -41,6 +49,12 @@ export default StyleSheet.create({
   image: {
     width: wp(40),
     height: wp(40),
+  },
+  imageContainer: {
+    marginTop: hp(1),
+    width: wp("90%"),
+    height: hp("30%"),
+    alignSelf: "center",
   },
   text: {
     fontSize: wp(4),
