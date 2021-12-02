@@ -17,6 +17,9 @@ import AddCreditScreen from "./AddCreditScreen";
 import CreditScreen from "./CreditScreen";
 import BillingPlanScreen from "./BillingPlanScreen";
 import InviteAndEarnDetailsScreen from "./InviteAndEarnDetailsScreen";
+import InviteAndEarnScreen from "./InviteAndEarnScreen";
+import ChangeLanguageScreen from "./ChangeLanguageScreen";
+import EmergencyScreen from "./EmergencyScreen";
 export {
   Login,
   Home,
@@ -36,5 +39,8 @@ export {
   AddCreditScreen,
   CreditScreen,
   BillingPlanScreen,
+  InviteAndEarnScreen,
   InviteAndEarnDetailsScreen,
+  ChangeLanguageScreen,
+  EmergencyScreen,
 };

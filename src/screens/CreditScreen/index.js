@@ -4,7 +4,7 @@ import AppButton from "../../components/AppButton";
 
 import styles from "./style";
 
-const CreditScreen = ({ currentBalance = "1,000" }) => {
+const CreditScreen = ({ currentBalance = "1,000", navigation }) => {
   const HistoryList = ({
     date = "Mon 01-Jan-2020 12.11 PM",
     amount = "1,000",
@@ -29,7 +29,7 @@ const CreditScreen = ({ currentBalance = "1,000" }) => {
       <AppButton
         title="ADD CREDIT"
         onPress={() => {
-          console.log("This is from addcredit button credit screen");
+          navigation.navigate("AddCreditScreen");
         }}
         style={styles.button}
       />

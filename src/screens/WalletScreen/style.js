@@ -11,7 +11,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: wp("83%"),
-    marginTop: hp(1),
   },
   balanceAmount: {
     color: colors.primaryColor,
@@ -20,7 +19,7 @@ export default StyleSheet.create({
   button: {
     borderRadius: wp(6),
     width: wp("90%"),
-    marginTop: hp(3),
+    marginTop: hp(2),
     padding: wp(5),
   },
   contentContainer: {
@@ -40,7 +39,6 @@ export default StyleSheet.create({
   image: {
     width: wp(70),
     height: wp(50),
-    marginTop: hp(5),
   },
   innerContainer: {
     marginLeft: wp(5),

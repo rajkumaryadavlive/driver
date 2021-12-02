@@ -6,12 +6,11 @@ import AppLoading from "expo-app-loading";
 import { store } from "./src/store/store";
 import AppNavigator from "./src/routes/AppNavigator";
 
-import {
-  BillingPlanScreen,
-  InviteAndEarnDetailsScreen,
-  InviteMembersScreen,
-} from "./src/screens";
+import { NavigationContainer } from "@react-navigation/native";
+
+import { ChangeLanguageScreen, InviteAndEarnScreen } from "./src/screens";
 import Screen from "./src/components/Screen";
+import DrawerStack from "./src/routes/DrawerStack";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -27,7 +26,9 @@ export default function App() {
       //   <AppNavigator />
       // </Provider>
       <Screen>
-        <InviteAndEarnDetailsScreen />
+        <NavigationContainer>
+          <DrawerStack />
+        </NavigationContainer>
       </Screen>
     );
   }
