@@ -37,3 +37,5 @@ export const transparentCardColor = "#FFFFFF90";
 export const darkGrey = "#505151";
 export const lightBlue = "#04E0E5";
 export const divider = "#d4dddd";
+export const darkBlue = "#1B1D88";
+export const blueDivider = "#2D32CD";

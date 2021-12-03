@@ -20,6 +20,9 @@ import InviteAndEarnDetailsScreen from "./InviteAndEarnDetailsScreen";
 import InviteAndEarnScreen from "./InviteAndEarnScreen";
 import ChangeLanguageScreen from "./ChangeLanguageScreen";
 import EmergencyScreen from "./EmergencyScreen";
+import OutGoingCallScreen from "./OutGoingCallScreen";
+import IncomingCallScreen from "./IncomingCallScreen";
+import DiallingScreen from "./DiallingScreen";
 export {
   Login,
   Home,
@@ -43,4 +46,7 @@ export {
   InviteAndEarnDetailsScreen,
   ChangeLanguageScreen,
   EmergencyScreen,
+  OutGoingCallScreen,
+  IncomingCallScreen,
+  DiallingScreen,
 };

@@ -12,9 +12,6 @@ import {
   Divider,
 } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Entypo from "react-native-vector-icons/Entypo";
 import {
   AntDesign,
   MaterialCommunityIcons,
@@ -22,21 +19,52 @@ import {
   FontAwesome,
   SimpleLineIcons,
   Ionicons,
+  Entypo,
 } from "@expo/vector-icons";
+import { Rating } from "react-native-ratings";
 
 import * as colors from "../../constants/colors";
 import { wp, hp } from "../../constants/dimensions";
 
 export default function SideMenu(props) {
+  const {
+    name = "Anchali Evans",
+    rating = 3.8,
+    phoneNumber = "+855 34 254 451",
+    points = "799",
+  } = props;
+
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <View>
+        <View>
+          <View style={styles.profileContainer}>
             <View style={styles.imageContainer}>
               <Image
                 source={require("../../assets/images/user.png")}
                 style={styles.image}
+              />
+              <View style={styles.badgeContainer}>
+                <Image
+                  source={require("../../assets/images/silvermedal.png")}
+                  style={styles.image}
+                />
+              </View>
+            </View>
+            <View style={styles.detailsContainer}>
+              <Text style={styles.name}>{name}</Text>
+              <Text style={styles.phoneNumber}>{phoneNumber}</Text>
+              <Text style={styles.points}>Points : {points}</Text>
+              <Rating
+                type="star"
+                ratingCount={5}
+                ratingColor={colors.yellowStarColor}
+                imageSize={15}
+                readonly
+                startingValue={rating}
+                minValue={1}
+                tintColor={colors.darkBlue}
+                style={styles.rating}
               />
             </View>
           </View>
@@ -44,7 +72,7 @@ export default function SideMenu(props) {
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon
+                <MaterialCommunityIcons
                   name="home-outline"
                   color={colors.whiteColor}
                   size={size}
@@ -207,7 +235,11 @@ export default function SideMenu(props) {
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={colors.whiteColor} size={size} />
+            <MaterialCommunityIcons
+              name="exit-to-app"
+              color={colors.whiteColor}
+              size={size}
+            />
           )}
           label="Sign Out"
           labelStyle={styles.labels}
@@ -219,13 +251,23 @@ export default function SideMenu(props) {
 }
 
 const styles = StyleSheet.create({
+  badgeContainer: {
+    width: wp(7),
+    height: hp(5),
+    position: "absolute",
+    bottom: -10,
+    right: -5,
+  },
   container: {
     flex: 1,
-    backgroundColor: "#1B1D88",
+    backgroundColor: colors.darkBlue,
+  },
+  detailsContainer: {
+    marginLeft: wp(5),
   },
   divider: {
     borderWidth: 1,
-    borderColor: "#2D32CD",
+    borderColor: colors.blueDivider,
     width: "90%",
     alignSelf: "center",
   },
@@ -241,10 +283,33 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "white",
     backgroundColor: colors.whiteColor,
-    margin: wp(4),
   },
   labels: {
     color: colors.whiteColor,
+    marginLeft: -15,
+    fontFamily: "segoeui",
+  },
+  name: {
+    fontSize: wp(5.5),
+    color: colors.whiteColor,
+  },
+  phoneNumber: {
+    color: colors.whiteColor,
+    marginTop: hp(0.5),
+  },
+  points: {
+    color: colors.whiteColor,
+    marginTop: hp(0.5),
+  },
+  profileContainer: {
+    flexDirection: "row",
+    marginTop: hp(3),
+    marginLeft: hp(3),
+  },
+  rating: {
+    alignSelf: "flex-start",
+    marginTop: hp(0.5),
+    backgroundColor: "white",
   },
 });
 //   userInfoSection: {
