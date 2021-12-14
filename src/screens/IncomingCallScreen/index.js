@@ -26,7 +26,7 @@ const IncomingCallScreen = (props) => {
               name="phone"
               color="white"
               style={styles.pickUpCallIcon}
-              size={50}
+              size={35}
               onPress={() => console.log("This is from pick up")}
             />
           </View>
@@ -35,7 +35,7 @@ const IncomingCallScreen = (props) => {
               name="phone"
               color="white"
               style={styles.endCallIcon}
-              size={50}
+              size={35}
               onPress={() => console.log("This is from end up call")}
             />
           </View>

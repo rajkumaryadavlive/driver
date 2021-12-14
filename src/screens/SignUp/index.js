@@ -39,7 +39,7 @@ const SignUp = ({ navigation }) => {
 
   const FieldTitle = ({ title }) => {
     return (
-      <Text style={{ marginTop: 5, marginBottom: 3, fontFamily: "segoeui" }}>
+      <Text style={styles.fieldName}>
         {title}
         <Text style={{ color: "red" }}> *</Text>
       </Text>
@@ -133,7 +133,7 @@ const SignUp = ({ navigation }) => {
               <SubmitButton
                 title="SAVE"
                 onSubmit={handleSubmit}
-                style={{ marginBottom: 10 }}
+                style={styles.button}
               />
             </AppForm>
           </View>

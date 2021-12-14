@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -10,9 +11,11 @@ import {
   DiallingScreen,
   IncomingCallScreen,
   OutGoingCallScreen,
+  SignUp,
 } from "./src/screens";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
+import CustomMap from "./src/components/MapView/CustomMap";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -28,10 +31,10 @@ export default function App() {
       //   <AppNavigator />
       // </Provider>
       // <NavigationContainer>
-      //         <DrawerStack />
-      //       </NavigationContainer>
+      //   <DrawerStack />
+      // </NavigationContainer>
       <Screen>
-        <DiallingScreen />
+        <CustomMap />
       </Screen>
     );
   }

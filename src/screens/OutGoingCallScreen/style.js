@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   icon: {
     backgroundColor: "#D80D07",
-    padding: wp(1),
+    padding: wp(4),
     borderRadius: wp(10),
   },
   iconContainer: {

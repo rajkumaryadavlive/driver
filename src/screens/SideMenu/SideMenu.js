@@ -229,23 +229,24 @@ export default function SideMenu(props) {
               }}
             />
             <Divider style={styles.divider} />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="power"
+                  color={colors.whiteColor}
+                  size={size}
+                />
+              )}
+              label="Logout"
+              labelStyle={styles.labels}
+              onPress={() => {}}
+            />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          icon={({ color, size }) => (
-            <MaterialCommunityIcons
-              name="exit-to-app"
-              color={colors.whiteColor}
-              size={size}
-            />
-          )}
-          label="Sign Out"
-          labelStyle={styles.labels}
-          onPress={() => {}}
-        />
-      </Drawer.Section>
+      {/* <Drawer.Section style={styles.bottomDrawerSection}>
+            this is the fixed bottom container  
+      </Drawer.Section> */}
     </View>
   );
 }

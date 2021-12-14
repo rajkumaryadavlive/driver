@@ -5,7 +5,8 @@ import { MaterialCommunityIcons as Icon, Ionicons } from "@expo/vector-icons";
 import styles from "./style";
 import { hp } from "../../constants/dimensions";
 
-const IncomingCallScreen = (props) => {
+const DiallingScreen = (props) => {
+  const { tagLine = "Passenger GoGo Taxi", name = "Huon Thornith" } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Dialling</Text>
@@ -19,8 +20,8 @@ const IncomingCallScreen = (props) => {
             style={styles.image}
           />
         </View>
-        <Text style={styles.passengerText}>Passenger GoGo Taxi.</Text>
-        <Text style={styles.passengerName}>Huon Thornith</Text>
+        <Text style={styles.passengerText}>{tagLine}.</Text>
+        <Text style={styles.passengerName}>{name}</Text>
         <Text style={styles.timer}>00.00</Text>
         <View style={styles.bottomContainer}>
           <View style={styles.buttonsContainer}>
@@ -29,7 +30,7 @@ const IncomingCallScreen = (props) => {
                 name="volume-high-sharp"
                 color="white"
                 style={styles.speakerAndMicIcon}
-                size={50}
+                size={35}
                 onPress={() => console.log("This is from speaker icon")}
               />
             </View>
@@ -38,7 +39,7 @@ const IncomingCallScreen = (props) => {
                 name="mic-off-sharp"
                 color="white"
                 style={styles.speakerAndMicIcon}
-                size={50}
+                size={35}
                 onPress={() => console.log("This is from end up call")}
               />
             </View>
@@ -48,7 +49,7 @@ const IncomingCallScreen = (props) => {
               name="phone"
               color="white"
               style={styles.endCallIcon}
-              size={50}
+              size={35}
               onPress={() => console.log("This is from end up call")}
             />
           </View>
@@ -58,4 +59,4 @@ const IncomingCallScreen = (props) => {
   );
 };
 
-export default IncomingCallScreen;
+export default DiallingScreen;

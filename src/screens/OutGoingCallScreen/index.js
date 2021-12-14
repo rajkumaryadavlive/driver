@@ -22,7 +22,7 @@ const OutGoingCallScreen = (props) => {
         <Text style={styles.passengerName}>Huon Thornith</Text>
         <Text style={styles.ringingText}>Ringing...</Text>
         <View style={styles.iconContainer}>
-          <Icon name="phone" color="white" style={styles.icon} size={50} />
+          <Icon name="phone" color="white" style={styles.icon} size={35} />
         </View>
       </View>
     </View>

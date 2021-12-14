@@ -1,36 +1,38 @@
 import { StyleSheet, Platform } from "react-native";
 import * as colors from "../../constants/colors";
+import { hp, wp } from "../../constants/dimensions";
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: hp(3),
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     // backgroundColor: "#364b5f",
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingLeft: wp(12),
+    paddingRight: wp(12),
   },
+  fieldName: { marginTop: hp(1), marginBottom: hp(0.5), fontFamily: "segoeui" },
   header: {
     fontSize: 24,
     color: "black",
-    paddingBottom: 10,
     alignSelf: "center",
-    marginBottom: 20,
-    marginTop: 10,
   },
   iconContainer: {
     position: "absolute",
     left: 0,
     bottom: 0,
     backgroundColor: "white",
-    padding: 7,
-    borderRadius: 50,
+    padding: wp(1.5),
+    borderRadius: wp(50),
     elevation: 2,
   },
   imageView: {
-    padding: 5,
+    padding: wp(1),
     borderWidth: 2,
     borderRadius: 100,
-    marginBottom: 20,
+    marginTop: hp(2),
     alignSelf: "center",
     borderColor: colors.primaryColor,
   },
@@ -38,23 +40,23 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.primaryColor,
     borderRadius: 30,
-    height: 40,
+    height: hp(7),
     justifyContent: "center",
-    marginBottom: 2,
+    marginBottom: hp(1),
   },
   profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: wp(33),
+    height: wp(33),
+    borderRadius: wp(60),
   },
   textInput: {
-    height: 40,
+    height: hp(7),
     width: "100%",
     color: "black",
     borderColor: colors.primaryColor,
     borderWidth: 2,
-    borderRadius: 50,
-    padding: 10,
+    borderRadius: wp(50),
+    padding: hp(2),
   },
 });
 

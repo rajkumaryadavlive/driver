@@ -30,7 +30,7 @@ export default StyleSheet.create({
   },
   endCallIcon: {
     backgroundColor: "#D80D07",
-    padding: wp(1.3),
+    padding: wp(4),
     borderRadius: wp(10),
   },
   heading: {
@@ -70,7 +70,7 @@ export default StyleSheet.create({
   },
   speakerAndMicIcon: {
     backgroundColor: colors.FONT_GREY,
-    padding: wp(1.3),
+    padding: wp(4),
     borderRadius: wp(100),
   },
   timer: {
