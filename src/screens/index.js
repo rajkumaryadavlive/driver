@@ -23,6 +23,7 @@ import EmergencyScreen from "./EmergencyScreen";
 import OutGoingCallScreen from "./OutGoingCallScreen";
 import IncomingCallScreen from "./IncomingCallScreen";
 import DiallingScreen from "./DiallingScreen";
+import MapScreen from "./MapScreen";
 export {
   Login,
   Home,
@@ -49,4 +50,5 @@ export {
   OutGoingCallScreen,
   IncomingCallScreen,
   DiallingScreen,
+  MapScreen,
 };

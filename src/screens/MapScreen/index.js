@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Switch,
-} from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { View, Text, Image, TouchableOpacity, Switch } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 
 import * as colors from "../../constants/colors";
+import styles from "./style";
 
 const LATITUDE_DELTA = 0.0062;
 const LONGITUDE_DELTA = 0.0061;
+const latlng = { latitude: 18.5868, longitude: 73.813 };
 
 import { hp, wp } from "../../constants/dimensions";
+import BadgeAndImage from "../../components/BadgeAndImage";
 
-const CustomMap = (props) => {
+const CustomMap = ({ route, navigation }) => {
   const [region, setRegion] = useState();
   const [errorMsg, setErrorMsg] = useState(null);
   const [switchValue, setSwitchValue] = useState(true);
@@ -34,12 +30,13 @@ const CustomMap = (props) => {
       }
       let location = await Location.getCurrentPositionAsync();
       //   setLocation(location);
-      setRegion({
+      let currentLoc = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         longitudeDelta: LONGITUDE_DELTA,
         latitudeDelta: LATITUDE_DELTA,
-      });
+      };
+      setRegion(currentLoc);
     })();
   }, []);
 
@@ -90,19 +87,35 @@ const CustomMap = (props) => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
+        provider={PROVIDER_GOOGLE}
         region={region}
         ref={mapView}
         showsUserLocation={true}
         showsMyLocationButton={false}
         followsUserLocation={true}
-      ></MapView>
+      >
+        <Marker coordinate={latlng}>
+          <View
+            style={{
+              height: hp(6),
+              width: hp(6),
+              borderRadius: hp(3),
+            }}
+          >
+            <Image
+              source={require("../../assets/images/user.png")}
+              style={styles.image}
+            />
+          </View>
+        </Marker>
+      </MapView>
       <View style={styles.customLayout}>
         <View>
           <BottomButtons onPress={zoomIn}>
-            <Text style={styles.zoomButtons}>+</Text>
+            <Icon name="plus" size={hp(2.5)} color={colors.primaryColor} />
           </BottomButtons>
           <BottomButtons onPress={zoomOut}>
-            <Text style={styles.zoomButtons}>-</Text>
+            <Icon name="minus" size={hp(2.5)} color={colors.primaryColor} />
           </BottomButtons>
         </View>
         <View>
@@ -124,12 +137,7 @@ const CustomMap = (props) => {
       </View>
       <View style={styles.topContainer} />
       <View style={styles.topContent}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("../../assets/images/user.png")}
-            style={styles.image}
-          />
-        </View>
+        <BadgeAndImage />
         <View style={styles.switchContainer}>
           <Text
             style={{
@@ -146,78 +154,16 @@ const CustomMap = (props) => {
             trackColor={{ true: colors.primaryColor, false: "red" }}
           />
         </View>
-
-        <Text>something</Text>
+        <TouchableOpacity
+          onPress={() => console.log("This is from trip button")}
+        >
+          <View style={styles.tripButtonContainer}>
+            <Text style={styles.tripButtonText}>Trip</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  buttons: {
-    height: hp(6),
-    width: hp(6),
-    borderRadius: hp(3),
-    backgroundColor: "#ffffff",
-    margin: hp(1),
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 3,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  customLayout: {
-    position: "absolute",
-    bottom: hp(5),
-    left: wp(5),
-    width: wp(90),
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: wp(10),
-  },
-  imageContainer: {
-    height: wp(12),
-    width: wp(12),
-    borderRadius: wp(10),
-    borderWidth: 1,
-    borderColor: colors.orangeColor,
-    padding: wp(0.3),
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: wp(20),
-    justifyContent: "space-between",
-  },
-  topContainer: {
-    width: wp(100),
-    backgroundColor: colors.whiteColor,
-    opacity: 0.5,
-    height: hp(7),
-  },
-  topContent: {
-    position: "absolute",
-    top: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: wp(90),
-    height: hp(7),
-  },
-  zoomButtons: {
-    fontSize: hp(4),
-    color: colors.primaryColor,
-    fontWeight: "bold",
-  },
-});
 
 export default CustomMap;

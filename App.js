@@ -7,15 +7,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { store } from "./src/store/store";
 import AppNavigator from "./src/routes/AppNavigator";
-import {
-  DiallingScreen,
-  IncomingCallScreen,
-  OutGoingCallScreen,
-  SignUp,
-} from "./src/screens";
+import { MapScreen } from "./src/screens";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
-import CustomMap from "./src/components/MapView/CustomMap";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -34,7 +28,7 @@ export default function App() {
       //   <DrawerStack />
       // </NavigationContainer>
       <Screen>
-        <CustomMap />
+        <MapScreen />
       </Screen>
     );
   }
