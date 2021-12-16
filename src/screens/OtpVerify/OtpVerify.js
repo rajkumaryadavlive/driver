@@ -58,7 +58,6 @@ const OtpVerify = () => {
             <AppButton
               title="VERIFY CODE"
               onPress={clearText}
-              color="primaryColor"
               style={{ width: "90%" }}
             />
           </View>

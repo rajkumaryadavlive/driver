@@ -5,6 +5,7 @@ import { wp, hp } from "../constants/dimensions";
 import * as colors from "../constants/colors";
 
 const BadgeAndImage = ({
+  containerStyle,
   imageContainerStyle,
   imageStyle,
   badgeContainerStyle,
@@ -12,7 +13,7 @@ const BadgeAndImage = ({
   userImage = require("../assets/images/user.png"),
 }) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <View style={[styles.imageContainer, imageContainerStyle]}>
         <Image source={userImage} style={[styles.image, imageStyle]} />
         <View style={[styles.badgeContainer, badgeContainerStyle]}>

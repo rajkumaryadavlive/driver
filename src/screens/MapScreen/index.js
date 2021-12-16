@@ -1,34 +1,44 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, TouchableOpacity, Switch } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import * as Location from "expo-location";
+import {
+  requestForegroundPermissionsAsync,
+  getCurrentPositionAsync,
+} from "expo-location";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 
 import * as colors from "../../constants/colors";
 import styles from "./style";
+import { hp, wp } from "../../constants/dimensions";
+import BadgeAndImage from "../../components/BadgeAndImage";
 
 const LATITUDE_DELTA = 0.0062;
 const LONGITUDE_DELTA = 0.0061;
 const latlng = { latitude: 18.5868, longitude: 73.813 };
 
-import { hp, wp } from "../../constants/dimensions";
-import BadgeAndImage from "../../components/BadgeAndImage";
+import NewJob from "./NewJob";
+import Buttons from "./Buttons";
+import IdealDriver from "./IdealDriver";
+import BottomContainer from "./BottomContainer";
 
 const CustomMap = ({ route, navigation }) => {
+  const mapView = useRef();
+
   const [region, setRegion] = useState();
   const [errorMsg, setErrorMsg] = useState(null);
   const [switchValue, setSwitchValue] = useState(true);
 
-  const mapView = useRef();
+  // const [userStatus, setUserStatus] = useState("ready");
+  const [userStatus, setUserStatus] = useState("");
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      let { status } = await requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      let location = await Location.getCurrentPositionAsync();
+      let location = await getCurrentPositionAsync();
       //   setLocation(location);
       let currentLoc = {
         latitude: location.coords.latitude,
@@ -40,16 +50,13 @@ const CustomMap = ({ route, navigation }) => {
     })();
   }, []);
 
-  const BottomButtons = ({ onPress, children }) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.buttons}>{children}</View>
-      </TouchableOpacity>
-    );
-  };
+  setTimeout(() => {
+    setUserStatus("ready");
+    console.log("This is from timer 2");
+  }, 5000);
 
   const getUser = async () => {
-    let location = await Location.getCurrentPositionAsync();
+    let location = await getCurrentPositionAsync();
     let currentLocation = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -69,7 +76,7 @@ const CustomMap = ({ route, navigation }) => {
     };
 
     setRegion(newRegion);
-    mapView.current.animateToRegion(newRegion, 2000);
+    mapView.current.animateToRegion(newRegion, 5000);
   };
   const zoomOut = () => {
     let newRegion = {
@@ -80,7 +87,31 @@ const CustomMap = ({ route, navigation }) => {
     };
 
     setRegion(newRegion);
-    mapView.current.animateToRegion(newRegion, 2000);
+    mapView.current.animateToRegion(newRegion, 5000);
+  };
+
+  const ideal = () => {
+    return (
+      <IdealDriver
+        onSwitchValueChange={(val) => setSwitchValue(val)}
+        switchValue={switchValue}
+      />
+    );
+  };
+
+  const userReady = () => {
+    let coords = { latitude: region.latitude, longitude: region.longitude };
+    let Markers = [coords, latlng];
+    mapView.current.fitToCoordinates(Markers, {
+      edgePadding: {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20,
+      },
+      animated: true,
+    });
+    return <NewJob onPressReject={() => setUserStatus("")} />;
   };
 
   return (
@@ -94,74 +125,41 @@ const CustomMap = ({ route, navigation }) => {
         showsMyLocationButton={false}
         followsUserLocation={true}
       >
-        <Marker coordinate={latlng}>
-          <View
-            style={{
-              height: hp(6),
-              width: hp(6),
-              borderRadius: hp(3),
-            }}
-          >
-            <Image
-              source={require("../../assets/images/user.png")}
-              style={styles.image}
-            />
-          </View>
-        </Marker>
+        {userStatus === "ready" ? (
+          <Marker coordinate={latlng}>
+            <View
+              style={{
+                height: hp(6),
+                width: hp(6),
+                borderRadius: hp(3),
+              }}
+            >
+              <Image
+                source={require("../../assets/images/user.png")}
+                style={styles.image}
+              />
+            </View>
+          </Marker>
+        ) : null}
       </MapView>
-      <View style={styles.customLayout}>
-        <View>
-          <BottomButtons onPress={zoomIn}>
-            <Icon name="plus" size={hp(2.5)} color={colors.primaryColor} />
-          </BottomButtons>
-          <BottomButtons onPress={zoomOut}>
-            <Icon name="minus" size={hp(2.5)} color={colors.primaryColor} />
-          </BottomButtons>
-        </View>
-        <View>
-          <BottomButtons>
-            <Icon
-              name="traffic-light"
-              size={hp(2.5)}
-              color={colors.primaryColor}
-            />
-          </BottomButtons>
-          <BottomButtons onPress={getUser}>
-            <Icon
-              name="location-arrow"
-              size={hp(2.5)}
-              color={colors.primaryColor}
-            />
-          </BottomButtons>
-        </View>
-      </View>
-      <View style={styles.topContainer} />
-      <View style={styles.topContent}>
-        <BadgeAndImage />
-        <View style={styles.switchContainer}>
-          <Text
-            style={{
-              color: switchValue ? colors.primaryColor : "red",
-              fontWeight: "700",
-            }}
-          >
-            {switchValue ? "ON" : "OFF"}
-          </Text>
-          <Switch
-            value={switchValue}
-            onValueChange={(val) => setSwitchValue(val)}
-            thumbColor={switchValue ? colors.primaryColor : "red"}
-            trackColor={{ true: colors.primaryColor, false: "red" }}
-          />
-        </View>
-        <TouchableOpacity
-          onPress={() => console.log("This is from trip button")}
-        >
-          <View style={styles.tripButtonContainer}>
-            <Text style={styles.tripButtonText}>Trip</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <View
+        style={
+          userStatus === ""
+            ? styles.topContainer
+            : [styles.topContainer, { height: hp(10) }]
+        }
+      />
+      {userStatus === "" ? (
+        <Buttons
+          onPressZoomIn={zoomIn}
+          onPressZoomOut={zoomOut}
+          onPressUserLocation={getUser}
+        />
+      ) : (
+        <BottomContainer onPressZoomIn={zoomIn} onPressZoomOut={zoomOut} />
+      )}
+      {userStatus === "" && ideal()}
+      {userStatus === "ready" && userReady()}
     </View>
   );
 };

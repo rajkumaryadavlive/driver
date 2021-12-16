@@ -3,6 +3,10 @@ import { wp, hp } from "../../constants/dimensions";
 import * as colors from "../../constants/colors";
 
 export default StyleSheet.create({
+  addressContainer: {
+    flexDirection: "row",
+    marginTop: 5,
+  },
   badgeContainer: {
     width: wp(4),
     height: hp(3),
@@ -10,26 +14,70 @@ export default StyleSheet.create({
     bottom: -5,
     right: 0,
   },
+  bottomContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    width: wp(90),
+    paddingVertical: hp(1),
+  },
   buttons: {
-    padding: wp(2.5),
-    borderRadius: wp(20),
+    padding: wp(2),
+    borderRadius: wp(10),
     backgroundColor: "#ffffff",
     margin: hp(1),
     alignItems: "center",
     justifyContent: "center",
     elevation: 3,
   },
+  buttonContainer: {
+    borderWidth: 1,
+    // width: wp(13),
+    // height: wp(6),
+    borderRadius: wp(3),
+    paddingHorizontal: wp(4),
+    paddingVertical: wp(1),
+    backgroundColor: colors.whiteColor,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 10,
+    color: colors.darkGrey,
+  },
   container: {
     flex: 1,
     alignItems: "center",
   },
-  customLayout: {
+  customBottomLayout: {
     position: "absolute",
     bottom: hp(5),
-    left: wp(5),
     width: wp(90),
     justifyContent: "space-between",
     flexDirection: "row",
+  },
+  customBottomLayout2: {
+    position: "absolute",
+    bottom: 0,
+    width: wp(100),
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  divider: {
+    borderTopWidth: 1,
+    borderTopColor: colors.darkGrey,
+  },
+  dot: {
+    backgroundColor: colors.primaryColor,
+    width: wp(5),
+    height: wp(5),
+    borderRadius: wp(5),
+  },
+  durationAndDistance: {
+    alignItems: "center",
+  },
+  durationAndDistanceText: {
+    color: colors.darkGrey,
   },
   image: {
     width: "100%",
@@ -47,16 +95,59 @@ export default StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  newJob: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: 1,
+    flexDirection: "row",
+  },
+  newJobText: {
+    color: colors.darkGrey,
+    fontSize: 25,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  rejectButtonContainer: {
+    backgroundColor: "red",
+    borderWidth: 0,
+    paddingHorizontal: wp(6),
+    paddingVertical: wp(1.5),
+    borderRadius: wp(5),
+  },
   switchContainer: {
     flexDirection: "row",
     alignItems: "center",
     width: wp(20),
     justifyContent: "space-between",
   },
+  threeDots: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: wp(25),
+    alignSelf: "center",
+    marginTop: hp(1),
+  },
+  timeToReachAndDistance: {
+    fontSize: hp(5),
+  },
+  timerContainer: {
+    borderWidth: 3,
+    borderColor: colors.primaryColor,
+    width: wp(17),
+    height: wp(17),
+    borderRadius: wp(10),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timerText: {
+    fontSize: hp(4),
+    fontWeight: "700",
+    color: colors.primaryColor,
+  },
   topContainer: {
     width: wp(100),
     backgroundColor: colors.whiteColor,
-    opacity: 0.5,
+    opacity: 0.7,
     height: hp(7),
   },
   topContent: {
@@ -65,20 +156,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: wp(94),
-    height: hp(7),
-  },
-  tripButtonContainer: {
-    borderWidth: 1,
-    width: wp(13),
-    height: wp(6),
-    borderRadius: wp(3),
-    backgroundColor: colors.whiteColor,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  tripButtonText: {
-    fontSize: 10,
-    color: colors.darkGrey,
+    width: wp(95),
   },
 });
