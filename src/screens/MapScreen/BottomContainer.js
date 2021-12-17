@@ -21,9 +21,12 @@ const BottomButtons = ({ onPress, iconName }) => {
     </TouchableOpacity>
   );
 };
-const BottomContainer = ({ onPressZoomIn, onPressZoomOut, onPressAccept }) => {
-  const [seconds, setSeconds] = React.useState(60);
-  setTimeout(() => setSeconds(seconds - 1), 1000);
+export const NewJobBottomContainer = ({
+  onPressZoomIn,
+  onPressZoomOut,
+  onPressAccept,
+  seconds,
+}) => {
   return (
     <>
       <View style={[styles.customBottomLayout, { bottom: hp(25) }]}>
@@ -61,10 +64,18 @@ const BottomContainer = ({ onPressZoomIn, onPressZoomOut, onPressAccept }) => {
                 available from another component
               </Text>
             </View>
+          </View>
+          <View
+            style={{
+              position: "absolute",
+              bottom: 0,
+              width: wp(100),
+            }}
+          >
             <AppButton
               title="ACCEPT"
               onPress={onPressAccept}
-              style={{ width: wp(90) }}
+              style={{ width: wp(90), alignSelf: "center" }}
               textStyle={{ fontWeight: "700" }}
             />
           </View>
@@ -73,5 +84,3 @@ const BottomContainer = ({ onPressZoomIn, onPressZoomOut, onPressAccept }) => {
     </>
   );
 };
-
-export default BottomContainer;

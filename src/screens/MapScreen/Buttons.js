@@ -10,13 +10,8 @@ const Buttons = ({ onPressZoomIn, onPressZoomOut, onPressUserLocation }) => {
   const BottomButtons = ({ onPress, iconName }) => {
     return (
       <TouchableOpacity onPress={onPress}>
-        <View>
-          <Icon
-            name={iconName}
-            size={hp(3)}
-            color={colors.primaryColor}
-            style={styles.buttons}
-          />
+        <View style={styles.buttons}>
+          <Icon name={iconName} size={hp(3)} color={colors.primaryColor} />
         </View>
       </TouchableOpacity>
     );

@@ -22,13 +22,13 @@ export default StyleSheet.create({
     paddingVertical: hp(1),
   },
   buttons: {
-    padding: wp(2),
-    borderRadius: wp(10),
+    padding: wp(3),
+    borderRadius: wp(20),
     backgroundColor: "#ffffff",
     margin: hp(1),
-    alignItems: "center",
-    justifyContent: "center",
     elevation: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonContainer: {
     borderWidth: 1,
@@ -106,6 +106,17 @@ export default StyleSheet.create({
     fontSize: 25,
     fontWeight: "700",
     textAlign: "center",
+  },
+  orderStarted: {
+    width: wp(100),
+    justifyContent: "center",
+    flex: 1,
+    alignItems: "center",
+    marginRight: hp(5),
+  },
+  orderStartedText: {
+    fontSize: hp(3),
+    color: colors.darkGrey,
   },
   rejectButtonContainer: {
     backgroundColor: "red",
