@@ -6,8 +6,8 @@
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "splash": {
-      "image": "./src/assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "AIzaSyCmrg8QXE1Jv9gjH2A76OdxhvfmRRtOhDk"
+        "googleMapsApiKey": "AIzaSyD6M4Qgp4QzRf1PMYCsOTpDuVYSm0GAFbU"
       }
     },
     "android": {
@@ -27,7 +27,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCmrg8QXE1Jv9gjH2A76OdxhvfmRRtOhDk"
+          "apiKey": "AIzaSyD6M4Qgp4QzRf1PMYCsOTpDuVYSm0GAFbU"
         }
       },
       "permissions": [
