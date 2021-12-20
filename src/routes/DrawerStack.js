@@ -19,7 +19,11 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <SideMenu {...props} />}>
-      <Drawer.Screen options={{ title: "" }} name="Home" component={Home} />
+      <Drawer.Screen
+        // options={{ headerShown: false }}
+        name="Home"
+        component={Home}
+      />
       <Drawer.Screen
         options={{
           title: "AddCredit",

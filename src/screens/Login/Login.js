@@ -36,18 +36,25 @@ const Login = ({ navigation }) => {
   const [countryCode, setCountryCode] = useState("+91");
   const [countryFlag, setCountryFlag] = useState("🇮🇳");
 
-  const handleSubmit = () => {
-    navigation.navigate("VerifyOTP");
+  const handleSubmit = (userContact) => {
+    console.log(userContact);
+    navigation.navigate("VerifyOTP", {
+      phoneNumber: userContact.contactNumber,
+    });
   };
 
   return (
     <Screen>
       <TouchableWithoutFeedback onPress={() => setShow(false)}>
         <View>
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={styles.image}
-          />
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../../assets/images/cmplogo.png")}
+              style={styles.image}
+              resizeMode="contain"
+            />
+          </View>
+
           <View style={styles.headingContainer}>
             <Text style={styles.heading}>Enter phone number</Text>
           </View>

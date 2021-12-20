@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import { Entypo as Icon } from "@expo/vector-icons";
 
 import styles from "./style";
@@ -37,45 +37,47 @@ const WalletScreen = ({ value = "2,000,000.00" }) => {
 
   return (
     <Screen>
-      <View style={styles.container}>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          style={styles.image}
-        />
-        <Box>
-          <View style={styles.innerContainer}>
-            <Text style={styles.heading}>Balance</Text>
-            <Text style={styles.balanceAmount}>KHR {value}</Text>
-          </View>
-        </Box>
-        <Box>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("This is from referral earning");
-            }}
-          >
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+            source={require("../../assets/images/logo.png")}
+            style={styles.image}
+          />
+          <Box>
             <View style={styles.innerContainer}>
-              <Text style={styles.heading}>Referral earning</Text>
-              <EarnedAmount />
+              <Text style={styles.heading}>Balance</Text>
+              <Text style={styles.balanceAmount}>KHR {value}</Text>
             </View>
-          </TouchableOpacity>
-        </Box>
-        <Box>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("This is from withdraw of the referral earning");
-            }}
-          >
-            <View style={styles.innerContainer}>
-              <Text style={styles.heading}>
-                Withdraw of the referral earnings
-              </Text>
-              <EarnedAmount />
-            </View>
-          </TouchableOpacity>
-        </Box>
-        <AppButton title="EARN MORE" style={styles.button} />
-      </View>
+          </Box>
+          <Box>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("This is from referral earning");
+              }}
+            >
+              <View style={styles.innerContainer}>
+                <Text style={styles.heading}>Referral earning</Text>
+                <EarnedAmount />
+              </View>
+            </TouchableOpacity>
+          </Box>
+          <Box>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("This is from withdraw of the referral earning");
+              }}
+            >
+              <View style={styles.innerContainer}>
+                <Text style={styles.heading}>
+                  Withdraw of the referral earnings
+                </Text>
+                <EarnedAmount />
+              </View>
+            </TouchableOpacity>
+          </Box>
+          <AppButton title="EARN MORE" style={styles.button} />
+        </View>
+      </ScrollView>
     </Screen>
   );
 };

@@ -39,10 +39,16 @@ const styles = StyleSheet.create({
     marginTop: hp(5),
   },
   image: {
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
     width: wp(30),
     height: wp(30),
     marginTop: hp(10),
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   noteText: {
     textAlign: "center",

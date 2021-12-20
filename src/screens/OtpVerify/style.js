@@ -2,16 +2,16 @@ import { StyleSheet } from "react-native";
 import * as colors from "../../constants/colors";
 import * as fonts from "../../constants/fonts";
 import { moderateScale, verticalScale, scale } from "react-native-size-matters";
+import { hp, wp } from "../../constants/dimensions";
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
     padding: 20,
-    // alignItems: "center",
+    alignItems: "center",
   },
   imageStyle: {
-    width: "50%",
-    height: "70%",
+    width: "100%",
+    height: "100%",
   },
   screenText: {
     textAlign: "center",
@@ -51,19 +51,12 @@ const styles = StyleSheet.create({
     height: "65%",
     resizeMode: "contain",
   },
-  logoText: {
-    fontFamily: fonts.CALIBRI,
-    color: "#40a62c",
-    fontSize: 24,
-    marginTop: -20,
-    marginBottom: 20,
-  },
+
   logoContainer: {
-    width: "100%",
-    marginTop: 30,
-    height: moderateScale(220),
-    justifyContent: "center",
-    alignItems: "center",
+    width: wp(40),
+    marginTop: hp(10),
+    height: wp(40),
+    alignSelf: "center",
     // backgroundColor: "#37bb44",
   },
   verifyButton: {

@@ -39,39 +39,27 @@ const CustomMap = ({ route, navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [switchValue, setSwitchValue] = useState(true);
 
-  console.log(region);
-
   // const [userStatus, setUserStatus] = useState("ready");
   const [userStatus, setUserStatus] = useState("");
   const [duration, setDuration] = useState(0);
 
-  const [second, setSeconds] = React.useState(60);
+  const [second, setSeconds] = useState(60);
 
   useEffect(() => {
-    // async () => {
-    //   let { status } = await requestForegroundPermissionsAsync();
-    //   if (status !== "granted") {
-    //     setErrorMsg("Permission to access location was denied");
-    //     return;
-    //   }
-    //   let location = await getCurrentPositionAsync();
-    //   let currentLoc = {
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    //     longitudeDelta: LONGITUDE_DELTA,
-    //     latitudeDelta: LATITUDE_DELTA,
-    //   };
-    //   setRegion(currentLoc);
-    // };
     getUser();
-    second > 0 && setTimeout(() => setSeconds(second - 1), 1000);
-  }, [second]);
+  }, []);
+
   if (userStatus === "") {
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setUserStatus("ready"); // When there is  setUserStatus() is changed then that time we have to call userReady()
       userReady();
     }, 5000);
+    if (userStatus !== "") {
+      clearTimeout(timer);
+      setSeconds(0);
+    }
   }
+
   console.log(userStatus);
 
   const getUser = async () => {
@@ -114,22 +102,50 @@ const CustomMap = ({ route, navigation }) => {
     mapView.current.animateToRegion(newRegion, 5000);
   };
 
+  let userLocation = { latitude: region.latitude, longitude: region.longitude };
+
+  const fitToMarkers = (coords, timerId) => {
+    mapView.current.fitToCoordinates(coords, {
+      edgePadding: { top: 20, bottom: 20, left: 20, right: 20 },
+      animated: true,
+    });
+    clearTimeout(timerId);
+  };
+
+  const goToOrderStarted = () => {
+    setUserStatus("orderStarted");
+  };
+
+  const mapContent = () => {
+    switch (userStatus) {
+      case "":
+        return ideal();
+      case "ready":
+        return userReady();
+      case "orderStarted":
+        return orderStarted();
+    }
+  };
+
+  //Function to search for a customer.
+  const searchCustomer = (val) => {
+    setSwitchValue(val);
+    setUserStatus("ready");
+  };
+
   const ideal = () => {
     return (
       <IdealDriver
-        onSwitchValueChange={(val) => setSwitchValue(val)}
+        onSwitchValueChange={(val) => searchCustomer(val)}
         switchValue={switchValue}
       />
     );
   };
 
-  let userLocation = { latitude: region.latitude, longitude: region.longitude };
   const userReady = () => {
     let Markers = [userLocation, latlng];
-    mapView.current.fitToCoordinates(Markers, {
-      edgePadding: { top: 20, bottom: 20, left: 20, right: 20 },
-      animated: true,
-    });
+    console.log("fitting to markers here");
+    fitToMarkers(Markers);
     return (
       <>
         <NewJobTopContainer onPressReject={() => setUserStatus("")} />
@@ -142,15 +158,9 @@ const CustomMap = ({ route, navigation }) => {
       </>
     );
   };
-
-  const goToOrderStarted = () => {
-    setUserStatus("orderStarted");
-  };
-
   const orderStarted = () => {
     return <OrderStarted />;
   };
-
   return (
     <View style={styles.container}>
       <MapView
@@ -162,25 +172,27 @@ const CustomMap = ({ route, navigation }) => {
         showsMyLocationButton={false}
         followsUserLocation={true}
       >
-        {/* <MapViewDirections
-          origin={userLocation}
-          destination={latlng}
-          apikey={GOOGLE_API_KEY}
-          strokeWidth={1}
-          strokeColor="blue"
-          optimizeWaypoints={true}
-          onReady={(result) => {
-            setDuration(result.duration);
+        {userStatus !== "" && userStatus !== "ready" ? (
+          <MapViewDirections
+            lineDashPattern={[0]}
+            origin={userLocation}
+            destination={latlng}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={4}
+            strokeColor="blue"
+            optimizeWaypoints={true}
+            onReady={(result) => {
+              console.log("ready to show route");
+              let timer = setTimeout(
+                () => fitToMarkers(result.coordinates, timer),
+                2000
+              );
+              setDuration(result.duration);
+            }}
+          />
+        ) : null}
 
-            if (!isReady) {
-              mapView.current.fitToCoordinates(result.coordinates, {
-                edgePadding: { top: 20, bottom: 20, left: 20, right: 20 },
-                animated: true,
-              });
-            }
-          }}
-        /> */}
-        {userStatus === "ready" ? (
+        {userStatus !== "" ? (
           <Marker coordinate={latlng}>
             <View
               style={{
@@ -212,9 +224,7 @@ const CustomMap = ({ route, navigation }) => {
         />
       )}
 
-      {userStatus === "" && ideal()}
-      {userStatus === "ready" && userReady()}
-      {userStatus === "orderStarted" && orderStarted()}
+      {mapContent()}
     </View>
   );
 };

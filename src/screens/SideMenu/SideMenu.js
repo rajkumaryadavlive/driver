@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import {
   useTheme,
   Avatar,
@@ -32,6 +32,7 @@ export default function SideMenu(props) {
     rating = 3.8,
     phoneNumber = "+855 34 254 451",
     points = "799",
+    navigation,
   } = props;
 
   return (
@@ -39,18 +40,24 @@ export default function SideMenu(props) {
       <DrawerContentScrollView {...props}>
         <View>
           <View style={styles.profileContainer}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={require("../../assets/images/user.png")}
-                style={styles.image}
-              />
-              <View style={styles.badgeContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Registration", { number: "12346789" })
+              }
+            >
+              <View style={styles.imageContainer}>
                 <Image
-                  source={require("../../assets/images/silvermedal.png")}
+                  source={require("../../assets/images/user.png")}
                   style={styles.image}
                 />
+                <View style={styles.badgeContainer}>
+                  <Image
+                    source={require("../../assets/images/silvermedal.png")}
+                    style={styles.image}
+                  />
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
             <View style={styles.detailsContainer}>
               <Text style={styles.name}>{name}</Text>
               <Text style={styles.phoneNumber}>{phoneNumber}</Text>

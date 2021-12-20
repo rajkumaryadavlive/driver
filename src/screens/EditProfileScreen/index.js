@@ -70,158 +70,155 @@ const EditProfileScreen = (props) => {
   };
 
   return (
-    <Screen>
-      <KeyboardAwareScrollView>
-        <AppForm
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          <View style={styles.contentContainer}>
-            <View style={styles.imageView}>
-              <Image
-                source={require("../../assets/images/user.png")}
-                style={styles.profileImage}
-              />
-              <TouchableOpacity
-                style={styles.iconContainer}
-                onPress={() => {
-                  console.log("This is from camera icon in edit profile page");
-                }}
-              >
-                <Icon1 name="camera" size={30} color={colors.primaryColor} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.titleAndFieldsContainer}>
-              <FieldTitle title="Name" required />
-              <AppFormField
-                name="userName"
-                placeholder="Enter Name"
-                autoCorrect={false}
-                autoCapitalize="words"
-                style={styles.textInput}
-              />
-              <FieldTitle title="Phone Number" required />
-              <AppFormField
-                name="phoneNumber"
-                placeholder="Enter phone number"
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="numeric"
-                trim
-                style={styles.textInput}
-              />
-              <FieldTitle title="E-mail ( Optional )" />
-              <AppFormField
-                name="email"
-                placeholder="Enter email"
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                style={styles.textInput}
-              />
-              <FieldTitle title="Upline Code" />
-              <AppFormField
-                name="uplineCode"
-                placeholder="Enter code"
-                autoCorrect={false}
-                autoCapitalize="none"
-                style={styles.textInput}
-              />
-            </View>
+    // <Screen>
+    <KeyboardAwareScrollView>
+      <AppForm
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        <View style={styles.contentContainer}>
+          <View style={styles.imageView}>
+            <Image
+              source={require("../../assets/images/user.png")}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity
+              style={styles.iconContainer}
+              onPress={() => {
+                console.log("This is from camera icon in edit profile page");
+              }}
+            >
+              <Icon1 name="camera" size={30} color={colors.primaryColor} />
+            </TouchableOpacity>
           </View>
-          <View style={[styles.contentContainer, { marginTop: 10 }]}>
-            <Text style={styles.secondContainerTitle}>
-              Please add other document below
-            </Text>
-            <View style={styles.titleAndFieldsContainer}>
-              <FieldTitle title="Vehicle type" required starColor="red" />
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={selectedVehicle}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setSelectedVehicle(itemValue);
-                    setVehicleTypeError("");
-                  }}
-                >
-                  <Picker.Item label="Select Type..." value={null} />
-                  <Picker.Item label="Vehicle 1" value="Vehicle 1" />
-                  <Picker.Item label="Vehicle 2" value="Vehicle 2" />
-                </Picker>
-              </View>
-              <ErrorMessage
-                error={vehicleTypeError}
-                visible={vehicleTypeError}
-              />
-              <FieldTitle title="Vehicle Year" />
-              <AppFormField
-                name="vehicleYear"
-                placeholder="Enter vehicle year"
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="numeric"
-                trim
-                style={styles.textInput}
-              />
-              <FieldTitle title="Vehicle Seats" />
-              <AppFormField
-                name="vehicleSeats"
-                placeholder="Enter phone number"
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="numeric"
-                trim
-                style={styles.textInput}
-              />
-              <FieldTitle title="Vehicle Color" />
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={selectedColor}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setSelectedColor(itemValue)
-                  }
-                >
-                  <Picker.Item label="Select color..." value={null} />
-                  <Picker.Item label="White" value="white" />
-                  <Picker.Item label="Black" value="black" />
-                </Picker>
-              </View>
-              <FieldTitle title="Vehicle Model" />
-              <AppFormField
-                name="vehicleModel"
-                placeholder="Enter vehicle model"
-                autoCorrect={false}
-                autoCapitalize="none"
-                style={styles.textInput}
-              />
-              <FieldTitle title="Vehicle Plate Number" />
-              <AppFormField
-                name="vehiclePlateNumber"
-                placeholder="Enter code"
-                autoCorrect={false}
-                autoCapitalize="none"
-                style={styles.textInput}
-              />
-              <FieldTitle title="Your ID card (Front & Back)" />
-              <View style={styles.photoContainer}>
-                <IdComponent />
-                <IdComponent />
-              </View>
-              <FieldTitle title="Your Vehicle ID card (Front & Back)" />
-              <View style={styles.photoContainer}>
-                <IdComponent />
-                <IdComponent />
-              </View>
-            </View>
-            <SubmitButton
-              title="UPDATE"
-              onSubmit={handleSubmit}
-              style={styles.submitButton}
+          <View style={styles.titleAndFieldsContainer}>
+            <FieldTitle title="Name" required />
+            <AppFormField
+              name="userName"
+              placeholder="Enter Name"
+              autoCorrect={false}
+              autoCapitalize="words"
+              style={styles.textInput}
+            />
+            <FieldTitle title="Phone Number" required />
+            <AppFormField
+              name="phoneNumber"
+              placeholder="Enter phone number"
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              trim
+              style={styles.textInput}
+            />
+            <FieldTitle title="E-mail ( Optional )" />
+            <AppFormField
+              name="email"
+              placeholder="Enter email"
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              style={styles.textInput}
+            />
+            <FieldTitle title="Upline Code" />
+            <AppFormField
+              name="uplineCode"
+              placeholder="Enter code"
+              autoCorrect={false}
+              autoCapitalize="none"
+              style={styles.textInput}
             />
           </View>
-        </AppForm>
-      </KeyboardAwareScrollView>
-    </Screen>
+        </View>
+        <View style={[styles.contentContainer, { marginTop: 10 }]}>
+          <Text style={styles.secondContainerTitle}>
+            Please add other document below
+          </Text>
+          <View style={styles.titleAndFieldsContainer}>
+            <FieldTitle title="Vehicle type" required starColor="red" />
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={selectedVehicle}
+                onValueChange={(itemValue, itemIndex) => {
+                  setSelectedVehicle(itemValue);
+                  setVehicleTypeError("");
+                }}
+              >
+                <Picker.Item label="Select Type..." value={null} />
+                <Picker.Item label="Vehicle 1" value="Vehicle 1" />
+                <Picker.Item label="Vehicle 2" value="Vehicle 2" />
+              </Picker>
+            </View>
+            <ErrorMessage error={vehicleTypeError} visible={vehicleTypeError} />
+            <FieldTitle title="Vehicle Year" />
+            <AppFormField
+              name="vehicleYear"
+              placeholder="Enter vehicle year"
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              trim
+              style={styles.textInput}
+            />
+            <FieldTitle title="Vehicle Seats" />
+            <AppFormField
+              name="vehicleSeats"
+              placeholder="Enter phone number"
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              trim
+              style={styles.textInput}
+            />
+            <FieldTitle title="Vehicle Color" />
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={selectedColor}
+                onValueChange={(itemValue, itemIndex) =>
+                  setSelectedColor(itemValue)
+                }
+              >
+                <Picker.Item label="Select color..." value={null} />
+                <Picker.Item label="White" value="white" />
+                <Picker.Item label="Black" value="black" />
+              </Picker>
+            </View>
+            <FieldTitle title="Vehicle Model" />
+            <AppFormField
+              name="vehicleModel"
+              placeholder="Enter vehicle model"
+              autoCorrect={false}
+              autoCapitalize="none"
+              style={styles.textInput}
+            />
+            <FieldTitle title="Vehicle Plate Number" />
+            <AppFormField
+              name="vehiclePlateNumber"
+              placeholder="Enter code"
+              autoCorrect={false}
+              autoCapitalize="none"
+              style={styles.textInput}
+            />
+            <FieldTitle title="Your ID card (Front & Back)" />
+            <View style={styles.photoContainer}>
+              <IdComponent />
+              <IdComponent />
+            </View>
+            <FieldTitle title="Your Vehicle ID card (Front & Back)" />
+            <View style={styles.photoContainer}>
+              <IdComponent />
+              <IdComponent />
+            </View>
+          </View>
+          <SubmitButton
+            title="UPDATE"
+            onSubmit={handleSubmit}
+            style={styles.submitButton}
+          />
+        </View>
+      </AppForm>
+    </KeyboardAwareScrollView>
+    // </Screen>
   );
 };
 

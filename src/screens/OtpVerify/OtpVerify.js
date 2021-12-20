@@ -8,11 +8,13 @@ import OTPTextInput from "react-native-otp-textinput";
 import AppButton from "../../components/AppButton";
 import * as colors from "../../constants/colors";
 
-const OtpVerify = () => {
+const OtpVerify = ({ navigation, route }) => {
+  const phoneNumber = route.params.phoneNumber;
   const otpInput = useRef(null);
 
   const clearText = () => {
     otpInput.current.clear();
+    navigation.navigate("Registration", { number: phoneNumber });
   };
 
   const [seconds, setSeconds] = useState(30);
@@ -33,22 +35,19 @@ const OtpVerify = () => {
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "space-between",
-          flexDirection: "column",
-        }}
+        showsVerticalScrollIndicator={false}
         style={{ backgroundColor: "white" }}
       >
         <SafeAreaView>
           <View style={styles.logoContainer}>
             <Image
               style={styles.imageStyle}
-              source={require("../../assets/images/logo.png")}
+              source={require("../../assets/images/cmplogo.png")}
+              resizeMode="contain"
             />
           </View>
           <View style={{ alignItems: "center" }}>
-            <Text style={{ fontSize: 18, textAlign: "center" }}>
+            <Text style={{ fontSize: 18, textAlign: "center", marginTop: 20 }}>
               Please enter the verification code to your phone number
             </Text>
             <OTPTextInput ref={otpInput} />

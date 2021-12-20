@@ -1,32 +1,42 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Splash, Login, OtpVerify, SignUp } from "../screens";
+import {
+  Splash,
+  Login,
+  OtpVerify,
+  Registration,
+  SignUp,
+  EditProfileScreen,
+  Home,
+} from "../screens";
+import * as Screens from "../screens";
+
+import DrawerStack from "./DrawerStack";
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Login" headerMode="none">
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="Drawer" component={DrawerStack} />
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Login" component={Screens.Login} />
+      <Stack.Screen name="VerifyOTP" component={Screens.OtpVerify} />
       <Stack.Screen
-        options={{ headerShown: false }}
-        name="Splash"
-        component={Splash}
+        name="Registration"
+        component={Screens.Registration}
+        // options={{ headerShown: true }}
       />
+      <Stack.Screen name="SignUp" component={Screens.SignUp} />
       <Stack.Screen
-        options={{ headerShown: false }}
-        name="Login"
-        component={Login}
+        name="EditProfile"
+        component={Screens.EditProfileScreen}
+        options={{ headerShown: true }}
       />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="VerifyOTP"
-        component={OtpVerify}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignUp"
-        component={SignUp}
-      />
+      {/* <Stack.Screen name="Home" component={Screens.Home} /> */}
     </Stack.Navigator>
   );
 };

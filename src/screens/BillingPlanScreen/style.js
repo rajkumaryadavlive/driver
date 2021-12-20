@@ -5,6 +5,7 @@ import * as colors from "../../constants/colors";
 export default StyleSheet.create({
   container: {
     alignItems: "center",
+    margin: hp(1),
   },
   contentContainer: {
     width: wp("95%"),

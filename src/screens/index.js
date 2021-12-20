@@ -3,7 +3,7 @@ import Home from "./Home";
 import Splash from "./Splash";
 import SideMenu from "./SideMenu";
 import OtpVerify from "./OtpVerify/OtpVerify";
-import SignUp from "./SignUp";
+import Registration from "./RegistrationScreen";
 import WithdrawScreen from "./WithdrawScreen";
 import WalletScreen from "./WalletScreen";
 import TransactionsScreen from "./TransactionsScreen";
@@ -24,6 +24,7 @@ import OutGoingCallScreen from "./OutGoingCallScreen";
 import IncomingCallScreen from "./IncomingCallScreen";
 import DiallingScreen from "./DiallingScreen";
 import MapScreen from "./MapScreen";
+import SignUp from "./SignUp";
 export {
   Login,
   Home,
@@ -31,7 +32,7 @@ export {
   Splash,
   SideMenu,
   OtpVerify,
-  SignUp,
+  Registration,
   WithdrawScreen,
   WalletScreen,
   TransactionsScreen,
@@ -51,4 +52,5 @@ export {
   IncomingCallScreen,
   DiallingScreen,
   MapScreen,
+  SignUp,
 };
