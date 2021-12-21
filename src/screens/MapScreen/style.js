@@ -63,6 +63,15 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
   },
+  customerImageContainer: {
+    width: wp(18),
+    height: wp(18),
+    borderWidth: 2,
+    borderColor: colors.orangeColor,
+    borderRadius: wp(10),
+    padding: 1,
+    marginTop: hp(1),
+  },
   divider: {
     borderTopWidth: 1,
     borderTopColor: colors.darkGrey,
@@ -91,6 +100,15 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.orangeColor,
     padding: wp(0.3),
+  },
+  imageAndCustomerInfo: {
+    marginTop: hp(3),
+    flexDirection: "row",
+    marginLeft: wp(2),
+    width: wp(98),
+    height: hp(16),
+    position: "absolute",
+    top: 0,
   },
   map: {
     ...StyleSheet.absoluteFillObject,

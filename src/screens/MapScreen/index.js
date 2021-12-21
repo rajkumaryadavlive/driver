@@ -10,10 +10,13 @@ import MapViewDirections from "react-native-maps-directions";
 import styles from "./style";
 import { hp, wp } from "../../constants/dimensions";
 
-import { NewJobTopContainer, OrderStarted } from "./TopContainer";
+import { NewJobTopContainer, OrderStartedTopContainer } from "./TopContainer";
 import Buttons from "./Buttons";
 import IdealDriver from "./IdealDriver";
-import { NewJobBottomContainer } from "./BottomContainer";
+import {
+  NewJobBottomContainer,
+  OrderStartedBottomContainer,
+} from "./BottomContainer";
 import GOOGLE_API_KEY from "../../constants/apikey";
 
 const LATITUDE_DELTA = 0.0062;
@@ -37,28 +40,18 @@ const CustomMap = ({ route, navigation }) => {
     longitudeDelta: LONGITUDE_DELTA,
   });
   const [errorMsg, setErrorMsg] = useState(null);
-  const [switchValue, setSwitchValue] = useState(true);
+  const [switchValue, setSwitchValue] = useState(false);
 
   // const [userStatus, setUserStatus] = useState("ready");
   const [userStatus, setUserStatus] = useState("");
   const [duration, setDuration] = useState(0);
+  const [distance, setDistance] = useState(0);
 
   const [second, setSeconds] = useState(60);
 
   useEffect(() => {
     getUser();
   }, []);
-
-  if (userStatus === "") {
-    let timer = setTimeout(() => {
-      setUserStatus("ready"); // When there is  setUserStatus() is changed then that time we have to call userReady()
-      userReady();
-    }, 5000);
-    if (userStatus !== "") {
-      clearTimeout(timer);
-      setSeconds(0);
-    }
-  }
 
   console.log(userStatus);
 
@@ -104,9 +97,14 @@ const CustomMap = ({ route, navigation }) => {
 
   let userLocation = { latitude: region.latitude, longitude: region.longitude };
 
-  const fitToMarkers = (coords, timerId) => {
+  const fitToMarkers = (coords, timerId, spaceNum) => {
     mapView.current.fitToCoordinates(coords, {
-      edgePadding: { top: 20, bottom: 20, left: 20, right: 20 },
+      edgePadding: {
+        top: spaceNum,
+        bottom: spaceNum,
+        left: spaceNum,
+        right: spaceNum,
+      },
       animated: true,
     });
     clearTimeout(timerId);
@@ -130,7 +128,8 @@ const CustomMap = ({ route, navigation }) => {
   //Function to search for a customer.
   const searchCustomer = (val) => {
     setSwitchValue(val);
-    setUserStatus("ready");
+    if (val) setUserStatus("ready");
+    if (!val) setUserStatus("");
   };
 
   const ideal = () => {
@@ -144,8 +143,9 @@ const CustomMap = ({ route, navigation }) => {
 
   const userReady = () => {
     let Markers = [userLocation, latlng];
-    console.log("fitting to markers here");
-    fitToMarkers(Markers);
+    let timer = setTimeout(() => fitToMarkers(Markers, timer, 20), 2000);
+    let sec = setTimeout(() => setSeconds(second - 1), 1000);
+    clearTimeout(sec);
     return (
       <>
         <NewJobTopContainer onPressReject={() => setUserStatus("")} />
@@ -154,12 +154,25 @@ const CustomMap = ({ route, navigation }) => {
           onPressZoomOut={zoomOut}
           onPressAccept={goToOrderStarted}
           seconds={second}
+          duration={duration}
+          distance={distance}
         />
       </>
     );
   };
   const orderStarted = () => {
-    return <OrderStarted />;
+    let Markers = [userLocation, latlng];
+    let timer = setTimeout(() => fitToMarkers(Markers, timer, 80), 2000);
+    return (
+      <>
+        <OrderStartedTopContainer duration={duration} />
+        <OrderStartedBottomContainer
+          onPressZoomIn={zoomIn}
+          onPressZoomOut={zoomOut}
+          getUserLocation={getUser}
+        />
+      </>
+    );
   };
   return (
     <View style={styles.container}>
@@ -172,25 +185,19 @@ const CustomMap = ({ route, navigation }) => {
         showsMyLocationButton={false}
         followsUserLocation={true}
       >
-        {userStatus !== "" && userStatus !== "ready" ? (
-          <MapViewDirections
-            lineDashPattern={[0]}
-            origin={userLocation}
-            destination={latlng}
-            apikey={GOOGLE_API_KEY}
-            strokeWidth={4}
-            strokeColor="blue"
-            optimizeWaypoints={true}
-            onReady={(result) => {
-              console.log("ready to show route");
-              let timer = setTimeout(
-                () => fitToMarkers(result.coordinates, timer),
-                2000
-              );
-              setDuration(result.duration);
-            }}
-          />
-        ) : null}
+        <MapViewDirections
+          lineDashPattern={[0]}
+          origin={userLocation}
+          destination={userStatus !== "" ? latlng : null}
+          apikey={GOOGLE_API_KEY}
+          strokeWidth={userStatus === "orderStarted" ? 4 : 0}
+          strokeColor="blue"
+          optimizeWaypoints={true}
+          onReady={(result) => {
+            setDuration(result.duration);
+            setDistance(result.distance);
+          }}
+        />
 
         {userStatus !== "" ? (
           <Marker coordinate={latlng}>

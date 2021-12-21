@@ -5,19 +5,27 @@ import { hp, wp } from "../../constants/dimensions";
 const styles = StyleSheet.create({
   button: {
     marginTop: hp(3),
+    width: wp(50),
+    backgroundColor: colors.themeGreen,
   },
   container: {
     flex: 1,
     justifyContent: "center",
     // backgroundColor: "#364b5f",
-    paddingLeft: wp(12),
-    paddingRight: wp(12),
+    alignItems: "center",
   },
-  fieldName: { marginTop: hp(1), marginBottom: hp(0.5), fontFamily: "segoeui" },
+  fieldName: {
+    marginTop: hp(1),
+    marginBottom: hp(0.5),
+    fontFamily: "calibri",
+    fontWeight: "700",
+  },
   header: {
-    fontSize: 24,
-    color: "black",
+    fontSize: hp(3),
+    color: colors.themeGreen,
+    fontWeight: "700",
     alignSelf: "center",
+    marginTop: hp(2),
   },
   iconContainer: {
     position: "absolute",
@@ -30,33 +38,26 @@ const styles = StyleSheet.create({
   },
   imageView: {
     padding: wp(1),
-    borderWidth: 2,
-    borderRadius: 100,
+    width: wp(80),
+    height: wp(33),
+    borderWidth: 1,
     marginTop: hp(2),
     alignSelf: "center",
-    borderColor: colors.primaryColor,
+    borderColor: colors.FONT_GREY_STONE,
   },
-  pickerContainer: {
-    borderWidth: 2,
-    borderColor: colors.primaryColor,
-    borderRadius: 30,
-    height: hp(7),
-    justifyContent: "center",
-    marginBottom: hp(1),
-  },
+
   profileImage: {
-    width: wp(33),
-    height: wp(33),
-    borderRadius: wp(60),
+    width: "100%",
+    height: "100%",
   },
   textInput: {
-    height: hp(7),
-    width: "100%",
+    height: hp(6.5),
+    width: wp(80),
     color: "black",
-    borderColor: colors.primaryColor,
+    borderColor: colors.FONT_GREY,
     borderWidth: 2,
     borderRadius: wp(50),
-    padding: hp(2),
+    paddingLeft: hp(4),
   },
 });
 

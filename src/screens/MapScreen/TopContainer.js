@@ -41,13 +41,25 @@ export const NewJobTopContainer = ({ onPressReject }) => {
   );
 };
 
-export const OrderStarted = () => {
+export const OrderStartedTopContainer = ({ duration }) => {
+  let newDur = (Math.round(duration * 100) / 100).toFixed(2);
+
+  let newDuration = newDur.toString();
+  let arr = newDuration.split(".");
+  let min = parseInt(arr[0]);
+  let sec = parseInt(arr[1]);
+
+  let minutes = min > 60 ? min - 60 : min;
+  let second = sec > 60 ? sec - 60 && minutes + 1 : sec;
+
   return (
     <View style={styles.topContent}>
       <BadgeAndImage />
       <View style={styles.orderStarted}>
         <Text style={styles.orderStartedText}> Order started</Text>
-        <Text style={styles.timeToReachAndDistance}> 2m 10s</Text>
+        <Text style={styles.timeToReachAndDistance}>
+          {minutes}m {second}s
+        </Text>
       </View>
     </View>
   );

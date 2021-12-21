@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     width: wp("40%"),
     padding: wp(3),
     marginTop: hp(1),
-    backgroundColor: colors.darkGreenColor,
+    backgroundColor: colors.themeGreen,
   },
   textInput: {
     borderBottomWidth: 1,
