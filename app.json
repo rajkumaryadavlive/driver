@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "driver",
-    "slug": "driver",
+    "name": "WeTaxi",
+    "slug": "WeTaxiDriver",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/images/cmplogo_sm.png",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "cover",
@@ -22,7 +22,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/cmplogo_sm.png",
         "backgroundColor": "#FFFFFF"
       },
       "config": {
@@ -37,7 +37,7 @@
       ]
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/images/cmplogo_sm.png"
     }
   }
 }
