@@ -7,10 +7,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { store } from "./src/store/store";
 import AppNavigator from "./src/routes/AppNavigator";
-import { MapScreen, SignUp } from "./src/screens";
+import { MapScreen, ReceiptScreen, SignUp, SummaryScreen } from "./src/screens";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
-import AppTextInput from "./src/components/AppTextInput";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -29,8 +28,7 @@ export default function App() {
       //   <DrawerStack />
       // </NavigationContainer>
       <Screen>
-        <MapScreen />
-        {/* <SignUp /> */}
+        <SummaryScreen />
       </Screen>
     );
   }
