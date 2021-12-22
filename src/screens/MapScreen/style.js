@@ -21,15 +21,7 @@ export default StyleSheet.create({
     width: wp(90),
     paddingVertical: hp(1),
   },
-  buttons: {
-    padding: wp(3),
-    borderRadius: wp(20),
-    backgroundColor: "#ffffff",
-    margin: hp(1),
-    elevation: 3,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   buttonContainer: {
     borderWidth: 1,
     // width: wp(13),

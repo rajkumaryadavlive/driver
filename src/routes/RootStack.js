@@ -36,7 +36,6 @@ const RootStack = () => {
         component={Screens.EditProfileScreen}
         options={{ headerShown: true }}
       />
-      {/* <Stack.Screen name="Home" component={Screens.Home} /> */}
     </Stack.Navigator>
   );
 };

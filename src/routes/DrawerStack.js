@@ -13,6 +13,7 @@ import {
   HelpCenterScreen,
   EmergencyScreen,
   ChangeLanguageScreen,
+  MapScreen,
 } from "../screens";
 const Drawer = createDrawerNavigator();
 
@@ -20,7 +21,7 @@ const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <SideMenu {...props} />}>
       <Drawer.Screen
-        // options={{ headerShown: false }}
+        options={{ headerShown: false }}
         name="Home"
         component={Home}
       />

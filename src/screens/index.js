@@ -25,6 +25,8 @@ import IncomingCallScreen from "./IncomingCallScreen";
 import DiallingScreen from "./DiallingScreen";
 import MapScreen from "./MapScreen";
 import SignUp from "./SignUp";
+import ReceiptScreen from "./ReceiptScreen";
+import SummaryScreen from "./SummaryScreen";
 export {
   Login,
   Home,
@@ -53,4 +55,6 @@ export {
   DiallingScreen,
   MapScreen,
   SignUp,
+  ReceiptScreen,
+  SummaryScreen,
 };

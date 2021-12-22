@@ -4,11 +4,18 @@ import { View, Text, TouchableOpacity, Switch } from "react-native";
 import * as colors from "../../constants/colors";
 import styles from "./style";
 import BadgeAndImage from "../../components/BadgeAndImage";
+import BottomButtons from "../../components/BottomButtons";
 
-const IdealDriver = ({ onSwitchValueChange, switchValue }) => {
+export const IdealDriver = ({
+  onSwitchValueChange,
+  switchValue,
+  sideMenuOpen,
+}) => {
   return (
     <View style={styles.topContent}>
-      <BadgeAndImage />
+      <TouchableOpacity onPress={sideMenuOpen}>
+        <BadgeAndImage />
+      </TouchableOpacity>
       <View style={styles.switchContainer}>
         <Text
           style={{
@@ -34,4 +41,29 @@ const IdealDriver = ({ onSwitchValueChange, switchValue }) => {
   );
 };
 
-export default IdealDriver;
+export const Buttons = ({
+  onPressZoomIn,
+  onPressZoomOut,
+  onPressUserLocation,
+}) => {
+  return (
+    <View style={styles.customBottomLayout}>
+      <View>
+        <BottomButtons onPress={onPressZoomIn} iconName="plus" fontAwesome />
+        <BottomButtons onPress={onPressZoomOut} iconName="minus" fontAwesome />
+      </View>
+      <View>
+        <BottomButtons
+          onPress={() => {}}
+          iconName="traffic-light"
+          fontAwesome
+        />
+        <BottomButtons
+          onPress={onPressUserLocation}
+          iconName="location-arrow"
+          fontAwesome
+        />
+      </View>
+    </View>
+  );
+};

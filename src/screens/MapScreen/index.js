@@ -8,16 +8,15 @@ import {
 import MapViewDirections from "react-native-maps-directions";
 
 import styles from "./style";
-import { hp, wp } from "../../constants/dimensions";
-
-import { NewJobTopContainer, OrderStartedTopContainer } from "./TopContainer";
-import Buttons from "./Buttons";
-import IdealDriver from "./IdealDriver";
-import {
-  NewJobBottomContainer,
-  OrderStartedBottomContainer,
-} from "./BottomContainer";
 import GOOGLE_API_KEY from "../../constants/apikey";
+import { hp, wp } from "../../constants/dimensions";
+import { IdealDriver, Buttons } from "./IdealDriver";
+import { NewJobTopContainer, NewJobBottomContainer } from "./NewJob";
+import {
+  OrderStartedTopContainer,
+  OrderStartedBottomContainer,
+} from "./OrderStarted";
+import { OnARideTopContainer, OnARideBottomContainer } from "./OnARide";
 
 const LATITUDE_DELTA = 0.0062;
 const LONGITUDE_DELTA = 0.0061;
@@ -30,7 +29,7 @@ const userLoc = {
   longitude: 73.8226,
 };
 
-const CustomMap = ({ route, navigation }) => {
+const CustomMap = ({ route, navigation, openDrawer }) => {
   const mapView = useRef();
 
   const [region, setRegion] = useState({
@@ -43,11 +42,13 @@ const CustomMap = ({ route, navigation }) => {
   const [switchValue, setSwitchValue] = useState(false);
 
   // const [userStatus, setUserStatus] = useState("ready");
-  const [userStatus, setUserStatus] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [distance, setDistance] = useState(0);
-
+  const [userStatus, setUserStatus] = useState("onARide");
+  const [duration, setDuration] = useState("");
+  const [distance, setDistance] = useState("");
+  const [routeArr, setRouteArr] = useState([]);
   const [second, setSeconds] = useState(60);
+
+  // console.log(routeArr);
 
   useEffect(() => {
     getUser();
@@ -81,7 +82,7 @@ const CustomMap = ({ route, navigation }) => {
     };
 
     setRegion(newRegion);
-    mapView.current.animateToRegion(newRegion, 5000);
+    mapView.current.animateToRegion(newRegion, 1000);
   };
   const zoomOut = () => {
     let newRegion = {
@@ -92,7 +93,7 @@ const CustomMap = ({ route, navigation }) => {
     };
 
     setRegion(newRegion);
-    mapView.current.animateToRegion(newRegion, 5000);
+    mapView.current.animateToRegion(newRegion, 1000);
   };
 
   let userLocation = { latitude: region.latitude, longitude: region.longitude };
@@ -122,6 +123,10 @@ const CustomMap = ({ route, navigation }) => {
         return userReady();
       case "orderStarted":
         return orderStarted();
+      case "arrived":
+        return arrival();
+      case "onARide":
+        return onARide();
     }
   };
 
@@ -135,6 +140,7 @@ const CustomMap = ({ route, navigation }) => {
   const ideal = () => {
     return (
       <IdealDriver
+        sideMenuOpen={openDrawer}
         onSwitchValueChange={(val) => searchCustomer(val)}
         switchValue={switchValue}
       />
@@ -148,7 +154,10 @@ const CustomMap = ({ route, navigation }) => {
     clearTimeout(sec);
     return (
       <>
-        <NewJobTopContainer onPressReject={() => setUserStatus("")} />
+        <NewJobTopContainer
+          onPressReject={() => setUserStatus("")}
+          sideMenuOpen={openDrawer}
+        />
         <NewJobBottomContainer
           onPressZoomIn={zoomIn}
           onPressZoomOut={zoomOut}
@@ -165,7 +174,32 @@ const CustomMap = ({ route, navigation }) => {
     let timer = setTimeout(() => fitToMarkers(Markers, timer, 80), 2000);
     return (
       <>
-        <OrderStartedTopContainer duration={duration} />
+        <OrderStartedTopContainer
+          duration={duration}
+          sideMenuOpen={openDrawer}
+          driverStatus="Order Started"
+        />
+        <OrderStartedBottomContainer
+          onPressZoomIn={zoomIn}
+          onPressZoomOut={zoomOut}
+          getUserLocation={getUser}
+          onSwipeToArrive={() => setUserStatus("arrived")}
+          driverLocation={userLocation}
+          custLocation={latlng}
+          waypoints={routeArr}
+        />
+      </>
+    );
+  };
+
+  const arrival = () => {
+    return (
+      <>
+        <OrderStartedTopContainer
+          duration={duration}
+          sideMenuOpen={openDrawer}
+          driverStatus="Arrival"
+        />
         <OrderStartedBottomContainer
           onPressZoomIn={zoomIn}
           onPressZoomOut={zoomOut}
@@ -174,6 +208,16 @@ const CustomMap = ({ route, navigation }) => {
       </>
     );
   };
+
+  const onARide = () => {
+    return (
+      <>
+        <OnARideTopContainer />
+        <OnARideBottomContainer />
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -194,8 +238,10 @@ const CustomMap = ({ route, navigation }) => {
           strokeColor="blue"
           optimizeWaypoints={true}
           onReady={(result) => {
+            // console.log(result);
             setDuration(result.duration);
             setDistance(result.distance);
+            setRouteArr([...result.coordinates]);
           }}
         />
 
