@@ -64,7 +64,7 @@ const SummaryScreen = (props) => {
         <Text style={styles.details}>{`Plate           : ${plate}`}</Text>
         <Text style={styles.details}>{`Phone         : ${driverPhone}`}</Text>
         <Text style={styles.details}>{`PickUp        : ${pickUp}`}</Text>
-        <Text style={styles.details}>{`DropOff      : ${dropOff}`}</Text>
+        <Text style={styles.details}>{`DropOff       : ${dropOff}`}</Text>
         <Text
           style={[styles.details, { width: wp(80) }]}
           numberOfLines={1}
@@ -79,7 +79,7 @@ const SummaryScreen = (props) => {
         </Text>
         <Text
           style={styles.details}
-        >{`Phone        : ${cmpNumber1} | ${cmpNumber2} | ${cmpNumber3} `}</Text>
+        >{`Phone       : ${cmpNumber1} | ${cmpNumber2} | ${cmpNumber3} `}</Text>
         <Text
           style={[styles.details, { width: wp(80) }]}
           numberOfLines={1}

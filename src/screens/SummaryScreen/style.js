@@ -17,7 +17,6 @@ export default StyleSheet.create({
     elevation: 4,
     borderRadius: wp(2),
     marginTop: hp(0.5),
-    marginHorizontal: wp(0.7),
   },
   date: {
     fontSize: hp(1.5),
@@ -42,7 +41,8 @@ export default StyleSheet.create({
   },
   note: {
     color: colors.FONT_GREY_STONE,
-    fontSize: hp(2.5),
+    fontSize: wp(4.3),
+    fontWeight: "700",
   },
   seconds: {
     fontWeight: "700",
