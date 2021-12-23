@@ -7,9 +7,17 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { store } from "./src/store/store";
 import AppNavigator from "./src/routes/AppNavigator";
-import { MapScreen, ReceiptScreen, SignUp, SummaryScreen } from "./src/screens";
+import {
+  MapScreen,
+  RatePassengerScreen,
+  ReceiptScreen,
+  SignUp,
+  SummaryScreen,
+} from "./src/screens";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
+
+import CountDown from "react-native-countdown-component";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -24,12 +32,22 @@ export default function App() {
       // <Provider store={store}>
       //   <AppNavigator />
       // </Provider>
-      // <NavigationContainer>
-      //   <DrawerStack />
-      // </NavigationContainer>
-      <Screen>
-        <SummaryScreen />
-      </Screen>
+      <NavigationContainer>
+        <DrawerStack />
+      </NavigationContainer>
+      // <Screen>
+      //   {/* <RatePassengerScreen /> */}
+      //   <CountDown
+      //     until={10}
+      //     onFinish={() => alert("Finished")}
+      //     size={40}
+      //     timeToShow={["S"]}
+      //     timeLabels={{ s: "" }}
+      //     digitStyle={{
+      //       backgroundColor: "white",
+      //     }}
+      //   />
+      // </Screen>
     );
   }
 }
