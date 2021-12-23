@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Rating } from "react-native-ratings";
 import {
@@ -55,6 +55,8 @@ export const OrderStartedBottomContainer = ({
   driverLocation,
   custLocation,
   waypoints,
+  driverStatus,
+  onSwipeforArrival,
 }) => {
   const IconAndText = ({ text, onPress, color, children }) => {
     return (
@@ -215,8 +217,10 @@ export const OrderStartedBottomContainer = ({
             marginLeft: 0,
           }}
           height={50}
-          onSwipeSuccess={onSwipeToArrive}
-          // shouldResetAfterSuccess
+          onSwipeSuccess={
+            driverStatus === "arrival" ? onSwipeforArrival : onSwipeToArrive
+          }
+          shouldResetAfterSuccess
           title="SWIPE TO ARRIVE"
           thumbIconComponent={RightArrow}
           thumbIconBackgroundColor={colors.orangeColor}

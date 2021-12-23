@@ -7,6 +7,8 @@ import {
 } from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 
+import CountDown from "react-native-countdown-component";
+
 import styles from "./style";
 import GOOGLE_API_KEY from "../../constants/apikey";
 import { hp, wp } from "../../constants/dimensions";
@@ -41,20 +43,15 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [switchValue, setSwitchValue] = useState(false);
 
-  // const [userStatus, setUserStatus] = useState("ready");
-  const [userStatus, setUserStatus] = useState("onARide");
+  const [userStatus, setUserStatus] = useState("");
+  const [onARideStatus, setonARideStatus] = useState("");
   const [duration, setDuration] = useState("");
   const [distance, setDistance] = useState("");
   const [routeArr, setRouteArr] = useState([]);
-  const [second, setSeconds] = useState(60);
-
-  // console.log(routeArr);
 
   useEffect(() => {
     getUser();
   }, []);
-
-  console.log(userStatus);
 
   const getUser = async () => {
     let { status } = await requestForegroundPermissionsAsync();
@@ -150,8 +147,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const userReady = () => {
     let Markers = [userLocation, latlng];
     let timer = setTimeout(() => fitToMarkers(Markers, timer, 20), 2000);
-    let sec = setTimeout(() => setSeconds(second - 1), 1000);
-    clearTimeout(sec);
+
     return (
       <>
         <NewJobTopContainer
@@ -162,7 +158,6 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           onPressZoomIn={zoomIn}
           onPressZoomOut={zoomOut}
           onPressAccept={goToOrderStarted}
-          seconds={second}
           duration={duration}
           distance={distance}
         />
@@ -204,6 +199,11 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           onPressZoomIn={zoomIn}
           onPressZoomOut={zoomOut}
           getUserLocation={getUser}
+          onSwipeforArrival={() => setUserStatus("onARide")}
+          driverLocation={userLocation}
+          custLocation={latlng}
+          waypoints={routeArr}
+          driverStatus="arrival"
         />
       </>
     );
@@ -212,8 +212,23 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const onARide = () => {
     return (
       <>
-        <OnARideTopContainer />
-        <OnARideBottomContainer />
+        <OnARideTopContainer
+          status={onARideStatus}
+          sideMenuOpen={openDrawer}
+          onSwitchValueChange={(val) => searchCustomer(val)}
+          switchValue={switchValue}
+        />
+        <OnARideBottomContainer
+          status={onARideStatus}
+          onPressZoomIn={zoomIn}
+          onPressZoomOut={zoomOut}
+          getUserLocation={getUser}
+          onSwipeToArrive={() => setonARideStatus("swiped")}
+          onFinishTrip={() => navigation.navigate("Receipt")}
+          driverLocation={userLocation}
+          custLocation={latlng}
+          waypoints={routeArr}
+        />
       </>
     );
   };

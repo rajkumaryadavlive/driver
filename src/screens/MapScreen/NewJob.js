@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
   FontAwesome5 as Icon,
@@ -55,14 +55,22 @@ export const NewJobBottomContainer = ({
   onPressZoomIn,
   onPressZoomOut,
   onPressAccept,
-  seconds,
   duration,
   distance,
 }) => {
+  const [seconds, setSeconds] = useState(60);
+
+  useEffect(() => {
+    let timer;
+    if (seconds > 0) timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [seconds]);
+
   let calculatedDistance = (Math.round(distance * 100) / 100).toFixed(2);
 
   let newDur = (Math.round(duration * 100) / 100).toFixed(2);
-  console.log(newDur);
 
   let newDuration = newDur.toString();
   let arr = newDuration.split(".");

@@ -5,10 +5,6 @@ import getDirections from "react-native-google-maps-directions";
 import BottomButtons from "./BottomButtons";
 
 const GmapsDirections = ({ source, destination, coords }) => {
-  console.log("This is from gmaps");
-  console.log(source, destination);
-  console.log(coords);
-
   const handleGetDirections = () => {
     const data = {
       source: source,
@@ -18,10 +14,10 @@ const GmapsDirections = ({ source, destination, coords }) => {
           key: "travelmode",
           value: "driving", // may be "walking", "bicycling" or "transit" as well
         },
-        // {
-        //   key: "dir_action",
-        //   value: "navigate", // this instantly initializes navigation using the given travel mode
-        // },
+        {
+          key: "dir_action",
+          value: "navigate", // this instantly initializes navigation using the given travel mode
+        },
       ],
       waypoints: coords,
     };

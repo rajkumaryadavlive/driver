@@ -10,6 +10,7 @@ import styles from "./style";
 const SummaryScreen = (props) => {
   const [seconds, setSeconds] = useState(15);
   const {
+    navigation,
     dateAndTime = "Thu 16 Jan 2020 13.21pm",
     amount = "3,200.00",
     duration = "2m 10s",
@@ -35,7 +36,10 @@ const SummaryScreen = (props) => {
     let timer;
     if (seconds > 0) timer = setTimeout(() => setSeconds(seconds - 1), 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      seconds === 1 && navigation.navigate("RatePassenger");
+    };
   }, [seconds]);
 
   return (

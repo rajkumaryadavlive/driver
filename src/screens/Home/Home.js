@@ -7,7 +7,10 @@ import Screen from "../../components/Screen";
 const Home = ({ navigation }) => {
   return (
     <Screen>
-      <CustomMap openDrawer={() => navigation.openDrawer()} />
+      <CustomMap
+        openDrawer={() => navigation.openDrawer()}
+        navigation={navigation}
+      />
     </Screen>
   );
 };

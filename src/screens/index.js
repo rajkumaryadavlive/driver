@@ -27,6 +27,7 @@ import MapScreen from "./MapScreen";
 import SignUp from "./SignUp";
 import ReceiptScreen from "./ReceiptScreen";
 import SummaryScreen from "./SummaryScreen";
+import RatePassengerScreen from "./RatePassengerScreen";
 export {
   Login,
   Home,
@@ -57,4 +58,5 @@ export {
   SignUp,
   ReceiptScreen,
   SummaryScreen,
+  RatePassengerScreen,
 };

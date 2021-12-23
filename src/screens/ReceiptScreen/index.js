@@ -13,13 +13,17 @@ const ReceiptScreen = (props) => {
     amount = "3,200.00",
     duration = "2m 10s",
     distance = "2",
+    navigation,
   } = props;
 
   useEffect(() => {
     let timer;
     if (seconds > 0) timer = setTimeout(() => setSeconds(seconds - 1), 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      seconds === 1 && navigation.navigate("Summary");
+    };
   }, [seconds]);
 
   return (
@@ -43,7 +47,7 @@ const ReceiptScreen = (props) => {
         <AppButton
           title="CASH PAID"
           style={styles.button}
-          onPress={() => console.log("Pressed from receipt")}
+          onPress={() => navigation.navigate("Summary")}
           textStyle={styles.buttonText}
         />
         <Text style={styles.note}>

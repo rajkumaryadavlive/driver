@@ -9,8 +9,14 @@ import styles from "./style";
 import BadgeAndImage from "../../components/BadgeAndImage";
 import BottomButtons from "../../components/BottomButtons";
 import GmapsDirections from "../../components/Directions";
+import AppButton from "../../components/AppButton";
 
-export const OnARideTopContainer = ({ sideMenuOpen }) => {
+export const OnARideTopContainer = ({
+  sideMenuOpen,
+  status,
+  onSwitchValueChange,
+  switchValue,
+}) => {
   return (
     <View style={[styles.topContent, { justifyContent: "flex-start" }]}>
       <TouchableOpacity onPress={sideMenuOpen}>
@@ -18,14 +24,63 @@ export const OnARideTopContainer = ({ sideMenuOpen }) => {
       </TouchableOpacity>
       <View
         style={{
-          alignItems: "center",
-          justifyContent: "center",
           flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
         }}
       >
-        <Text style={[styles.orderStartedText, { marginRight: hp(5) }]}>
-          On a ride.
-        </Text>
+        <View
+          style={
+            status === "swiped"
+              ? { marginRight: wp(6) }
+              : { marginRight: wp(35) }
+          }
+        >
+          <Text style={[styles.orderStartedText, { textAlign: "center" }]}>
+            On a ride.
+          </Text>
+          {status === "swiped" ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: wp(45),
+              }}
+            >
+              <AppButton
+                style={{
+                  width: wp(17),
+                  padding: hp(0.2),
+                  backgroundColor: colors.darkRedColor,
+                }}
+                textStyle={{ fontSize: hp(2.5) }}
+                title="Trip 1"
+              />
+              <AppButton
+                style={{
+                  width: wp(17),
+                  padding: hp(0.2),
+                  backgroundColor: colors.orangeColor,
+                }}
+                textStyle={{ fontSize: hp(2.5) }}
+                title="Trip 2"
+                onPress={() => console.log("This is from Trip 2")}
+              />
+            </View>
+          ) : null}
+        </View>
+        {status === "swiped" ? (
+          <View>
+            <Switch
+              value={switchValue}
+              onValueChange={onSwitchValueChange}
+              thumbColor={switchValue ? colors.primaryColor : "red"}
+              trackColor={{ true: colors.primaryColor, false: "red" }}
+            />
+            <Text>{switchValue ? "ON Share" : "OFF Share"}</Text>
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -39,6 +94,8 @@ export const OnARideBottomContainer = ({
   driverLocation,
   custLocation,
   waypoints,
+  status,
+  onFinishTrip,
 }) => {
   return (
     <>
@@ -77,7 +134,9 @@ export const OnARideBottomContainer = ({
             width: wp(100),
           }}
         >
-          <Text style={{ fontSize: hp(5) }}>{`KHR   400.00`}</Text>
+          <Text style={{ fontSize: hp(5) }}>
+            {status === "swiped" ? `KHR   3,200.00` : `KHR   400.00`}
+          </Text>
           <View
             style={{
               justifyContent: "space-between",
@@ -88,11 +147,15 @@ export const OnARideBottomContainer = ({
           >
             <View style={{ alignItems: "center" }}>
               <Text style={{ fontSize: hp(2) }}>DURATION</Text>
-              <Text style={{ fontSize: hp(5) }}>0m 10s</Text>
+              <Text style={{ fontSize: hp(5) }}>
+                {status === "swiped" ? "2m 10s" : "0m 10s"}
+              </Text>
             </View>
             <View style={{ alignItems: "center" }}>
               <Text style={{ fontSize: hp(2) }}>DISTANCE</Text>
-              <Text style={{ fontSize: hp(5) }}>10m</Text>
+              <Text style={{ fontSize: hp(5) }}>
+                {status === "swiped" ? "2km" : "10m"}
+              </Text>
             </View>
           </View>
         </View>
@@ -106,23 +169,28 @@ export const OnARideBottomContainer = ({
           <SwipeButton
             containerStyles={{
               borderRadius: 0,
-              backgroundColor: colors.primaryColor,
+              backgroundColor: colors.darkRedColor,
               width: "100%",
               marginLeft: 0,
             }}
             height={50}
-            onSwipeSuccess={onSwipeToArrive}
-            // shouldResetAfterSuccess
-            title="SWIPE TO ARRIVE"
+            onSwipeSuccess={status === "" ? onSwipeToArrive : onFinishTrip}
+            shouldResetAfterSuccess
+            title={status === "" ? "SWIPE TO ARRIVE" : "SWIPE TO FINISH TRIP"}
             thumbIconComponent={RightArrow}
-            thumbIconBackgroundColor={colors.primaryColor}
+            thumbIconBackgroundColor={
+              status === "" ? colors.primaryColor : colors.darkRedColor
+            }
             thumbIconStyles={{ borderRadius: 0, borderWidth: 0 }}
             railStyles={{
-              backgroundColor: colors.primaryColor,
+              backgroundColor:
+                status === "" ? colors.primaryColor : colors.darkRedColor,
               borderWidth: 0,
               padding: 2,
             }}
-            railBackgroundColor={colors.primaryColor}
+            railBackgroundColor={
+              status === "" ? colors.primaryColor : colors.darkRedColor
+            }
             titleColor="white"
           />
         </View>
