@@ -1,14 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  Splash,
-  Login,
-  OtpVerify,
-  Registration,
-  SignUp,
-  EditProfileScreen,
-  Home,
-} from "../screens";
+import { Splash } from "../screens";
 import * as Screens from "../screens";
 
 import DrawerStack from "./DrawerStack";
@@ -34,7 +26,10 @@ const RootStack = () => {
       <Stack.Screen
         name="EditProfile"
         component={Screens.EditProfileScreen}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerBackVisible: false,
+        }}
       />
     </Stack.Navigator>
   );
