@@ -10,6 +10,8 @@ import AppNavigator from "./src/routes/AppNavigator";
 
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
+import { EditProfileScreen } from "./src/screens";
+import ImagePicker from "./ImagePicker";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -28,7 +30,7 @@ export default function App() {
       //   <DrawerStack />
       // </NavigationContainer>
       // <Screen>
-      //   <DatePicker />
+      //   <EditProfileScreen />
       // </Screen>
     );
   }
