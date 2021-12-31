@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
@@ -11,9 +11,16 @@ import AppNavigator from "./src/routes/AppNavigator";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
 import { EditProfileScreen } from "./src/screens";
-import ImagePicker from "./ImagePicker";
+import ImagePickerComp from "./src/components/ImagePicker";
+import { Image, Text } from "react-native";
 
 export default function App() {
+  // const [url, setUrl] = useState();
+
+  // console.log("====================================");
+  // console.log(url);
+  // console.log("====================================");
+
   const [loaded] = useFonts({
     calibri: require("./src/assets/fonts/calibri.ttf"),
     segoeui: require("./src/assets/fonts/segoeui.ttf"),
@@ -29,8 +36,12 @@ export default function App() {
       // <NavigationContainer>
       //   <DrawerStack />
       // </NavigationContainer>
+      // <EditProfileScreen />
       // <Screen>
-      //   <EditProfileScreen />
+      //   <ImagePickerComp getImageUrl={(url) => setUrl(url)}>
+      //     <Text>This is native</Text>
+      //   </ImagePickerComp>
+      //   <Image source={{ uri: url }} style={{ width: 100, height: 100 }} />
       // </Screen>
     );
   }
