@@ -29,6 +29,7 @@ const RootStack = () => {
         options={{
           headerShown: true,
           headerBackVisible: false,
+          title: "Edit Profile",
         }}
       />
     </Stack.Navigator>

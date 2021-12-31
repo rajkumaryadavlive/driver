@@ -7,6 +7,7 @@ import OTPTextInput from "react-native-otp-textinput";
 
 import AppButton from "../../components/AppButton";
 import * as colors from "../../constants/colors";
+
 import authApi from "../../api/auth";
 
 const OtpVerify = ({ navigation, route }) => {
@@ -19,14 +20,17 @@ const OtpVerify = ({ navigation, route }) => {
   const handleSubmit = async () => {
     const result = await authApi.verifyOTP(phoneNumber, otp);
     if (!result.ok) {
-      console.log(result);
+      console.log(result.data);
       return;
     } else {
-      const isProfileUpdated = result.data.isProfileUpdated;
       console.log(result.data);
+      const isProfileUpdated = result.data.data.isProfileUpdated;
+      const userToken = result.data.data.userToken;
+
       otpInput.current.clear();
       navigation.navigate(isProfileUpdated ? "Home" : "EditProfile", {
         number: phoneNumber,
+        userToken: userToken,
       });
     }
   };

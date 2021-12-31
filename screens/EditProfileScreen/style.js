@@ -29,8 +29,12 @@ export default StyleSheet.create({
     bottom: -2,
     right: -5,
     backgroundColor: colors.whiteColor,
+    borderRadius: hp(1),
   },
-
+  image: {
+    width: "100%",
+    height: "100%",
+  },
   imageView: {
     padding: wp(1),
     borderWidth: 2,
@@ -62,6 +66,7 @@ export default StyleSheet.create({
     height: hp(6.5),
     justifyContent: "center",
     width: wp(75),
+    padding: hp(1.5),
   },
   profileImage: {
     width: wp(35),
