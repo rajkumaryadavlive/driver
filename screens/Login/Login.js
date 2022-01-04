@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
 
   const handleSubmit = async (userContact) => {
     const phoneNumber = userContact.contactNumber;
-    const result = await authApi.login(phoneNumber, Platform.OS);
+    const result = await authApi.login(phoneNumber);
     if (!result.ok) {
       if (result.data) setError(result.data.error);
       else {

@@ -79,7 +79,7 @@ export default StyleSheet.create({
     marginTop: hp(2),
   },
   submitButton: {
-    width: wp(50),
+    width: wp(40),
   },
   textInput: {
     height: hp(6.5),

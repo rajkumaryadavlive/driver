@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
       "Phone number is not valid"
     ),
-  email: Yup.string().email().required().label("Email-id"),
+  email: Yup.string().email().label("Email-id"),
   // password: Yup.string().required().min(4).max(20).label("Password"),
   // cpassword: Yup.string().oneOf(
   //   [Yup.ref("password"), null],
@@ -41,8 +41,8 @@ const SignUp = ({ navigation, route }) => {
   const [genderError, setGenderError] = useState(false);
   const [dobError, setDOBError] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [show, setShow] = useState(false);
 
   let dd = String(date.getDate()).padStart(2, "0");
   let mm = String(date.getMonth() + 1).padStart(2, "0");

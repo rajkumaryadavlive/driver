@@ -7,6 +7,10 @@ import {
 } from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 
+import io from "socket.io-client";
+
+import useLocation from "../../hooks/useLocation";
+
 import styles from "./style";
 import GOOGLE_API_KEY from "../../constants/apikey";
 import { hp, wp } from "../../constants/dimensions";
@@ -33,8 +37,8 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const mapView = useRef();
 
   const [region, setRegion] = useState({
-    latitude: userLoc.latitude,
-    longitude: userLoc.longitude,
+    latitude: 0,
+    longitude: 0,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
@@ -47,8 +51,37 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const [distance, setDistance] = useState("");
   const [routeArr, setRouteArr] = useState([]);
 
+  const socket = useRef();
+  const SOCKET_URL = "http://3.110.149.0:3000";
+
+  const location = useLocation();
+
   useEffect(() => {
     getUser();
+    let interval;
+    socket.current = io(SOCKET_URL, {
+      transports: ["websocket"],
+      jsonp: false,
+    });
+
+    socket.current.on("connect", () => {
+      console.log("====================================");
+      console.log("connected");
+      console.log("====================================");
+      // socket.current.on("get-driver-location", async function (data) {
+      //   console.log("====================================");
+      //   console.log(data);
+      //   console.log("====================================");
+      // });
+      interval = setInterval(() => {
+        socket.current.emit("update-driver-location", {
+          lat: region.latitude,
+          long: region.longitude,
+          id: "61bc1c5190e208be7a5a70eb",
+        });
+      }, 5000);
+    });
+    return () => clearInterval(interval);
   }, []);
 
   const getUser = async () => {

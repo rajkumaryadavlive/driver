@@ -4,6 +4,7 @@ import { Splash } from "../screens";
 import * as Screens from "../screens";
 
 import DrawerStack from "./DrawerStack";
+import MediaSelectionScreen from "../components/MediaSelectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const RootStack = () => {
           title: "Edit Profile",
         }}
       />
+      <Stack.Screen name="MediaScreen" component={MediaSelectionScreen} />
     </Stack.Navigator>
   );
 };
