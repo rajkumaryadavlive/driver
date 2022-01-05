@@ -55,34 +55,62 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const SOCKET_URL = "http://3.110.149.0:3000";
 
   const location = useLocation();
+  const driverId = "61bc1c5190e208be7a5a70eb";
 
   useEffect(() => {
     getUser();
-    let interval;
+  }, []);
+
+  useEffect(() => {
     socket.current = io(SOCKET_URL, {
       transports: ["websocket"],
       jsonp: false,
+      query: `id=${driverId}`,
+    });
+    socket.current.on("connect", () => {
+      console.log("Connected");
+      socket.current.emit("join", {
+        id: driverId,
+      });
     });
 
-    socket.current.on("connect", () => {
-      console.log("====================================");
-      console.log("connected");
-      console.log("====================================");
-      // socket.current.on("get-driver-location", async function (data) {
-      //   console.log("====================================");
-      //   console.log(data);
-      //   console.log("====================================");
-      // });
-      interval = setInterval(() => {
-        socket.current.emit("update-driver-location", {
-          lat: region.latitude,
-          long: region.longitude,
-          id: "61bc1c5190e208be7a5a70eb",
-        });
-      }, 5000);
-    });
+    const interval = setInterval(() => {
+      getUser();
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  // useEffect(() => {
+  //   getUser();
+  //   let interval;
+  //   socket.current = io(SOCKET_URL, {
+  //     transports: ["websocket"],
+  //     jsonp: false,
+  //   });
+  //   const driverId = "61bc1c5190e208be7a5a70eb";
+  //   socket.current.on("connect", () => {
+  //     console.log("====================================");
+  //     console.log("connected");
+  //     console.log("====================================");
+  //     socket.current.emit("join", {
+  //       id: driverId,
+  //     });
+  //     // socket.current.on("get-driver-location", async function (data) {
+  //     //   console.log("====================================");
+  //     //   console.log(data);
+  //     //   console.log("====================================");
+  //     // });
+  //     interval = setInterval(() => {
+  //       console.log("This is log", region);
+  //       socket.current.emit("update-driver-location", {
+  //         lat: region.latitude,
+  //         long: region.longitude,
+  //         id: driverId,
+  //       });
+  //     }, 5000);
+  //   });
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const getUser = async () => {
     let { status } = await requestForegroundPermissionsAsync();
@@ -91,14 +119,26 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
       return;
     }
     let location = await getCurrentPositionAsync();
-    let currentLocation = {
+    setRegion({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       longitudeDelta: LONGITUDE_DELTA,
       latitudeDelta: LATITUDE_DELTA,
-    };
-    setRegion(currentLocation);
-    mapView.current.animateToRegion(currentLocation, 1000);
+    });
+    // console.log(currentLocation);
+
+    console.log(
+      "This is log",
+      location.coords.latitude,
+      location.coords.longitude
+    );
+    socket.current.emit("update-driver-location", {
+      lat: location.coords.latitude,
+      long: location.coords.longitude,
+      id: driverId,
+    });
+
+    mapView.current.animateToRegion(region, 1000);
   };
 
   const zoomIn = () => {
