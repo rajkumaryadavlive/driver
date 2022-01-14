@@ -23,6 +23,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: hp(1),
+    overflow: "hidden",
   },
   idIconContainer: {
     position: "absolute",

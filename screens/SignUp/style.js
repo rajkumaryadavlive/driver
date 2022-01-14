@@ -51,13 +51,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   textInput: {
-    height: hp(6.5),
-    width: wp(80),
+    width: wp(60),
     color: "black",
-    borderColor: colors.FONT_GREY,
-    borderWidth: 2,
     borderRadius: wp(50),
-    paddingLeft: hp(4),
+    padding: hp(1),
+    marginLeft: hp(4),
+    // backgroundColor: "grey",
     justifyContent: "center",
   },
 });

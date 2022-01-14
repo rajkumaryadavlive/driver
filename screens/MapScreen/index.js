@@ -6,10 +6,10 @@ import {
   getCurrentPositionAsync,
 } from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
-
 import io from "socket.io-client";
 
-import useLocation from "../../hooks/useLocation";
+import profileApi from "../../api/profile";
+import useAuth from "../../hooks/useAuth";
 
 import styles from "./style";
 import GOOGLE_API_KEY from "../../constants/apikey";
@@ -39,11 +39,17 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const [region, setRegion] = useState({
     latitude: 0,
     longitude: 0,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
   });
+
+  const [currentLoc, setCurrentLoc] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+
   const [errorMsg, setErrorMsg] = useState(null);
-  const [switchValue, setSwitchValue] = useState(false);
+  const [switchValue, setSwitchValue] = useState();
 
   const [userStatus, setUserStatus] = useState("");
   const [onARideStatus, setonARideStatus] = useState("");
@@ -54,11 +60,12 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   const socket = useRef();
   const SOCKET_URL = "http://3.110.149.0:3000";
 
-  const location = useLocation();
   const driverId = "61bc1c5190e208be7a5a70eb";
+  const { token } = useAuth();
 
   useEffect(() => {
     getUser();
+    getStatus(token);
   }, []);
 
   useEffect(() => {
@@ -72,45 +79,48 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
       socket.current.emit("join", {
         id: driverId,
       });
+      socket.current.on("order-pickup-request", async function (data) {
+        console.log("====================================");
+        console.log(data);
+        console.log("====================================");
+      });
     });
 
     const interval = setInterval(() => {
-      getUser();
+      getCurrentPos();
     }, 5000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
-  // useEffect(() => {
-  //   getUser();
-  //   let interval;
-  //   socket.current = io(SOCKET_URL, {
-  //     transports: ["websocket"],
-  //     jsonp: false,
-  //   });
-  //   const driverId = "61bc1c5190e208be7a5a70eb";
-  //   socket.current.on("connect", () => {
-  //     console.log("====================================");
-  //     console.log("connected");
-  //     console.log("====================================");
-  //     socket.current.emit("join", {
-  //       id: driverId,
-  //     });
-  //     // socket.current.on("get-driver-location", async function (data) {
-  //     //   console.log("====================================");
-  //     //   console.log(data);
-  //     //   console.log("====================================");
-  //     // });
-  //     interval = setInterval(() => {
-  //       console.log("This is log", region);
-  //       socket.current.emit("update-driver-location", {
-  //         lat: region.latitude,
-  //         long: region.longitude,
-  //         id: driverId,
-  //       });
-  //     }, 5000);
-  //   });
-  //   return () => clearInterval(interval);
-  // }, []);
+  const getStatus = async (token) => {
+    const result = await profileApi.getDriverStatus(token);
+    const status = result.data.data.status;
+    console.log("====================================");
+    console.log(status);
+    console.log("====================================");
+    setSwitchValue(status === "active" ? true : false);
+  };
+
+  const getCurrentPos = async () => {
+    let location = await getCurrentPositionAsync();
+    // console.log("====================================");
+    // console.log(
+    //   "This is log from get Pos ",
+    //   location.coords.latitude,
+    //   location.coords.longitude
+    // );
+    // console.log("====================================");
+    let latitude = location.coords.latitude;
+    let longitude = location.coords.longitude;
+    setCurrentLoc({ latitude, longitude });
+    socket.current.emit("update-driver-location", {
+      lat: latitude,
+      long: longitude,
+      id: driverId,
+    });
+  };
 
   const getUser = async () => {
     let { status } = await requestForegroundPermissionsAsync();
@@ -122,20 +132,8 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
     setRegion({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      longitudeDelta: LONGITUDE_DELTA,
-      latitudeDelta: LATITUDE_DELTA,
-    });
-    // console.log(currentLocation);
-
-    console.log(
-      "This is log",
-      location.coords.latitude,
-      location.coords.longitude
-    );
-    socket.current.emit("update-driver-location", {
-      lat: location.coords.latitude,
-      long: location.coords.longitude,
-      id: driverId,
+      longitudeDelta: region.longitudeDelta,
+      latitudeDelta: region.latitudeDelta,
     });
 
     mapView.current.animateToRegion(region, 1000);
@@ -149,7 +147,12 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
       longitudeDelta: region.longitudeDelta / 2,
     };
 
-    setRegion(newRegion);
+    setRegion({
+      latitude: newRegion.latitude,
+      longitude: newRegion.longitude,
+      latitudeDelta: newRegion.latitudeDelta,
+      longitudeDelta: newRegion.longitudeDelta,
+    });
     mapView.current.animateToRegion(newRegion, 1000);
   };
   const zoomOut = () => {
@@ -180,6 +183,17 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   const goToOrderStarted = () => {
+    // socket.current.on("order-pickup-request", async function (data) {
+    //   console.log("====================================");
+    //   console.log(data);
+    //   console.log("====================================");
+    // });
+    socket.current.emit("accept-request-pickup", {
+      driverId,
+      orderId: "134654646",
+      lat: currentLoc.latitude,
+      long: currentLoc.longitude,
+    });
     setUserStatus("orderStarted");
   };
 
@@ -199,10 +213,26 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   //Function to search for a customer.
-  const searchCustomer = (val) => {
+  const searchCustomer = async (val) => {
     setSwitchValue(val);
-    if (val) setUserStatus("ready");
-    if (!val) setUserStatus("");
+    if (val) {
+      const result = await profileApi.updateDriverStatus(driverId, "active");
+      console.log("====================================");
+      console.log("This is switch value", result.data);
+      console.log("====================================");
+      setUserStatus("ready");
+      socket.current.on("order-pickup-request", async function (data) {
+        console.log("====================================");
+        console.log("this is from order pickup request", data);
+        console.log("====================================");
+      });
+    } else {
+      const result = await profileApi.updateDriverStatus(driverId, "inactive");
+      console.log("====================================");
+      console.log(result.data);
+      console.log("====================================");
+      setUserStatus("");
+    }
   };
 
   const ideal = () => {
@@ -314,6 +344,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
         showsUserLocation={true}
         showsMyLocationButton={false}
         followsUserLocation={true}
+        onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
       >
         <MapViewDirections
           lineDashPattern={[0]}

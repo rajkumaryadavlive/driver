@@ -6,7 +6,8 @@ import {
   Text,
   BackHandler,
   FlatList,
-  TouchableWithoutFeedback,
+  Alert,
+  ScrollView,
 } from "react-native";
 import { EvilIcons as Icon1, AntDesign as Icon2 } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -26,14 +27,16 @@ import AppButton from "../../components/AppButton";
 import { hp, wp } from "../../constants/dimensions";
 import ImagePickerComp from "../../components/ImagePicker";
 
+import useAuth from "../../hooks/useAuth";
 import profileApi from "../../api/profile";
 import listApi from "../../api/vehicle";
 import CustomActivityIndicator from "../../components/CustomActivityIndicator";
 import CustomImageList from "../../components/CustomImageList";
+import MediaSelectionScreen from "../../components/MediaSelectionScreen";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3).required().label("Name"),
-  phoneNumber: Yup.string()
+  phone: Yup.string()
     .required()
     .label("Phone No.")
     .min(10, "Phone number is not valid")
@@ -55,11 +58,6 @@ const EditProfileScreen = (props) => {
   const [vehicleTypeError, setVehicleTypeError] = useState(false);
 
   const [profileImg, setProfileImg] = useState(null);
-  const [pucImg, setPucImg] = useState(null);
-  const [insuranceImg, setInsuranceImg] = useState(null);
-
-  const [frontImage, setFrontImage] = useState(null);
-  const [backImage, setBackImage] = useState(null);
 
   const [documentFrontImg, setDocumentFrontImg] = useState(null);
   const [documentBackImg, setDocumentBackImg] = useState(null);
@@ -88,33 +86,18 @@ const EditProfileScreen = (props) => {
   const [insEndTouched, setInsEndTouched] = useState(false);
 
   const [pucImages, setPucImages] = useState([]);
-  const [insuraceImages, setInsuraceImages] = useState([]);
+  const [insuranceImages, setInsuranceImages] = useState([]);
   const [vehicleImages, setVehicleImages] = useState([]);
 
-  const userToken = route.params.userToken;
+  const [vehicleId, setVehicleId] = useState();
 
-  const selectedImages = route.params.data;
-  const imageType = route.params.imgType;
-  if (selectedImages && imageType) {
-    switch (route.params.type) {
-      case "puc":
-        setPucImages([...selectedImages]);
-      case "insurance":
-        setInsuraceImages([...selectedImages]);
-      case "vehicle":
-        setVehicleImages([...selectedImages]);
-    }
-  }
+  // const userToken = route.params.userToken;
 
   console.log("====================================");
-  console.log("This is selected images", selectedImages);
+  console.log(userData);
   console.log("====================================");
 
-  // const selectedImages = route.params.data;
-
-  console.log("====================================");
-  console.log("This is the user data ", userData);
-  console.log("====================================");
+  const { token: userToken } = useAuth();
 
   const getDateFormat = (date) => {
     let dd = String(date.getDate()).padStart(2, "0");
@@ -122,68 +105,41 @@ const EditProfileScreen = (props) => {
     let yyyy = date.getFullYear();
 
     let newDate = yyyy + "-" + mm + "-" + dd;
-    // console.log(newDate);
 
     let today = new Date().getFullYear();
     let age = today - yyyy;
-    // console.log(age);
 
     return { newDate, age };
   };
 
   const initialValues = {
     name: "",
-    phoneNumber: "",
+    phone: "",
     email: "",
-    dob: "",
-    fuelType: "",
-    gender: "",
     licenseNumber: "",
     mfgYear: "",
     vehicleModel: "",
-    password: "",
-    profile: "",
-    serviceId: "",
     vehicleManufacturer: "",
     vehicleName: "",
-    vehicleYear: "",
-    vehicleColor: "",
     vehiclePlateNumber: "",
-    backImage: "",
     colour: "",
-    frontImage: "",
-    fuelType: "",
-    insuranceEndDate: "",
-    insuranceStartDate: "",
-    insuranceImages: [],
     insuranceNumber: "",
-    pucImages: [],
-    vehicleImages: [],
   };
 
   const newData = {
-    backImage: userData.backImage,
-    colour: userData.colour,
-    dob: userData.dob,
+    name: userData.name,
+    phone: userData.phone,
     email: userData.email,
-    frontImage: userData.frontImage,
-    fuelType: userData.fuelType,
-    insuranceEndDate: userData.insuranceEndDate,
-    insuranceNumber: userData.insuranceNumber,
-    insuranceStartDate: userData.insuranceStartDate,
     licenseNumber: userData.licenseNumber,
     mfgYear: userData.mfgYear,
-    name: userData.name,
-    password: userData.password,
-    phoneNumber: userData.phone,
     vehicleModel: userData.modelName,
-    serviceId: userData.serviceId,
     vehicleManufacturer: userData.vehicleManufacturer,
     vehicleName: userData.vehicleName,
-    // uplineCode: "",
-    vehicleYear: "",
-    // vehicleSeats: "",
     vehiclePlateNumber: userData.vehicleNumber,
+    colour: userData.colour,
+    insuranceNumber: userData.insuranceNumber,
+    // uplineCode: "",
+    // vehicleSeats: "",
   };
 
   const dobMode = () => {
@@ -206,12 +162,12 @@ const EditProfileScreen = (props) => {
     setDobDate(currentDate);
   };
   const onInsStrChange = (event, selectedDate) => {
-    const currentDate = selectedDate || dobDate;
+    const currentDate = selectedDate || insStrDate;
     setInsStrShow(false);
     setInsStrDate(currentDate);
   };
   const onInsEndChange = (event, selectedDate) => {
-    const currentDate = selectedDate || dobDate;
+    const currentDate = selectedDate || insEndDate;
     setInsEndShow(false);
     setInsEndDate(currentDate);
   };
@@ -219,6 +175,45 @@ const EditProfileScreen = (props) => {
   const { newDate: dobNewDate, age: dobAge } = getDateFormat(dobDate);
   const { newDate: newInsStrDate } = getDateFormat(insStrDate);
   const { newDate: newInsEndDate } = getDateFormat(insEndDate);
+
+  const removePucImage = (id) => {
+    Alert.alert("Delete", "Are you sure you want to delete this image", [
+      {
+        text: "Yes",
+        onPress: () => {
+          const filteredArr = pucImages.filter((image) => image.id !== id);
+          setPucImages([...filteredArr]);
+        },
+      },
+      { text: "No" },
+    ]);
+  };
+  const removeInsImage = (id) => {
+    Alert.alert("Delete", "Are you sure you want to delete this image", [
+      {
+        text: "Yes",
+        onPress: () => {
+          const filteredArr = insuranceImages.filter(
+            (image) => image.id !== id
+          );
+          setInsuranceImages([...filteredArr]);
+        },
+      },
+      { text: "No" },
+    ]);
+  };
+  const removeVehicleImage = (id) => {
+    Alert.alert("Delete", "Are you sure you want to delete this image", [
+      {
+        text: "Yes",
+        onPress: () => {
+          const filteredArr = vehicleImages.filter((image) => image.id !== id);
+          setVehicleImages([...filteredArr]);
+        },
+      },
+      { text: "No" },
+    ]);
+  };
 
   const FieldTitle = ({ title, required, starColor = "grey" }) => {
     return (
@@ -244,6 +239,30 @@ const EditProfileScreen = (props) => {
     );
   };
 
+  const ImageArrayComp = ({ fieldTitle, children }) => {
+    return (
+      <View style={styles.photoContainer}>
+        <View>
+          <FieldTitle title={fieldTitle} />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{
+              width: wp(85),
+            }}
+            contentContainerStyle={{
+              paddingHorizontal: 2,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {children}
+          </ScrollView>
+        </View>
+      </View>
+    );
+  };
+
   const getProfileDetails = async () => {
     const result = await profileApi.getDriverDetail(userToken);
     if (!result.ok) {
@@ -256,35 +275,100 @@ const EditProfileScreen = (props) => {
         dob,
         frontimage: frontImg,
         backimage: backImg,
+        pucImages: pucImgs,
+        insuranceImages: insImgs,
+        vehicleImages: vehImgs,
+        fuelType: fuelT,
+        insuranceStartDate: insStrD,
+        insuranceEndDate: insEndD,
+        vehicleTypeId,
+        profile,
       } = result.data.data;
+
+      setProfileImg(profile);
       setGender(gender);
       setDobDate(new Date(dob));
       setDocumentFrontImg(frontImg);
       setDocumentBackImg(backImg);
-      setLoaded(false);
+      setPucImages([...pucImgs]);
+      setInsuranceImages([...insImgs]);
+      setVehicleImages([...vehImgs]);
+      setFuelType(fuelT);
+      setVehicleId(vehicleTypeId);
+      insStrD === ""
+        ? setInsStrDate(new Date())
+        : setInsStrDate(new Date(insStrD));
+      insEndD === ""
+        ? setInsStrDate(new Date())
+        : setInsEndDate(new Date(insEndD));
     }
+    setLoaded(false);
   };
 
   const getVehicleList = async () => {
-    const result = await listApi.getVehicleTypeList(userToken);
-    if (!result.ok) {
-      console.log(result.data.error);
-    } else {
-      // console.log(result.data);
-      setListData([...result.data.data.list]);
+    try {
+      const result = await listApi.getVehicleTypeList(userToken);
+      if (!result.ok) {
+        console.log("This is vehicle data error", result.data.message);
+      } else {
+        const list = result.data.data.list;
+        console.log("====================================");
+
+        setListData([...list]);
+      }
+    } catch (error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
     }
   };
 
-  const handleSubmit = (userInfo) => {
+  const getVehicleType = () => {
+    listData
+      .filter((val) => vehicleId === val._id)
+      .map((vehicleType) => {
+        setSelectedVehicle(vehicleType.type);
+      });
+  };
+
+  const handleSubmit = async (userInfo) => {
     if (gender === null) return setGenderError(true);
     if (selectedVehicle === null) return setVehicleTypeError(true);
     if (dobAge < 18) return setDobError(true);
     if (fuelType === null) return setFuelTypeError(true);
-    // console.log(userInfo);
+
+    const data = {
+      ...userInfo,
+      gender,
+      dob: dobNewDate,
+      newInsStrDate,
+      newInsEndDate,
+      pucImages,
+      insuranceImages,
+      vehicleImages,
+      frontimage: documentFrontImg,
+      backimage: documentBackImg,
+      fuelType,
+      vehicleTypeId: vehicleId,
+      profileimage: profileImg,
+    };
     console.log("====================================");
-    console.log("this is handle submit", userInfo);
+    console.log("this is handle submit", data);
     console.log("====================================");
-    navigation.navigate("Drawer");
+    const result = await profileApi.editProfileDriver(data, userToken);
+    // console.log("This is the result", result);
+    if (!result.ok) {
+      console.log("====================================");
+      console.log("Could not update..", result);
+      alert("Error while updating...");
+      console.log("====================================");
+    } else {
+      console.log("====================================");
+      console.log(result.data);
+      alert("Updated Successfully...");
+      console.log("====================================");
+      navigation.navigate(userData.isVerified ? "Drawer" : "Verification");
+    }
   };
 
   useEffect(() => {
@@ -302,6 +386,10 @@ const EditProfileScreen = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    getVehicleType();
+  }, [listData]);
+
   return (
     <>
       <AppForm
@@ -316,17 +404,13 @@ const EditProfileScreen = (props) => {
             <KeyboardAwareScrollView>
               <View style={styles.imageView}>
                 <Image
-                  source={
-                    profileImg !== null
-                      ? { uri: profileImg }
-                      : userData.profile
-                      ? { uri: userData.profile }
-                      : null
-                  }
+                  source={{ uri: profileImg }}
                   style={styles.profileImage}
                 />
                 <ImagePickerComp
-                  getImageUrl={(url) => setProfileImg(url)}
+                  getImageUrl={(url) => {
+                    setProfileImg(url);
+                  }}
                   componentStyle={styles.iconContainer}
                 >
                   <Icon1 name="camera" size={30} color={colors.primaryColor} />
@@ -343,7 +427,7 @@ const EditProfileScreen = (props) => {
                 />
                 <FieldTitle title="Phone Number" required />
                 <AppFormField
-                  name="phoneNumber"
+                  name="phone"
                   placeholder="Enter phone number"
                   editable={false}
                   autoCorrect={false}
@@ -456,6 +540,9 @@ const EditProfileScreen = (props) => {
                         selectedValue={selectedVehicle}
                         onValueChange={(itemValue, itemIndex) => {
                           setSelectedVehicle(itemValue);
+                          listData
+                            .filter((val) => itemValue === val.type)
+                            .map((data) => setVehicleId(data._id));
                         }}
                       >
                         <Picker.Item label="Select Type..." value={null} />
@@ -482,7 +569,7 @@ const EditProfileScreen = (props) => {
                       autoCapitalize="none"
                       style={styles.textInput}
                     />
-                    <FieldTitle title="Vehicle Year" />
+                    {/* <FieldTitle title="Vehicle Year" />
                     <AppFormField
                       name="vehicleYear"
                       placeholder="Enter Vehicle Year"
@@ -491,7 +578,7 @@ const EditProfileScreen = (props) => {
                       keyboardType="numeric"
                       trim
                       style={styles.textInput}
-                    />
+                    /> */}
                     {/* <FieldTitle title="Vehicle Seats" />
             <AppFormField
               name="vehicleSeats"
@@ -537,9 +624,9 @@ const EditProfileScreen = (props) => {
                         }}
                       >
                         <Picker.Item label="Select type" value={null} />
-                        <Picker.Item label="Petrol" value="Petrol" />
-                        <Picker.Item label="Diesel" value="Diesel" />
-                        <Picker.Item label="CNG" value="CNG" />
+                        <Picker.Item label="Petrol" value="petrol" />
+                        <Picker.Item label="Diesel" value="diesel" />
+                        <Picker.Item label="CNG" value="cng" />
                       </Picker>
                     </View>
                     {fuelType === null && (
@@ -566,7 +653,7 @@ const EditProfileScreen = (props) => {
                     />
                     <FieldTitle title="Insurance Number" />
                     <AppFormField
-                      name="insuranceNo"
+                      name="insuranceNumber"
                       placeholder="Enter Insurance Number"
                       autoCorrect={false}
                       autoCapitalize="none"
@@ -577,11 +664,11 @@ const EditProfileScreen = (props) => {
                       <View style={styles.pickerContainer}>
                         {insStrShow ? (
                           <DateTimePicker
-                            testID="dateTimePicker"
+                            testID="dateTimePicker2"
                             value={insStrDate}
                             mode="date"
                             onChange={onInsStrChange}
-                            maximumDate={new Date()}
+                            // maximumDate={new Date()}
                             minimumDate={new Date(2054)}
                           />
                         ) : (
@@ -604,12 +691,12 @@ const EditProfileScreen = (props) => {
                       <View style={styles.pickerContainer}>
                         {insEndShow ? (
                           <DateTimePicker
-                            testID="dateTimePicker"
+                            testID="dateTimePicker3"
                             value={insEndDate}
                             mode="date"
                             onChange={onInsEndChange}
-                            maximumDate={new Date()}
-                            minimumDate={new Date(2054)}
+                            // maximumDate={new Date()}
+                            minimumDate={new Date()}
                           />
                         ) : (
                           <Text style={{ paddingLeft: 10, color: "black" }}>
@@ -626,35 +713,35 @@ const EditProfileScreen = (props) => {
                     />
                   )} */}
                     </TouchableOpacity>
-                    <View style={styles.photoContainer}>
-                      <View>
-                        <FieldTitle title="PUC " />
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.navigate("MediaScreen", {
-                              type: "puc",
-                            })
-                          }
-                        >
-                          <Text>OK</Text>
-                        </TouchableOpacity>
-                        {/* <ImagePickerComp getImageUrl={(url) => setPucImg(url)}>
-                      <IdComponent image={pucImg} />
-                    </ImagePickerComp> */}
-                      </View>
-                      <View>
-                        <FieldTitle title="Insurance" />
-                        <ImagePickerComp
-                          getImageUrl={(url) => setInsuranceImg(url)}
-                        >
-                          <IdComponent image={insuranceImg} />
-                        </ImagePickerComp>
-                      </View>
-                    </View>
+                    <ImageArrayComp fieldTitle="PUC">
+                      <CustomImageList
+                        data={pucImages}
+                        removeImage={removePucImage}
+                      />
+                      <MediaSelectionScreen
+                        getImageList={(imgArr) =>
+                          setPucImages([...pucImages, ...imgArr])
+                        }
+                      />
+                    </ImageArrayComp>
+                    <ImageArrayComp fieldTitle="Insurance">
+                      <CustomImageList
+                        data={insuranceImages}
+                        removeImage={removeInsImage}
+                      />
+                      <MediaSelectionScreen
+                        getImageList={(imgArr) =>
+                          setInsuranceImages([...insuranceImages, ...imgArr])
+                        }
+                      />
+                    </ImageArrayComp>
+
                     <FieldTitle title="Document Images (Front & Back)" />
                     <View style={styles.photoContainer}>
                       <ImagePickerComp
-                        getImageUrl={(url) => setDocumentFrontImg(url)}
+                        getImageUrl={(url) => {
+                          setDocumentFrontImg(url);
+                        }}
                       >
                         <IdComponent image={documentFrontImg} />
                       </ImagePickerComp>
@@ -664,17 +751,17 @@ const EditProfileScreen = (props) => {
                         <IdComponent image={documentBackImg} />
                       </ImagePickerComp>
                     </View>
-                    <FieldTitle title="Vehicle Image (Front & Back)" />
-                    <View style={styles.photoContainer}>
-                      <ImagePickerComp
-                        getImageUrl={(url) => setFrontImage(url)}
-                      >
-                        <IdComponent image={frontImage} />
-                      </ImagePickerComp>
-                      <ImagePickerComp getImageUrl={(url) => setBackImage(url)}>
-                        <IdComponent image={backImage} />
-                      </ImagePickerComp>
-                    </View>
+                    <ImageArrayComp fieldTitle="Vehicle Images">
+                      <CustomImageList
+                        data={vehicleImages}
+                        removeImage={removeVehicleImage}
+                      />
+                      <MediaSelectionScreen
+                        getImageList={(imgArr) =>
+                          setVehicleImages([...vehicleImages, ...imgArr])
+                        }
+                      />
+                    </ImageArrayComp>
                   </View>
                 </>
               }

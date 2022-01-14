@@ -9,6 +9,7 @@ import AppButton from "../../components/AppButton";
 import * as colors from "../../constants/colors";
 
 import authApi from "../../api/auth";
+import useAuth from "../../hooks/useAuth";
 
 const OtpVerify = ({ navigation, route }) => {
   const [seconds, setSeconds] = useState(30);
@@ -16,6 +17,7 @@ const OtpVerify = ({ navigation, route }) => {
 
   const phoneNumber = route.params.phoneNumber;
   const otpInput = useRef(null);
+  const { getUserToken } = useAuth();
 
   const handleSubmit = async () => {
     const result = await authApi.verifyOTP(phoneNumber, otp);
@@ -26,9 +28,9 @@ const OtpVerify = ({ navigation, route }) => {
       console.log(result.data);
       const isProfileUpdated = result.data.data.isProfileUpdated;
       const userToken = result.data.data.userToken;
-
+      getUserToken(userToken);
       otpInput.current.clear();
-      navigation.navigate(isProfileUpdated ? "Home" : "EditProfile", {
+      navigation.navigate(isProfileUpdated ? "Drawer" : "EditProfile", {
         number: phoneNumber,
         userToken: userToken,
       });

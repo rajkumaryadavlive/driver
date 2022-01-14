@@ -28,6 +28,7 @@ import SignUp from "./SignUp";
 import ReceiptScreen from "./ReceiptScreen";
 import SummaryScreen from "./SummaryScreen";
 import RatePassengerScreen from "./RatePassengerScreen";
+import VerificationScreen from "./VerificationScreen";
 export {
   Login,
   Home,
@@ -59,4 +60,5 @@ export {
   ReceiptScreen,
   SummaryScreen,
   RatePassengerScreen,
+  VerificationScreen,
 };

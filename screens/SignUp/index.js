@@ -154,7 +154,7 @@ const SignUp = ({ navigation, route }) => {
                 trim
                 style={styles.textInput}
               />
-
+              {/* 
               <FieldTitle title="Gender" />
               <View style={[styles.textInput, { paddingLeft: hp(2) }]}>
                 <Picker
@@ -199,7 +199,7 @@ const SignUp = ({ navigation, route }) => {
                     visible={dobError}
                   />
                 )}
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <SubmitButton
                 title="SIGN UP"
                 onSubmit={handleSubmit}

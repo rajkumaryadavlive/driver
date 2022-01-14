@@ -33,7 +33,10 @@ const RootStack = () => {
           title: "Edit Profile",
         }}
       />
-      <Stack.Screen name="MediaScreen" component={MediaSelectionScreen} />
+      <Stack.Screen
+        name="Verification"
+        component={Screens.VerificationScreen}
+      />
     </Stack.Navigator>
   );
 };
