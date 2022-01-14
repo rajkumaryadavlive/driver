@@ -15,7 +15,7 @@ export default function ImagePickerComp({
       quality: 1,
     });
 
-    console.log(result);
+    console.log("This is result from image picker", result);
     getImageUrl(result.uri);
   };
 

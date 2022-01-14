@@ -1,18 +1,14 @@
-import React, { useMemo } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Modal, TouchableOpacity, View } from "react-native";
 import { AssetsSelector } from "expo-images-picker";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 
-import Screen from "../components/Screen";
 import * as colors from "../constants/colors";
+import { wp } from "../constants/dimensions";
 
 const MediaSelectionScreen = (props) => {
-  const { navigation, route } = props;
-
-  const imgType = route.params.type;
-  console.log("====================================");
-  console.log(imgType);
-  console.log("====================================");
+  const { getImageList } = props;
+  const [modalVisible, setModalVisible] = useState(false);
 
   const _textStyle = {
     color: "white",
@@ -42,7 +38,7 @@ const MediaSelectionScreen = (props) => {
       initialLoad: 100,
       assetsType: ["photo"],
       minSelection: 1,
-      maxSelection: 3,
+      maxSelection: 5,
       portraitCols: 3,
       landscapeCols: 3,
     }),
@@ -71,10 +67,12 @@ const MediaSelectionScreen = (props) => {
       buttonTextStyle: _textStyle,
       buttonStyle: _buttonStyle,
       onBack: () => {
-        navigation.goBack();
+        setModalVisible(false);
       },
-      onSuccess: (selectedImages) =>
-        navigation.navigate("EditProfile", { data: selectedImages }),
+      onSuccess: (selectedImages) => {
+        getImageList(selectedImages);
+        setModalVisible(false);
+      },
     }),
     []
   );
@@ -103,23 +101,37 @@ const MediaSelectionScreen = (props) => {
   );
 
   return (
-    <Screen>
-      <View style={styles.container}>
+    <View>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View
+          style={{
+            width: wp(30),
+            height: wp(30),
+            justifyContent: "center",
+            alignItems: "center",
+            borderWidth: 2,
+            borderRadius: wp(1),
+            borderColor: colors.primaryColor,
+            borderStyle: "dashed",
+          }}
+        >
+          <AntDesign name="plus" size={wp(10)} color={colors.primaryColor} />
+        </View>
+      </TouchableOpacity>
+      <Modal
+        onRequestClose={() => setModalVisible(false)}
+        animationType="slide"
+        visible={modalVisible}
+      >
         <AssetsSelector
           Settings={widgetSettings}
           Errors={widgetErrors}
           Styles={widgetStyles}
           Navigator={widgetNavigator}
         />
-      </View>
-    </Screen>
+      </Modal>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default MediaSelectionScreen;

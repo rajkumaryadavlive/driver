@@ -13,6 +13,8 @@ const AppTextInput = ({
   rightIconStyle,
   leftIconSize = 25,
   rightIconSize = 25,
+  onLeftIconPress,
+  onRightIconPress,
   leftIconColor = colors.FONT_GREY,
   rightIconColor = colors.FONT_GREY,
   ...otherProps
@@ -24,6 +26,7 @@ const AppTextInput = ({
           name={leftIcon}
           size={leftIconSize}
           color={leftIconColor}
+          onPres={onLeftIconPress}
           style={[styles.leftIcon, leftIconStyle]}
         />
       )}
@@ -37,6 +40,7 @@ const AppTextInput = ({
           name={rightIcon}
           size={rightIconSize}
           color={rightIconColor}
+          onPress={onRightIconPress}
           style={[styles.rightIcon, rightIconStyle]}
         />
       )}
@@ -49,20 +53,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.whiteColor,
     borderRadius: hp(20),
     flexDirection: "row",
-    // alignItems: "center",
-    // padding: 10,
-    // marginVertical: 10,
+    alignItems: "center",
+    borderWidth: 1,
   },
   leftIcon: {
-    marginRight: wp(5),
-    marginTop: hp(1),
+    marginLeft: wp(5),
   },
   rightIcon: {
-    marginLeft: wp(3),
-    marginTop: hp(1),
+    marginRight: wp(5),
   },
   text: {
-    fontSize: 18,
     color: colors.blackColor,
   },
 });

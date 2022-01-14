@@ -13,27 +13,28 @@ const CustomImageList = ({ data = [], removeImage, ...otherProps }) => {
   const flatlist = useRef();
 
   const renderImageList = ({ item, index }) => {
+    console.log("====================================");
+    console.log(item);
+    console.log("====================================");
     return (
       <TouchableOpacity onPress={() => removeImage(item.id)}>
-        <View key={item.albumId} style={styles.imageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+        <View key={item.uri} style={styles.imageContainer}>
+          <Image source={{ uri: item.uri }} style={styles.image} />
         </View>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        horizontal
-        ref={flatlist}
-        onContentSizeChange={() => flatlist.current.scrollToEnd()}
-        renderItem={renderImageList}
-        {...otherProps}
-      />
-    </View>
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item.uri}
+      horizontal
+      ref={flatlist}
+      onContentSizeChange={() => flatlist.current.scrollToEnd()}
+      renderItem={renderImageList}
+      {...otherProps}
+    />
   );
 };
 
