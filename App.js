@@ -11,10 +11,15 @@ import AppNavigator from "./src/routes/AppNavigator";
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
 import { EditProfileScreen } from "./src/screens";
-import { Text, Alert, Button } from "react-native";
+import { Text, Alert, Button, View, Dimensions } from "react-native";
 import CustomImageList from "./src/components/CustomImageList";
 import AuthContext from "./src/auth/context";
 import MediaSelectionScreen from "./src/components/MediaSelectionScreen";
+
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+
+import { wp } from "./src/constants/dimensions";
+import MultipleBarGraph from "./src/components/MultipleBarGraph";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -39,7 +44,7 @@ export default function App() {
       // </NavigationContainer>
       // <EditProfileScreen />
       // <Screen>
-      //   <Text>This is app.js</Text>
+      //   <MultipleBarGraph />
       // </Screen>
     );
   }
