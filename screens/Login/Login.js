@@ -48,17 +48,25 @@ const Login = (props) => {
   const [error, setError] = useState();
 
   const handleSubmit = async (userContact) => {
-    const phoneNumber = userContact.contactNumber;
-    const result = await authApi.login(phoneNumber);
+    const data = {
+      phone: userContact.contactNumber,
+      password: userContact.password,
+    };
+    console.log("This is data from handleSubmit login", data);
+    const result = await authApi.login(data);
     if (!result.ok) {
+      console.log("Error", result.data);
       if (result.data) setError(result.data.error);
       else {
+        console.log("error");
         setError("An unexpected error occurred");
       }
       return;
     } else {
       console.log(result.data);
-      navigation.navigate("VerifyOTP");
+      navigation.navigate("VerifyOTP", {
+        phoneNumber: userContact.contactNumber,
+      });
     }
   };
 
@@ -130,9 +138,7 @@ const Login = (props) => {
               rightIcon={showPassword ? "eye" : "eye-off"}
               onRightIconPress={handleEyeIcon}
               rightIconSize={wp(5.5)}
-              rightIconColor={
-                showPassword ? colors.primaryColor : colors.FONT_GREY
-              }
+              rightIconColor={showPassword ? "#788fd4" : colors.FONT_GREY}
               containerStyle={styles.textInputContainer}
             />
             <Text
@@ -143,18 +149,11 @@ const Login = (props) => {
             </Text>
           </View>
           <ErrorMessage error={error} visible={error} />
-          {/* <View style={styles.loginButtons}> */}
           <SubmitButton
-            title="Login"
+            title="LOGIN"
             onSubmit={handleSubmit}
             style={styles.button}
           />
-          {/* <AppButton
-              title="Login with OTP"
-              style={styles.button}
-              onPress={loginWithOtp}
-            /> */}
-          {/* </View> */}
         </AppForm>
 
         {/* <CountryPicker
@@ -170,7 +169,7 @@ const Login = (props) => {
       <View style={styles.bottomContainer}>
         <Text>OR</Text>
         <AppButton
-          title="Sign Up"
+          title="SIGNUP"
           onPress={() => navigation.navigate("SignUp")}
           style={styles.signUpButton}
         />

@@ -15,9 +15,10 @@ const OtpVerify = ({ navigation, route }) => {
   const [seconds, setSeconds] = useState(30);
   const [otp, setOtp] = useState("");
 
-  const phoneNumber = route.params.phoneNumber;
   const otpInput = useRef(null);
   const { getUserToken } = useAuth();
+
+  const phoneNumber = route.params.phoneNumber;
 
   const handleSubmit = async () => {
     const result = await authApi.verifyOTP(phoneNumber, otp);
@@ -30,10 +31,7 @@ const OtpVerify = ({ navigation, route }) => {
       const userToken = result.data.data.userToken;
       getUserToken(userToken);
       otpInput.current.clear();
-      navigation.navigate(isProfileUpdated ? "Drawer" : "EditProfile", {
-        number: phoneNumber,
-        userToken: userToken,
-      });
+      navigation.navigate(isProfileUpdated ? "Drawer" : "EditProfile");
     }
   };
 

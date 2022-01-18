@@ -5,22 +5,13 @@ import { hp, wp } from "../../constants/dimensions";
 const styles = StyleSheet.create({
   button: {
     width: wp("40%"),
+    padding: wp(1.5),
+    backgroundColor: colors.primaryColor,
   },
   bottomContainer: {
     alignItems: "center",
   },
-  // callingCodeContainer: {
-  //   width: wp(20),
-  //   marginLeft: wp(12),
-  // },
 
-  // callingCodeContent: {
-  //   borderBottomWidth: 1,
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   justifyContent: "space-evenly",
-  //   marginTop: 2,
-  // },
   container: {
     padding: 10,
   },
@@ -29,16 +20,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: hp(35),
   },
-  // countryFlag: {
-  //   fontSize: hp(3),
-  // },
-  // countryCode: {
-  //   fontSize: hp(2.5),
-  // },
+
   forgotPasswordText: {
     textAlign: "right",
     fontSize: hp(2),
-    color: colors.primaryColor,
+    color: "#bbc7e9",
   },
   heading: {
     fontSize: hp(2.7),
@@ -60,30 +46,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  loginButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: wp(83),
-  },
+
   noteText: {
     textAlign: "center",
     width: wp("80%"),
   },
-  modal: {
-    position: "absolute",
-    top: "40%",
-    height: 400,
-  },
+
   signUpButton: {
     width: wp("40%"),
-    padding: wp(3),
+    padding: wp(1.5),
     marginTop: hp(1),
-    backgroundColor: colors.themeGreen,
+    backgroundColor: colors.primaryColor,
   },
-  // textInput: {
-  //   borderWidth: 1,
-  //   // width: wp("52%"),
-  // },
+
   textInput: {
     width: wp(60),
     color: "black",
@@ -97,7 +72,8 @@ const styles = StyleSheet.create({
   textInputContainer: {
     marginVertical: hp(1),
     width: wp(80),
-    borderColor: colors.primaryColor,
+    borderColor: "#97a9de",
+    borderWidth: 1,
   },
 });
 

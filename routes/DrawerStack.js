@@ -9,7 +9,7 @@ const DrawerStack = () => {
       drawerContent={(props) => <Screens.SideMenu {...props} />}
     >
       <Drawer.Screen
-        options={{ headerShown: false }}
+        options={{ headerTransparent: true }}
         name="Home"
         component={Screens.Home}
       />
@@ -70,6 +70,11 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="RatePassenger"
         component={Screens.RatePassengerScreen}
+      />
+      <Drawer.Screen
+        name="Map"
+        component={Screens.MapScreen}
+        options={{ headerShown: false }}
       />
     </Drawer.Navigator>
   );

@@ -8,12 +8,27 @@ const styles = StyleSheet.create({
     width: wp(50),
     backgroundColor: colors.themeGreen,
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    // backgroundColor: "#364b5f",
+  callingCodeContainer: {
+    width: wp(80),
+    backgroundColor: "#e9f6ff",
+    marginVertical: hp(1),
+    height: hp(6.5),
+    borderRadius: hp(10),
     alignItems: "center",
+    justifyContent: "center",
   },
+  callingCodeContent: {
+    width: wp(60),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  countryFlag: {
+    fontSize: hp(2.5),
+    color: "black",
+  },
+
   fieldName: {
     marginTop: hp(1),
     marginBottom: hp(0.5),
@@ -45,7 +60,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     // borderColor: colors.FONT_GREY_STONE,
   },
-
+  modal: {
+    position: "absolute",
+    top: "10%",
+    height: "100%",
+  },
   profileImage: {
     width: "100%",
     height: "100%",
@@ -56,8 +75,12 @@ const styles = StyleSheet.create({
     borderRadius: wp(50),
     padding: hp(1),
     marginLeft: hp(4),
-    // backgroundColor: "grey",
     justifyContent: "center",
+  },
+  textInputContainer: {
+    backgroundColor: "#e9f6ff",
+    marginVertical: hp(1),
+    width: wp(80),
   },
 });
 

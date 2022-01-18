@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { Image, Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  FlatList,
+} from "react-native";
 
-import { Picker } from "@react-native-picker/picker";
+// import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Entypo as Icon } from "@expo/vector-icons";
+import CountryPicker from "react-native-country-codes-picker/components/CountryPicker";
+// import DateTimePicker from "@react-native-community/datetimepicker";
 
 import styles from "./style";
 import * as colors from "../../constants/colors";
@@ -29,31 +38,39 @@ const validationSchema = Yup.object().shape({
       "Phone number is not valid"
     ),
   email: Yup.string().email().label("Email-id"),
-  // password: Yup.string().required().min(4).max(20).label("Password"),
-  // cpassword: Yup.string().oneOf(
-  //   [Yup.ref("password"), null],
-  //   "Passwords does not match"
-  // ),
+  password: Yup.string().required().min(4).max(20).label("Password"),
+  cpassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords does not match"
+  ),
 });
 
-const SignUp = ({ navigation, route }) => {
-  const [gender, setGender] = useState(null);
-  const [genderError, setGenderError] = useState(false);
-  const [dobError, setDOBError] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [touched, setTouched] = useState(false);
+const SignUp = (props) => {
+  const { navigation, route } = props;
+  // const [gender, setGender] = useState(null);
+  // const [genderError, setGenderError] = useState(false);
+  // const [dobError, setDOBError] = useState(false);
+  // const [date, setDate] = useState(new Date());
+  // const [touched, setTouched] = useState(false);
+  // const [countryCode, setCountryCode] = useState("+91");
+  // const [countryFlag, setCountryFlag] = useState("🇮🇳");
+  const [countryCode, setCountryCode] = useState("");
+  const [countryFlag, setCountryFlag] = useState("");
+  const [countryName, setCountryName] = useState("");
+  const [countryError, setCountryError] = useState(false);
+
   const [show, setShow] = useState(false);
 
-  let dd = String(date.getDate()).padStart(2, "0");
-  let mm = String(date.getMonth() + 1).padStart(2, "0");
-  let yyyy = date.getFullYear();
+  // let dd = String(date.getDate()).padStart(2, "0");
+  // let mm = String(date.getMonth() + 1).padStart(2, "0");
+  // let yyyy = date.getFullYear();
 
-  let newDate = yyyy + "-" + mm + "-" + dd;
-  console.log(newDate);
+  // let newDate = yyyy + "-" + mm + "-" + dd;
+  // console.log(newDate);
 
-  let today = new Date().getFullYear();
-  let age = today - yyyy;
-  console.log(age);
+  // let today = new Date().getFullYear();
+  // let age = today - yyyy;
+  // console.log(age);
 
   const FieldTitle = ({ title, required }) => {
     return (
@@ -64,98 +81,196 @@ const SignUp = ({ navigation, route }) => {
     );
   };
 
-  const showMode = () => {
-    setShow(true);
-    setTouched(true);
-  };
+  // const showMode = () => {
+  //   setShow(true);
+  //   setTouched(true);
+  // };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-  };
+  // const onChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || date;
+  //   setShow(false);
+  //   setDate(currentDate);
+  // };
 
   const handleSubmit = async (userInfo) => {
-    if (gender === null) {
-      return setGenderError(true);
-    }
-    if (age < 18) {
-      return setDOBError(true);
+    // if (gender === null) {
+    //   return setGenderError(true);
+    // }
+    // if (age < 18) {
+    //   return setDOBError(true);
+    // }
+    if (countryName === "") {
+      setCountryError(true);
     }
     console.log(userInfo);
     let data = {
       name: userInfo.userName,
       email: userInfo.email,
       phone: userInfo.phoneNumber,
-      gender: gender,
-      dob: newDate,
+      password: userInfo.password,
+      country: countryName,
+      confirmPassword: userInfo.cpassword,
+      // gender: gender,
+      // dob: newDate,
     };
-
+    console.log("This is data from handleSubmit", data);
     const result = await authApi.signUp(data);
     if (!result.ok) {
       console.log(result.data);
       alert(result.data.message);
     } else {
       console.log(result.data);
+      alert(result.message);
       navigation.navigate("Login");
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Screen>
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <View style={styles.imageView}>
-              <Image
-                source={require("../../assets/images/splash.png")}
-                style={styles.profileImage}
-              />
-            </View>
-            <Text style={styles.header}>Create an account</Text>
-            <AppForm
-              validationSchema={validationSchema}
-              initialValues={{
-                userName: "",
-                phoneNumber: "",
-                email: "",
-                // password: "",
-                // cpassword: "",
-              }}
-              onSubmit={handleSubmit}
-            >
-              <FieldTitle title="Name" />
-              <AppFormField
-                name="userName"
-                autoCapitalize="words"
-                autoCorrect={false}
-                placeholder="Enter Name"
-                style={styles.textInput}
-              />
+    // <View style={styles.container}>
+    <Screen>
+      <TouchableWithoutFeedback
+        style={{ flex: 1 }}
+        onPress={() => {
+          console.log("pressed");
+          setShow(false);
+        }}
+      >
+        <View style={{ alignItems: "center" }}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={null}
+            renderItem={null}
+            ListHeaderComponent={
+              <>
+                <View>
+                  <View style={styles.imageView}>
+                    <Image
+                      source={require("../../assets/images/splash.png")}
+                      style={styles.profileImage}
+                    />
+                  </View>
+                  <Text style={styles.header}>Create an account</Text>
+                </View>
+              </>
+            }
+            ListFooterComponent={
+              <>
+                <AppForm
+                  validationSchema={validationSchema}
+                  initialValues={{
+                    userName: "",
+                    phoneNumber: "",
+                    email: "",
+                    password: "",
+                    cpassword: "",
+                  }}
+                  onSubmit={handleSubmit}
+                >
+                  <AppFormField
+                    name="userName"
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    placeholder="Enter Name"
+                    style={styles.textInput}
+                    containerStyle={styles.textInputContainer}
+                  />
 
-              <FieldTitle title="Phone No." />
-              <AppFormField
-                name="phoneNumber"
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder="Enter phone number"
-                keyboardType="numeric"
-                trim
-                maxLength={10}
-                style={styles.textInput}
-              />
+                  <AppFormField
+                    name="phoneNumber"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder="Enter phone number"
+                    keyboardType="numeric"
+                    trim
+                    maxLength={10}
+                    style={styles.textInput}
+                    containerStyle={styles.textInputContainer}
+                  />
+                  <TouchableOpacity
+                    onPress={() => setShow(true)}
+                    style={styles.callingCodeContainer}
+                  >
+                    <View style={styles.callingCodeContent}>
+                      {countryName !== "" ? (
+                        <Text style={styles.countryFlag}>
+                          {`${countryFlag} ${countryName} `}
+                        </Text>
+                      ) : (
+                        <Text style={{ color: "#9d9d9e" }}>Your Country</Text>
+                      )}
+                      <Icon
+                        name="chevron-thin-down"
+                        size={hp(3)}
+                        color={colors.blackColor}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  {countryName !== "" && (
+                    <ErrorMessage
+                      error="Please select country"
+                      visible={countryError}
+                    />
+                  )}
+                  <AppFormField
+                    name="email"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder="Enter e-mail ID"
+                    trim
+                    style={styles.textInput}
+                    containerStyle={styles.textInputContainer}
+                  />
+                  <AppFormField
+                    name="password"
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder="Enter Password"
+                    trim
+                    minLength={6}
+                    style={styles.textInput}
+                    containerStyle={styles.textInputContainer}
+                  />
+                  <AppFormField
+                    name="cpassword"
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder="Enter Password"
+                    trim
+                    maxLength={10}
+                    style={styles.textInput}
+                    containerStyle={styles.textInputContainer}
+                  />
+                  <SubmitButton
+                    title="SIGN UP"
+                    onSubmit={handleSubmit}
+                    style={styles.button}
+                  />
+                </AppForm>
+              </>
+            }
+          />
+          <CountryPicker
+            show={show}
+            pickerButtonOnPress={(item) => {
+              console.log(item);
+              setCountryName(item.name.en);
+              setCountryFlag(item.flag);
+              setCountryCode(item.dial_code);
+              setShow(false);
+            }}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </Screen>
+    // </View>
+  );
+};
 
-              <FieldTitle title="Email ID" />
-              <AppFormField
-                name="email"
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder="Enter e-mail ID"
-                trim
-                style={styles.textInput}
-              />
-              {/* 
-              <FieldTitle title="Gender" />
+export default SignUp;
+
+/* 
               <View style={[styles.textInput, { paddingLeft: hp(2) }]}>
                 <Picker
                   selectedValue={gender}
@@ -199,41 +314,4 @@ const SignUp = ({ navigation, route }) => {
                     visible={dobError}
                   />
                 )}
-              </TouchableOpacity> */}
-              <SubmitButton
-                title="SIGN UP"
-                onSubmit={handleSubmit}
-                style={styles.button}
-              />
-            </AppForm>
-          </View>
-        </KeyboardAwareScrollView>
-      </Screen>
-    </View>
-  );
-};
-
-export default SignUp;
-
-/* <FieldTitle title="Password" />
-              <AppFormField
-                name="password"
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder="Enter Password"
-                trim
-                minLength={6}
-                style={styles.textInput}
-              />
-              <FieldTitle title="Confirm Password" />
-              <AppFormField
-                name="cpassword"
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder="Enter Password"
-                trim
-                maxLength={10}
-                style={styles.textInput}
-              /> */
+              </TouchableOpacity> */

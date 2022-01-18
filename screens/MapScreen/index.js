@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import profileApi from "../../api/profile";
 import useAuth from "../../hooks/useAuth";
 
+import Screen from "../../components/Screen";
 import styles from "./style";
 import GOOGLE_API_KEY from "../../constants/apikey";
 import { hp, wp } from "../../constants/dimensions";
@@ -335,67 +336,69 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        region={region}
-        ref={mapView}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
-        followsUserLocation={true}
-        onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
-      >
-        <MapViewDirections
-          lineDashPattern={[0]}
-          origin={userLocation}
-          destination={userStatus !== "" ? latlng : null}
-          apikey={GOOGLE_API_KEY}
-          strokeWidth={userStatus === "orderStarted" ? 4 : 0}
-          strokeColor="blue"
-          optimizeWaypoints={true}
-          onReady={(result) => {
-            // console.log(result);
-            setDuration(result.duration);
-            setDistance(result.distance);
-            setRouteArr([...result.coordinates]);
-          }}
-        />
+    <Screen>
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          region={region}
+          ref={mapView}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
+          followsUserLocation={true}
+          onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
+        >
+          <MapViewDirections
+            lineDashPattern={[0]}
+            origin={userLocation}
+            destination={userStatus !== "" ? latlng : null}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={userStatus === "orderStarted" ? 4 : 0}
+            strokeColor="blue"
+            optimizeWaypoints={true}
+            onReady={(result) => {
+              // console.log(result);
+              setDuration(result.duration);
+              setDistance(result.distance);
+              setRouteArr([...result.coordinates]);
+            }}
+          />
 
-        {userStatus !== "" ? (
-          <Marker coordinate={latlng}>
-            <View
-              style={{
-                height: hp(6),
-                width: hp(6),
-                borderRadius: hp(3),
-              }}
-            >
-              <Image
-                source={require("../../assets/images/user.png")}
-                style={styles.image}
-              />
-            </View>
-          </Marker>
-        ) : null}
-      </MapView>
-      <View
-        style={
-          userStatus === ""
-            ? styles.topContainer
-            : [styles.topContainer, { height: hp(10) }]
-        }
-      />
-      {userStatus === "" && (
-        <Buttons
-          onPressZoomIn={zoomIn}
-          onPressZoomOut={zoomOut}
-          onPressUserLocation={getUser}
+          {userStatus !== "" ? (
+            <Marker coordinate={latlng}>
+              <View
+                style={{
+                  height: hp(6),
+                  width: hp(6),
+                  borderRadius: hp(3),
+                }}
+              >
+                <Image
+                  source={require("../../assets/images/user.png")}
+                  style={styles.image}
+                />
+              </View>
+            </Marker>
+          ) : null}
+        </MapView>
+        <View
+          style={
+            userStatus === ""
+              ? styles.topContainer
+              : [styles.topContainer, { height: hp(10) }]
+          }
         />
-      )}
+        {userStatus === "" && (
+          <Buttons
+            onPressZoomIn={zoomIn}
+            onPressZoomOut={zoomOut}
+            onPressUserLocation={getUser}
+          />
+        )}
 
-      {mapContent()}
-    </View>
+        {mapContent()}
+      </View>
+    </Screen>
   );
 };
 

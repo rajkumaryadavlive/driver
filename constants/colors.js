@@ -1,5 +1,6 @@
 // export const primaryColor = "#40a62c";
-export const primaryColor = "#0000ff";
+// export const primaryColor = "#0000ff";
+export const primaryColor = "#1919bf";
 export const secondaryColor = "#1c1c6e";
 export const orangeColor = "#ffa500";
 export const sideItemSeparatorColor = "#02a148";
