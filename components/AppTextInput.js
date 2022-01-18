@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     borderRadius: hp(20),
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
   },
   leftIcon: {
     marginLeft: wp(5),

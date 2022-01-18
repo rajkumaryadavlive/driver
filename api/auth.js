@@ -6,20 +6,16 @@ const token =
 
 const deviceType = Platform.OS;
 
-const login = (phoneNumber, os) =>
+const login = (data) =>
   apiClient.post("driverauth/login", {
-    phone: phoneNumber,
+    ...data,
     deviceToken: token,
     deviceType,
   });
 
 const signUp = (data) =>
   apiClient.post("userauth/signUpDriver", {
-    name: data.name,
-    phone: data.phone,
-    dob: data.dob,
-    email: data.email,
-    gender: data.gender,
+    ...data,
     deviceToken: token,
     deviceType,
   });
