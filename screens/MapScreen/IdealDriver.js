@@ -5,6 +5,7 @@ import * as colors from "../../constants/colors";
 import styles from "./style";
 import BadgeAndImage from "../../components/BadgeAndImage";
 import BottomButtons from "../../components/BottomButtons";
+import AppButton from "../../components/AppButton";
 
 export const IdealDriver = ({
   onSwitchValueChange,
@@ -13,6 +14,7 @@ export const IdealDriver = ({
 }) => {
   return (
     <View style={styles.topContent}>
+      {/* <Text>Set Your Location</Text> */}
       <TouchableOpacity onPress={sideMenuOpen}>
         <BadgeAndImage />
       </TouchableOpacity>
@@ -45,9 +47,11 @@ export const Buttons = ({
   onPressZoomIn,
   onPressZoomOut,
   onPressUserLocation,
+  updateDriverLocation,
 }) => {
   return (
     <View style={styles.customBottomLayout}>
+      {/* <AppButton title="Confirm" onPress={updateDriverLocation} /> */}
       <View>
         <BottomButtons onPress={onPressZoomIn} iconName="plus" fontAwesome />
         <BottomButtons onPress={onPressZoomOut} iconName="minus" fontAwesome />

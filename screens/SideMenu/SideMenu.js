@@ -41,9 +41,7 @@ export default function SideMenu(props) {
         <View>
           <View style={styles.profileContainer}>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Registration", { number: "12346789" })
-              }
+              onPress={() => navigation.navigate("EditProfile")}
             >
               <View style={styles.imageContainer}>
                 <Image

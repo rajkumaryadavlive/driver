@@ -9,6 +9,7 @@ import MapViewDirections from "react-native-maps-directions";
 import io from "socket.io-client";
 
 import profileApi from "../../api/profile";
+import driverApi from "../../api/driver";
 import useAuth from "../../hooks/useAuth";
 
 import Screen from "../../components/Screen";
@@ -16,6 +17,7 @@ import styles from "./style";
 import GOOGLE_API_KEY from "../../constants/apikey";
 import { hp, wp } from "../../constants/dimensions";
 import { IdealDriver, Buttons } from "./IdealDriver";
+import { InitialStep, InitialButton } from "./InitialStep";
 import { NewJobTopContainer, NewJobBottomContainer } from "./NewJob";
 import {
   OrderStartedTopContainer,
@@ -45,23 +47,28 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   });
 
   const [currentLoc, setCurrentLoc] = useState({
-    latitude: 0,
-    longitude: 0,
+    latitude: 18.5842,
+    longitude: 73.8226,
   });
 
   const [errorMsg, setErrorMsg] = useState(null);
   const [switchValue, setSwitchValue] = useState();
 
-  const [userStatus, setUserStatus] = useState("");
+  const [userStatus, setUserStatus] = useState("initial");
   const [onARideStatus, setonARideStatus] = useState("");
   const [duration, setDuration] = useState("");
   const [distance, setDistance] = useState("");
   const [routeArr, setRouteArr] = useState([]);
+  const [orderData, setOrderData] = useState({});
+  const [pickupLocation, setPickupLocation] = useState({
+    latitude: 18.5842,
+    longitude: 73.8226,
+  });
 
   const socket = useRef();
   const SOCKET_URL = "http://3.110.149.0:3000";
 
-  const driverId = "61bc1c5190e208be7a5a70eb";
+  const driverId = "61e54a22c4b9bf310d840089";
   const { token } = useAuth();
 
   useEffect(() => {
@@ -81,19 +88,49 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
         id: driverId,
       });
       socket.current.on("order-pickup-request", async function (data) {
+        let destinationAddr = JSON.parse(data.destinationAddress);
+        let pickupAddr = JSON.parse(data.pickupAddress);
+
+        let newOrderData = {
+          ...data,
+          destinationAddress: destinationAddr,
+          pickupAddress: pickupAddr,
+        };
         console.log("====================================");
-        console.log(data);
+        console.log(newOrderData, "this is from useEffect");
         console.log("====================================");
+        setOrderData({ ...orderData, newOrderData });
+        setUserStatus("ready");
+        setPickupLocation({
+          latitude: newOrderData.lat,
+          longitude: newOrderData.long,
+        });
       });
     });
+  }, []);
 
+  console.log(orderData);
+
+  if (userStatus !== "") {
     const interval = setInterval(() => {
       getCurrentPos();
     }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+    clearInterval(interval);
+  }
+
+  const setDriverLocation = async () => {
+    try {
+      const result = await driverApi.updateDriverLocation(region, token);
+      if (!result.ok) {
+        console.log("Location not updated", result.data);
+        return;
+      }
+      console.log("Updated driver location");
+      setUserStatus("");
+    } catch (error) {
+      console.log(error, "Error from update driver location");
+    }
+  };
 
   const getStatus = async (token) => {
     const result = await profileApi.getDriverStatus(token);
@@ -105,22 +142,24 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   const getCurrentPos = async () => {
-    let location = await getCurrentPositionAsync();
-    // console.log("====================================");
-    // console.log(
-    //   "This is log from get Pos ",
-    //   location.coords.latitude,
-    //   location.coords.longitude
-    // );
-    // console.log("====================================");
-    let latitude = location.coords.latitude;
-    let longitude = location.coords.longitude;
-    setCurrentLoc({ latitude, longitude });
-    socket.current.emit("update-driver-location", {
-      lat: latitude,
-      long: longitude,
-      id: driverId,
-    });
+    try {
+      let location = await getCurrentPositionAsync();
+      let latitude = location.coords.latitude;
+      let longitude = location.coords.longitude;
+      setCurrentLoc({ latitude, longitude });
+      console.log("====================================");
+      console.log(currentLoc);
+      console.log("====================================");
+      socket.current.emit("update-driver-location", {
+        lat: latitude,
+        long: longitude,
+        id: driverId,
+      });
+    } catch (error) {
+      console.log("====================================");
+      console.log("Error while sending location", error);
+      console.log("====================================");
+    }
   };
 
   const getUser = async () => {
@@ -131,10 +170,9 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
     }
     let location = await getCurrentPositionAsync();
     setRegion({
+      ...region,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      longitudeDelta: region.longitudeDelta,
-      latitudeDelta: region.latitudeDelta,
     });
 
     mapView.current.animateToRegion(region, 1000);
@@ -142,8 +180,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
 
   const zoomIn = () => {
     let newRegion = {
-      latitude: region.latitude,
-      longitude: region.longitude,
+      ...region,
       latitudeDelta: region.latitudeDelta / 2,
       longitudeDelta: region.longitudeDelta / 2,
     };
@@ -184,16 +221,17 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   const goToOrderStarted = () => {
-    // socket.current.on("order-pickup-request", async function (data) {
-    //   console.log("====================================");
-    //   console.log(data);
-    //   console.log("====================================");
-    // });
-    socket.current.emit("accept-request-pickup", {
+    console.log("====================================");
+    console.log(orderData.newOrderData.orderId, "this is from gotoOrderSt");
+    console.log("====================================");
+    socket.current.on("order-pickup-request", async function (data) {
+      console.log("====================================");
+      console.log(data, "This is the data from gotoOrderStarted");
+      console.log("====================================");
+    });
+    socket.current.emit("accept-pickup-request", {
       driverId,
-      orderId: "134654646",
-      lat: currentLoc.latitude,
-      long: currentLoc.longitude,
+      orderId: orderData.newOrderData.orderId,
     });
     setUserStatus("orderStarted");
   };
@@ -202,6 +240,8 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
     switch (userStatus) {
       case "":
         return ideal();
+      case "initial":
+        return initial();
       case "ready":
         return userReady();
       case "orderStarted":
@@ -236,6 +276,10 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
     }
   };
 
+  const initial = () => {
+    return <InitialStep />;
+  };
+
   const ideal = () => {
     return (
       <IdealDriver
@@ -247,7 +291,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
   };
 
   const userReady = () => {
-    let Markers = [userLocation, latlng];
+    let Markers = [userLocation, pickupLocation];
     let timer = setTimeout(() => fitToMarkers(Markers, timer, 20), 2000);
 
     return (
@@ -267,7 +311,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
     );
   };
   const orderStarted = () => {
-    let Markers = [userLocation, latlng];
+    let Markers = [userLocation, pickupLocation];
     let timer = setTimeout(() => fitToMarkers(Markers, timer, 80), 2000);
     return (
       <>
@@ -282,7 +326,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           getUserLocation={getUser}
           onSwipeToArrive={() => setUserStatus("arrived")}
           driverLocation={userLocation}
-          custLocation={latlng}
+          custLocation={pickupLocation}
           waypoints={routeArr}
         />
       </>
@@ -303,7 +347,8 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           getUserLocation={getUser}
           onSwipeforArrival={() => setUserStatus("onARide")}
           driverLocation={userLocation}
-          custLocation={latlng}
+          custLocation={pickupLocation}
+          // custLocation={latlng}
           waypoints={routeArr}
           driverStatus="arrival"
         />
@@ -328,7 +373,7 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           onSwipeToArrive={() => setonARideStatus("swiped")}
           onFinishTrip={() => navigation.navigate("Receipt")}
           driverLocation={userLocation}
-          custLocation={latlng}
+          custLocation={pickupLocation}
           waypoints={routeArr}
         />
       </>
@@ -346,12 +391,16 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
           showsUserLocation={true}
           showsMyLocationButton={false}
           followsUserLocation={true}
-          onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
+          // onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
         >
           <MapViewDirections
             lineDashPattern={[0]}
             origin={userLocation}
-            destination={userStatus !== "" ? latlng : null}
+            destination={
+              (userStatus !== "") & (userStatus !== "initial")
+                ? pickupLocation
+                : null
+            }
             apikey={GOOGLE_API_KEY}
             strokeWidth={userStatus === "orderStarted" ? 4 : 0}
             strokeColor="blue"
@@ -364,8 +413,8 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
             }}
           />
 
-          {userStatus !== "" ? (
-            <Marker coordinate={latlng}>
+          {userStatus !== "" && userStatus !== "initial" ? (
+            <Marker coordinate={pickupLocation}>
               <View
                 style={{
                   height: hp(6),
@@ -393,9 +442,12 @@ const CustomMap = ({ route, navigation, openDrawer }) => {
             onPressZoomIn={zoomIn}
             onPressZoomOut={zoomOut}
             onPressUserLocation={getUser}
+            // updateDriverLocation={setDriverLocation}
           />
         )}
-
+        {userStatus === "initial" && (
+          <InitialButton updateDriverLocation={setDriverLocation} />
+        )}
         {mapContent()}
       </View>
     </Screen>

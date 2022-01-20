@@ -78,7 +78,6 @@ export const NewJobBottomContainer = ({
   let sec = parseInt(arr[1]);
 
   let minutes = min > 60 ? min - 60 : min;
-  console.log(minutes);
   let second = sec > 60 ? sec - 60 && minutes + 1 : sec;
   return (
     <>

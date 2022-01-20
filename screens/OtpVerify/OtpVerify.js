@@ -28,6 +28,9 @@ const OtpVerify = ({ navigation, route }) => {
     } else {
       console.log(result.data);
       const isProfileUpdated = result.data.data.isProfileUpdated;
+      console.log("====================================");
+      console.log("This is profile status", isProfileUpdated);
+      console.log("====================================");
       const userToken = result.data.data.userToken;
       getUserToken(userToken);
       otpInput.current.clear();

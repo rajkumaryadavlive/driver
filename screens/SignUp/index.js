@@ -120,7 +120,7 @@ const SignUp = (props) => {
       alert(result.data.message);
     } else {
       console.log(result.data);
-      alert(result.message);
+      alert(result.data.message);
       navigation.navigate("Login");
     }
   };

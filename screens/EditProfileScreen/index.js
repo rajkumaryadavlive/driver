@@ -57,7 +57,7 @@ const EditProfileScreen = (props) => {
   const [selectedVehicle, setSelectedVehicle] = useState();
   const [vehicleTypeError, setVehicleTypeError] = useState(false);
 
-  const [profileImg, setProfileImg] = useState(null);
+  const [profileImg, setProfileImg] = useState();
 
   const [documentFrontImg, setDocumentFrontImg] = useState(null);
   const [documentBackImg, setDocumentBackImg] = useState(null);
@@ -181,7 +181,9 @@ const EditProfileScreen = (props) => {
       {
         text: "Yes",
         onPress: () => {
-          const filteredArr = pucImages.filter((image) => image.id !== id);
+          const filteredArr = pucImages.filter(
+            (image) => image.id.indexOf(id) === -1
+          );
           setPucImages([...filteredArr]);
         },
       },
@@ -194,7 +196,7 @@ const EditProfileScreen = (props) => {
         text: "Yes",
         onPress: () => {
           const filteredArr = insuranceImages.filter(
-            (image) => image.id !== id
+            (image) => image.id.indexOf(id) === -1
           );
           setInsuranceImages([...filteredArr]);
         },
@@ -207,7 +209,9 @@ const EditProfileScreen = (props) => {
       {
         text: "Yes",
         onPress: () => {
-          const filteredArr = vehicleImages.filter((image) => image.id !== id);
+          const filteredArr = vehicleImages.filter(
+            (image) => image.id.indexOf(id) === -1
+          );
           setVehicleImages([...filteredArr]);
         },
       },
@@ -227,7 +231,7 @@ const EditProfileScreen = (props) => {
   const IdComponent = ({ image, field }) => {
     return (
       <View style={styles.idComp}>
-        {image !== null ? (
+        {image !== "" ? (
           <Image source={{ uri: image }} style={styles.image} />
         ) : (
           <Icon2 name="idcard" size={55} color="grey" />
@@ -285,11 +289,18 @@ const EditProfileScreen = (props) => {
         profile,
       } = result.data.data;
 
-      setProfileImg(profile);
+      profile === ""
+        ? setProfileImg(
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg"
+          )
+        : setProfileImg(profile);
       setGender(gender);
-      setDobDate(new Date(dob));
+      dob === "" ? setDobDate(new Date()) : setDobDate(new Date(dob));
+
       setDocumentFrontImg(frontImg);
+
       setDocumentBackImg(backImg);
+
       setPucImages([...pucImgs]);
       setInsuranceImages([...insImgs]);
       setVehicleImages([...vehImgs]);
