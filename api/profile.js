@@ -88,11 +88,19 @@ const editProfileDriver = (listing, userToken) => {
   return apiClient.post("driver/editDriverProfile", data, config);
 };
 
-const updateDriverStatus = (driverId, status) =>
-  apiClient.post("driver/activeDeactiveDriver", {
-    userId: driverId,
-    status,
-  });
+const updateDriverStatus = (driverId, status, userToken) =>
+  apiClient.post(
+    "driver/activeDeactiveDriver",
+    {
+      userId: driverId,
+      status,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    }
+  );
 
 const getDriverStatus = (userToken) =>
   apiClient.get(
