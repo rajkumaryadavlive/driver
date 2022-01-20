@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "436084617222",
+    "project_id": "wetaxi-c9293",
+    "storage_bucket": "wetaxi-c9293.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436084617222:android:7802b14ff19c0154ad5387",
+        "android_client_info": {
+          "package_name": "com.questglt.wetaxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436084617222-c0amco320k97toq3sijn2clph5bu0ct1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm4CDPw5oydqQDsW9vknlNzBIzLm18DfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436084617222-c0amco320k97toq3sijn2clph5bu0ct1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

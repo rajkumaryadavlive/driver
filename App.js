@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
@@ -10,16 +10,13 @@ import AppNavigator from "./src/routes/AppNavigator";
 
 import Screen from "./src/components/Screen";
 import DrawerStack from "./src/routes/DrawerStack";
-import { EditProfileScreen } from "./src/screens";
 import { Text, Alert, Button, View, Dimensions } from "react-native";
-import CustomImageList from "./src/components/CustomImageList";
 import AuthContext from "./src/auth/context";
-import MediaSelectionScreen from "./src/components/MediaSelectionScreen";
-
-import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 
 import { wp } from "./src/constants/dimensions";
 import MultipleBarGraph from "./src/components/MultipleBarGraph";
+
+import { requestUserPermission } from "./src/utils/notificationsServices";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -28,6 +25,10 @@ export default function App() {
     calibri: require("./src/assets/fonts/calibri.ttf"),
     segoeui: require("./src/assets/fonts/segoeui.ttf"),
   });
+
+  // useEffect(() => {
+  //   requestUserPermission();
+  // }, []);
 
   if (!loaded) {
     return <AppLoading />;

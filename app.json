@@ -15,12 +15,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "googleServicesFile": "./google-services.json",
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyD6M4Qgp4QzRf1PMYCsOTpDuVYSm0GAFbU"
       }
     },
     "android": {
+      "package": "com.questglt.wetaxi",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/cmplogo_sm.png",
         "backgroundColor": "#FFFFFF"
@@ -39,13 +42,6 @@
     "web": {
       "favicon": "./src/assets/images/cmplogo_sm.png"
     },
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }
-      ]
-    ]
+    "plugins": ["@react-native-firebase/app", "expo-image-picker"]
   }
 }
