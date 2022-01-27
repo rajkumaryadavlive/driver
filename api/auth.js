@@ -1,27 +1,24 @@
-import { Platform } from "react-native";
-import apiClient from "./client";
-
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxYjBkZDlhYjdjZjg0NDUzMjBlZDRjMiIsInVzZXJSb2xlIjoidXNlciJ9LCJpYXQiOjE2Mzg5ODEwNTh9.Y6m9mLompEj9sR1odwpQNiBqwuaHNKqnVTL4qtVfbC4";
+import {Platform} from 'react-native';
+import apiClient from './client';
 
 const deviceType = Platform.OS;
 
-const login = (data) =>
-  apiClient.post("driverauth/login", {
+const login = (data, deviceToken) =>
+  apiClient.post('driverauth/login', {
     ...data,
-    deviceToken: token,
+    deviceToken,
     deviceType,
   });
 
-const signUp = (data) =>
-  apiClient.post("userauth/signUpDriver", {
+const signUp = (data, deviceToken) =>
+  apiClient.post('userauth/signUpDriver', {
     ...data,
-    deviceToken: token,
+    deviceToken,
     deviceType,
   });
 
 const verifyOTP = (phoneNumber, otpNumber) =>
-  apiClient.post("driverauth/verifyOTP", {
+  apiClient.post('driverauth/verifyOTP', {
     phone: phoneNumber,
     otp: otpNumber,
   });

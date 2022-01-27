@@ -1,13 +1,13 @@
-import React from "react";
-import { View, TextInput, StyleSheet, Platform } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as colors from "../constants/colors";
-import { hp, wp } from "../constants/dimensions";
+import React from 'react';
+import {View, TextInput, StyleSheet, Platform} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as colors from '../constants/colors';
+import {hp, wp} from '../constants/dimensions';
 
 const AppTextInput = ({
   leftIcon,
   rightIcon,
-  width = "100%",
+  width = '100%',
   containerStyle,
   leftIconStyle,
   rightIconStyle,
@@ -20,7 +20,7 @@ const AppTextInput = ({
   ...otherProps
 }) => {
   return (
-    <View style={[styles.container, { width }, containerStyle]}>
+    <View style={[styles.container, {width}, containerStyle]}>
       {leftIcon && (
         <MaterialCommunityIcons
           name={leftIcon}
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.whiteColor,
     borderRadius: hp(20),
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   leftIcon: {
     marginLeft: wp(5),

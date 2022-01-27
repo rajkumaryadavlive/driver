@@ -1,14 +1,13 @@
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import {
-  FontAwesome5 as Icon,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import React from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 
-import { hp, wp } from "../constants/dimensions";
-import * as colors from "../constants/colors";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const BottomButtons = ({ onPress, iconName, fontAwesome, materialCI }) => {
+import {hp, wp} from '../constants/dimensions';
+import * as colors from '../constants/colors';
+
+const BottomButtons = ({onPress, iconName, fontAwesome, materialCI}) => {
   const IconType = () => {
     return (
       <View>
@@ -39,11 +38,11 @@ const styles = StyleSheet.create({
   buttons: {
     padding: wp(3),
     borderRadius: wp(20),
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     margin: hp(1),
     elevation: 3,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,20 +6,20 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-} from "react-native";
-import { wp } from "../constants/dimensions";
+} from 'react-native';
+import {wp} from '../constants/dimensions';
 
-const CustomImageList = ({ data = [], removeImage, ...otherProps }) => {
+const CustomImageList = ({data = [], removeImage, ...otherProps}) => {
   const flatlist = useRef();
 
-  const renderImageList = ({ item, index }) => {
-    console.log("====================================");
+  const renderImageList = ({item, index}) => {
+    console.log('====================================');
     console.log(item);
-    console.log("====================================");
+    console.log('====================================');
     return (
-      <TouchableOpacity onPress={() => removeImage(item.id)}>
-        <View key={item.uri} style={styles.imageContainer}>
-          <Image source={{ uri: item.uri }} style={styles.image} />
+      <TouchableOpacity onPress={() => removeImage(item.path)}>
+        <View key={item.path} style={styles.imageContainer}>
+          <Image source={{uri: item.path}} style={styles.image} />
         </View>
       </TouchableOpacity>
     );
@@ -28,7 +28,7 @@ const CustomImageList = ({ data = [], removeImage, ...otherProps }) => {
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.uri}
+      keyExtractor={item => item.path}
       horizontal
       ref={flatlist}
       onContentSizeChange={() => flatlist.current.scrollToEnd()}
@@ -40,8 +40,8 @@ const CustomImageList = ({ data = [], removeImage, ...otherProps }) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: wp(1),
   },
   imageContainer: {
