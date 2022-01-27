@@ -1,13 +1,13 @@
-import React from "react";
-import { Image, View, Text } from "react-native";
-import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {Image, View, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import styles from "./style";
-import Screen from "../../components/Screen";
-import { primaryColor } from "../../constants/colors";
+import styles from './style';
+import Screen from '../../components/Screen';
+import {primaryColor} from '../../constants/colors';
 
-const EmergencyScreen = (props) => {
-  const ContentComponent = ({ number, title }) => {
+const EmergencyScreen = props => {
+  const ContentComponent = ({number, title}) => {
     return (
       <View style={styles.iconAndNumbers}>
         <Icon name="phone-classic" size={20} color={primaryColor} />
@@ -21,7 +21,7 @@ const EmergencyScreen = (props) => {
     <Screen>
       <View style={styles.container}>
         <Image
-          source={require("../../assets/images/emergency.png")}
+          source={require('../../assets/images/emergency.png')}
           style={styles.image}
         />
         <Text style={styles.FYItext}>For more information, Please contact</Text>

@@ -1,14 +1,14 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import { Entypo as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 
-import styles from "./style";
-import Screen from "../../components/Screen";
-import { primaryColor } from "../../constants/colors";
-import AppButton from "../../components/AppButton";
+import styles from './style';
+import Screen from '../../components/Screen';
+import {primaryColor} from '../../constants/colors';
+import AppButton from '../../components/AppButton';
 
-const WalletScreen = ({ value = "2,000,000.00" }) => {
-  const Box = ({ children }) => {
+const WalletScreen = ({value = '2,000,000.00'}) => {
+  const Box = ({children}) => {
     return <View style={styles.contentContainer}>{children}</View>;
   };
 
@@ -18,17 +18,16 @@ const WalletScreen = ({ value = "2,000,000.00" }) => {
         <Text style={styles.amountText}>Amount</Text>
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
           <Text style={styles.referralAmount}>KHR 7,999.00</Text>
           <Icon
             name="chevron-thin-right"
             size={20}
             color={primaryColor}
-            style={{ marginLeft: 5 }}
+            style={{marginLeft: 5}}
           />
         </View>
       </View>
@@ -40,7 +39,7 @@ const WalletScreen = ({ value = "2,000,000.00" }) => {
       <ScrollView>
         <View style={styles.container}>
           <Image
-            source={require("../../assets/images/logo.png")}
+            source={require('../../assets/images/logo.png')}
             style={styles.image}
           />
           <Box>
@@ -52,9 +51,8 @@ const WalletScreen = ({ value = "2,000,000.00" }) => {
           <Box>
             <TouchableOpacity
               onPress={() => {
-                console.log("This is from referral earning");
-              }}
-            >
+                console.log('This is from referral earning');
+              }}>
               <View style={styles.innerContainer}>
                 <Text style={styles.heading}>Referral earning</Text>
                 <EarnedAmount />
@@ -64,9 +62,8 @@ const WalletScreen = ({ value = "2,000,000.00" }) => {
           <Box>
             <TouchableOpacity
               onPress={() => {
-                console.log("This is from withdraw of the referral earning");
-              }}
-            >
+                console.log('This is from withdraw of the referral earning');
+              }}>
               <View style={styles.innerContainer}>
                 <Text style={styles.heading}>
                   Withdraw of the referral earnings

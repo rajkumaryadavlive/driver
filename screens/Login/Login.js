@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Image,
   Text,
@@ -6,39 +6,38 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Platform,
-} from "react-native";
-import CountryPicker from "react-native-country-codes-picker/components/CountryPicker";
-import * as Yup from "yup";
-import { Entypo as Icon } from "@expo/vector-icons";
+} from 'react-native';
+import * as Yup from 'yup';
 
-import styles from "./style";
-import AppButton from "../../components/AppButton";
-import * as colors from "../../constants/colors";
+import styles from './style';
+import AppButton from '../../components/AppButton';
+import * as colors from '../../constants/colors';
 import {
   AppForm,
   AppFormField,
   ErrorMessage,
   SubmitButton,
-} from "../../components/forms";
-import authApi from "../../api/auth";
-import { wp } from "../../constants/dimensions";
-import Screen from "../../components/Screen";
+} from '../../components/forms';
+import authApi from '../../api/auth';
+import {wp} from '../../constants/dimensions';
+import Screen from '../../components/Screen';
+import getFcmToken from '../../hooks/getDeviceToken';
 
 const validationSchema = Yup.object().shape({
   contactNumber: Yup.string()
-    .required("Please enter phone number")
-    .min(10, "Phone number is not valid")
+    .required('Please enter phone number')
+    .min(10, 'Phone number is not valid')
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-      "Phone number is not valid"
+      'Phone number is not valid',
     ),
   password: Yup.string()
-    .required("Please enter password")
-    .min(6, "Password should be minimum of 6 characters"),
+    .required('Please enter password')
+    .min(6, 'Password should be minimum of 6 characters'),
 });
 
-const Login = (props) => {
-  const { navigation } = props;
+const Login = props => {
+  const {navigation} = props;
   // const [show, setShow] = useState(false);
   // const [countryCode, setCountryCode] = useState("+91");
   // const [countryFlag, setCountryFlag] = useState("🇮🇳");
@@ -47,24 +46,27 @@ const Login = (props) => {
 
   const [error, setError] = useState();
 
-  const handleSubmit = async (userContact) => {
+  const handleSubmit = async userContact => {
     const data = {
       phone: userContact.contactNumber,
       password: userContact.password,
     };
-    console.log("This is data from handleSubmit login", data);
-    const result = await authApi.login(data);
+
+    const deviceToken = await getFcmToken();
+    console.log('This is data from handleSubmit login', data);
+    const result = await authApi.login(data, deviceToken);
     if (!result.ok) {
-      console.log("Error", result.data);
+      console.log('Error', result.data);
+      alert(result.data.message);
       if (result.data) setError(result.data.error);
       else {
-        console.log("error");
-        setError("An unexpected error occurred");
+        console.log('error');
+        setError('An unexpected error occurred');
       }
       return;
     } else {
       console.log(result.data);
-      navigation.navigate("VerifyOTP", {
+      navigation.navigate('VerifyOTP', {
         phoneNumber: userContact.contactNumber,
       });
     }
@@ -74,7 +76,7 @@ const Login = (props) => {
     setShowPassword(!showPassword);
   };
   const handleForgotPassword = () => {
-    console.log("This is forgot password");
+    console.log('This is forgot password');
   };
 
   // const loginWithOtp = () => {
@@ -98,9 +100,8 @@ const Login = (props) => {
           </View> */}
         <AppForm
           validationSchema={validationSchema}
-          initialValues={{ contactNumber: "", password: "" }}
-          onSubmit={handleSubmit}
-        >
+          initialValues={{contactNumber: '', password: ''}}
+          onSubmit={handleSubmit}>
           <View>
             {/* <TouchableOpacity
                 onPress={() => setShow(true)}
@@ -135,16 +136,15 @@ const Login = (props) => {
               placeholder="Your Password"
               textContentType="password"
               style={styles.textInput}
-              rightIcon={showPassword ? "eye" : "eye-off"}
+              rightIcon={showPassword ? 'eye' : 'eye-off'}
               onRightIconPress={handleEyeIcon}
               rightIconSize={wp(5.5)}
-              rightIconColor={showPassword ? "#788fd4" : colors.FONT_GREY}
+              rightIconColor={showPassword ? '#788fd4' : colors.FONT_GREY}
               containerStyle={styles.textInputContainer}
             />
             <Text
               style={styles.forgotPasswordText}
-              onPress={handleForgotPassword}
-            >
+              onPress={handleForgotPassword}>
               Forgot password?
             </Text>
           </View>
@@ -170,7 +170,7 @@ const Login = (props) => {
         <Text>OR</Text>
         <AppButton
           title="SIGNUP"
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => navigation.navigate('SignUp')}
           style={styles.signUpButton}
         />
         {/* <Text style={styles.noteText}>

@@ -1,12 +1,12 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {View, Text, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import styles from "./style";
-import { darkGreenColor, orangeColor } from "../../constants/colors";
+import styles from './style';
+import {darkGreenColor, orangeColor} from '../../constants/colors';
 
-const InviteMembersScreen = ({ empty = false }) => {
-  const Fields = ({ title, value }) => {
+const InviteMembersScreen = ({empty = false}) => {
+  const Fields = ({title, value}) => {
     return (
       <View style={styles.firstContainer}>
         <Text style={styles.labels}>{title} :</Text>
@@ -16,25 +16,25 @@ const InviteMembersScreen = ({ empty = false }) => {
   };
 
   const InvitedList = ({
-    levelNo = "L-1",
-    invitedId = "1234",
-    name = "AAAAA",
-    phoneNumber = "+855-12-345-678",
-    earned = "0",
-    date = "01-Jan-2020",
-    color = "green",
+    levelNo = 'L-1',
+    invitedId = '1234',
+    name = 'AAAAA',
+    phoneNumber = '+855-12-345-678',
+    earned = '0',
+    date = '01-Jan-2020',
+    color = 'green',
   }) => {
     return (
       <View style={styles.contentContainer}>
         <View style={styles.imageAndDetails}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../assets/images/user.png")}
+              source={require('../../assets/images/user.png')}
               style={styles.userImage}
             />
             <View style={styles.badgeContainer}>
               <Image
-                source={require("../../assets/images/silvermedal.png")}
+                source={require('../../assets/images/silvermedal.png')}
                 style={styles.medalImage}
               />
             </View>
@@ -52,7 +52,7 @@ const InviteMembersScreen = ({ empty = false }) => {
               <Icon
                 name="circle"
                 size={21}
-                color={color === "green" ? darkGreenColor : orangeColor}
+                color={color === 'green' ? darkGreenColor : orangeColor}
               />
             </View>
           </View>
@@ -86,9 +86,9 @@ const InviteMembersScreen = ({ empty = false }) => {
     );
   }
   return (
-    <View style={[styles.container, { justifyContent: "center" }]}>
+    <View style={[styles.container, {justifyContent: 'center'}]}>
       <Image
-        source={require("../../assets/images/user.png")}
+        source={require('../../assets/images/user.png')}
         style={styles.emptyContainerImage}
       />
       <Text style={styles.text}>Empty Invite Members</Text>

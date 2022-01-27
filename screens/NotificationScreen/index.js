@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import React, {useState} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import styles from "./style";
-import Screen from "../../components/Screen";
-import { primaryColor } from "../../constants/colors";
+import styles from './style';
+import Screen from '../../components/Screen';
+import {primaryColor} from '../../constants/colors';
 
 const NotificationScreen = ({
   empty = false,
-  body = "this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component",
-  heading = "Happy Khmer New Year",
-  date = "Mon 27-Jan-2020",
-  imageUrl = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  body = 'this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component this is a sentence to check whether how it is looking in the body of the card and if its working or not in the card component',
+  heading = 'Happy Khmer New Year',
+  date = 'Mon 27-Jan-2020',
+  imageUrl = 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
   // imageUrl,
 }) => {
   const [expandable, setExpandable] = useState(false);
@@ -20,8 +20,7 @@ const NotificationScreen = ({
       <View style={styles.container}>
         <TouchableOpacity
           activeOpacity={9}
-          onPress={() => setExpandable(!expandable)}
-        >
+          onPress={() => setExpandable(!expandable)}>
           <View style={styles.card}>
             <View style={styles.headingContainer}>
               <Text style={styles.heading}>{heading}</Text>
@@ -38,7 +37,7 @@ const NotificationScreen = ({
               {imageUrl && (
                 <View style={expandable ? styles.imageContainer : null}>
                   <Image
-                    source={{ uri: imageUrl }}
+                    source={{uri: imageUrl}}
                     style={expandable ? styles.cardImage : null}
                   />
                 </View>
@@ -46,7 +45,7 @@ const NotificationScreen = ({
             </View>
             <View style={styles.iconContainer}>
               <Icon
-                name={expandable ? "chevron-up" : "chevron-down"}
+                name={expandable ? 'chevron-up' : 'chevron-down'}
                 size={23}
                 color={primaryColor}
                 style={styles.icon}
@@ -58,9 +57,9 @@ const NotificationScreen = ({
     );
   }
   return (
-    <Screen style={[styles.container, { justifyContent: "center" }]}>
+    <Screen style={[styles.container, {justifyContent: 'center'}]}>
       <Image
-        source={require("../../assets/images/user.png")}
+        source={require('../../assets/images/user.png')}
         style={styles.image}
       />
       <Text style={styles.text}>Empty Notifications</Text>

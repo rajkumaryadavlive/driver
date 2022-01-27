@@ -1,47 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   ScrollView,
-  ActivityIndicator,
-} from "react-native";
+  Alert,
+  BackHandler,
+} from 'react-native';
 
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import CustomActivityIndicator from "../../components/CustomActivityIndicator";
-import CustomMap from "../MapScreen";
-import * as colors from "../../constants/colors";
-import Screen from "../../components/Screen";
-import AppButton from "../../components/AppButton";
-import { hp, wp } from "../../constants/dimensions";
-import MultipleBarGraph from "../../components/MultipleBarGraph";
-import dashboardApi from "../../api/dashboard";
-import useAuth from "../../hooks/useAuth";
+import CustomActivityIndicator from '../../components/CustomActivityIndicator';
+import CustomMap from '../MapScreen';
+import * as colors from '../../constants/colors';
+import Screen from '../../components/Screen';
+import AppButton from '../../components/AppButton';
+import {hp, wp} from '../../constants/dimensions';
+import MultipleBarGraph from '../../components/MultipleBarGraph';
+import dashboardApi from '../../api/dashboard';
+import useAuth from '../../hooks/useAuth';
 
-const lightBlue = "#8380f9";
-const Home = ({ route, navigation }) => {
+const lightBlue = '#8380f9';
+const Home = ({route, navigation}) => {
   const [data, setData] = useState({});
   const [loaded, setLoaded] = useState(false);
 
-  const { token: userToken } = useAuth();
+  const {token: userToken} = useAuth();
 
   const getGraphData = async () => {
     const result = await dashboardApi.getDashBoardData(userToken);
     if (!result.ok) {
-      console.log("====================================");
+      console.log('====================================');
       console.log(result.data);
-      console.log("====================================");
+      console.log('====================================');
       // alert(result.data);
       return;
     }
     console.log(result.data);
-    setData({ ...result.data.data });
+    setData({...result.data.data});
     setLoaded(true);
   };
 
   useEffect(() => {
     getGraphData();
+    const backAction = () => {
+      Alert.alert('Exit', 'Are you sure you want to exit?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'YES', onPress: () => BackHandler.exitApp()},
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   const HeadingComponent = () => {
@@ -59,7 +79,7 @@ const Home = ({ route, navigation }) => {
     );
   };
 
-  const Box2 = ({ separator, title, count, iconName, f5, f }) => {
+  const Box2 = ({separator, title, count, iconName, f5, f}) => {
     return (
       <View style={styles.horizontalView}>
         <View style={styles.tripsView}>
@@ -79,12 +99,12 @@ const Home = ({ route, navigation }) => {
     );
   };
 
-  const Box3 = ({ separator, title, count, heading }) => {
+  const Box3 = ({separator, title, count, heading}) => {
     return (
       <View>
         {heading && (
           <View style={styles.box3}>
-            <Text style={[styles.headingText, { marginLeft: wp(3) }]}>
+            <Text style={[styles.headingText, {marginLeft: wp(3)}]}>
               {title}
             </Text>
           </View>
@@ -102,12 +122,12 @@ const Home = ({ route, navigation }) => {
   return (
     <Screen>
       <ScrollView>
-        <View style={{ marginTop: hp(15) }}>
+        <View style={{marginTop: hp(15)}}>
           <AppButton
             title="DELIVERY JOBS"
-            onPress={() => navigation.navigate("Map")}
-            style={{ width: wp(37), padding: hp(1) }}
-            textStyle={{ fontSize: hp(2.3), fontWeight: "700" }}
+            onPress={() => navigation.navigate('Map')}
+            style={{width: wp(37), padding: hp(1)}}
+            textStyle={{fontSize: hp(2.3), fontWeight: '700'}}
           />
         </View>
         {loaded ? (
@@ -128,7 +148,7 @@ const Home = ({ route, navigation }) => {
                 <Box3 title="MONTH" count={data.month[1].y} heading />
               </View>
             </View>
-            <View style={{ marginTop: hp(1), flexDirection: "row" }}>
+            <View style={{marginTop: hp(1), flexDirection: 'row'}}>
               <Box2
                 title="TOTAL EARNINGS"
                 count={data.day[0].y}
@@ -139,7 +159,7 @@ const Home = ({ route, navigation }) => {
               <Box3 count={data.week[0].y} separator />
               <Box3 count={data.month[0].y} />
             </View>
-            <View style={{ marginTop: hp(1), flexDirection: "row" }}>
+            <View style={{marginTop: hp(1), flexDirection: 'row'}}>
               <Box2
                 title="MILES/HR"
                 count={data.day[2].y}
@@ -174,11 +194,11 @@ const styles = StyleSheet.create({
   box3Content: {
     height: hp(8),
     backgroundColor: colors.primaryColor,
-    justifyContent: "center",
+    justifyContent: 'center',
     width: wp(25),
   },
   dataContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     elevation: 5,
     padding: hp(2),
     backgroundColor: colors.whiteColor,
@@ -186,31 +206,31 @@ const styles = StyleSheet.create({
   },
   dayBox: {
     backgroundColor: lightBlue,
-    justifyContent: "center",
+    justifyContent: 'center',
     width: wp(15),
   },
   dayNumberBox: {
     width: wp(15),
     height: hp(8),
     backgroundColor: colors.primaryColor,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   dayText: {
-    color: "white",
+    color: 'white',
     marginLeft: wp(3),
-    fontWeight: "700",
+    fontWeight: '700',
   },
   headingContainer: {
-    backgroundColor: "#1919bf",
+    backgroundColor: '#1919bf',
     width: wp(25),
-    alignItems: "center",
+    alignItems: 'center',
   },
   headingText: {
-    fontWeight: "700",
+    fontWeight: '700',
     color: colors.whiteColor,
   },
   horizontalView: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   separator: {
     backgroundColor: lightBlue,
@@ -219,21 +239,21 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     color: colors.whiteColor,
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: hp(1.7),
-    width: "60%",
+    width: '60%',
   },
   text: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
   },
   tripsView: {
     width: wp(25),
     height: hp(8),
     backgroundColor: lightBlue,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
 });
 

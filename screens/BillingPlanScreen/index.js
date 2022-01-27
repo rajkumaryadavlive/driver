@@ -1,12 +1,12 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {View, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import styles from "./style";
-import { orangeColor } from "../../constants/colors";
+import styles from './style';
+import {orangeColor} from '../../constants/colors';
 
 const BillingPlanScreen = () => {
-  const PlanCard = ({ heading, status, offer }) => {
+  const PlanCard = ({heading, status, offer}) => {
     return (
       <View style={styles.contentContainer}>
         <View style={styles.firstContainer}>

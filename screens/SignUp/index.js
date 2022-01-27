@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Image,
   Text,
@@ -6,47 +6,50 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
-} from "react-native";
+} from 'react-native';
 
 // import { Picker } from "@react-native-picker/picker";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Yup from "yup";
-import { Entypo as Icon } from "@expo/vector-icons";
-import CountryPicker from "react-native-country-codes-picker/components/CountryPicker";
-// import DateTimePicker from "@react-native-community/datetimepicker";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Yup from 'yup';
+import Icon from 'react-native-vector-icons/Entypo';
+// import CountryPicker from 'react-native-country-codes-picker/components/CountryPicker';
 
-import styles from "./style";
-import * as colors from "../../constants/colors";
-import { wp, hp } from "../../constants/dimensions";
-import Screen from "../../components/Screen";
+// import DateTimePicker from "@react-native-community/datetimepicker";
+import CountryPicker from 'react-native-country-picker-modal';
+
+import styles from './style';
+import * as colors from '../../constants/colors';
+import {wp, hp} from '../../constants/dimensions';
+import Screen from '../../components/Screen';
 import {
   AppForm,
   AppFormField,
   ErrorMessage,
   SubmitButton,
-} from "../../components/forms";
-import authApi from "../../api/auth";
+} from '../../components/forms';
+import authApi from '../../api/auth';
+import getFcmToken from '../../hooks/getDeviceToken';
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string().required().min(3, "Name is too short").label("Name"),
+  userName: Yup.string().required().min(3, 'Name is too short').label('Name'),
   phoneNumber: Yup.string()
     .required()
-    .label("Phone No.")
-    .min(10, "Phone number is not valid")
+    .label('Phone No.')
+    .min(10, 'Phone number is not valid')
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-      "Phone number is not valid"
+      'Phone number is not valid',
     ),
-  email: Yup.string().email().label("Email-id"),
-  password: Yup.string().required().min(4).max(20).label("Password"),
+  email: Yup.string().email().label('Email-id'),
+  password: Yup.string().required().min(4).max(20).label('Password'),
   cpassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords does not match"
+    [Yup.ref('password'), null],
+    'Passwords does not match',
   ),
 });
 
-const SignUp = (props) => {
-  const { navigation, route } = props;
+const SignUp = props => {
+  const {navigation, route} = props;
   // const [gender, setGender] = useState(null);
   // const [genderError, setGenderError] = useState(false);
   // const [dobError, setDOBError] = useState(false);
@@ -54,9 +57,9 @@ const SignUp = (props) => {
   // const [touched, setTouched] = useState(false);
   // const [countryCode, setCountryCode] = useState("+91");
   // const [countryFlag, setCountryFlag] = useState("🇮🇳");
-  const [countryCode, setCountryCode] = useState("");
-  const [countryFlag, setCountryFlag] = useState("");
-  const [countryName, setCountryName] = useState("");
+  const [countryCode, setCountryCode] = useState('');
+  const [countryFlag, setCountryFlag] = useState('');
+  const [countryName, setCountryName] = useState(null);
   const [countryError, setCountryError] = useState(false);
 
   const [show, setShow] = useState(false);
@@ -72,11 +75,11 @@ const SignUp = (props) => {
   // let age = today - yyyy;
   // console.log(age);
 
-  const FieldTitle = ({ title, required }) => {
+  const FieldTitle = ({title, required}) => {
     return (
       <Text style={styles.fieldName}>
         {title}
-        {required && <Text style={{ color: "red" }}> *</Text>}
+        {required && <Text style={{color: 'red'}}> *</Text>}
       </Text>
     );
   };
@@ -92,15 +95,16 @@ const SignUp = (props) => {
   //   setDate(currentDate);
   // };
 
-  const handleSubmit = async (userInfo) => {
+  const handleSubmit = async userInfo => {
     // if (gender === null) {
     //   return setGenderError(true);
     // }
     // if (age < 18) {
     //   return setDOBError(true);
     // }
-    if (countryName === "") {
+    if (countryName === '') {
       setCountryError(true);
+      return;
     }
     console.log(userInfo);
     let data = {
@@ -113,15 +117,18 @@ const SignUp = (props) => {
       // gender: gender,
       // dob: newDate,
     };
-    console.log("This is data from handleSubmit", data);
-    const result = await authApi.signUp(data);
+    console.log('This is data from handleSubmit', data);
+
+    const deviceToken = await getFcmToken();
+
+    const result = await authApi.signUp(data, deviceToken);
     if (!result.ok) {
       console.log(result.data);
       alert(result.data.message);
     } else {
       console.log(result.data);
       alert(result.data.message);
-      navigation.navigate("Login");
+      navigation.navigate('Login');
     }
   };
 
@@ -129,13 +136,12 @@ const SignUp = (props) => {
     // <View style={styles.container}>
     <Screen>
       <TouchableWithoutFeedback
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         onPress={() => {
-          console.log("pressed");
+          console.log('pressed');
           setShow(false);
-        }}
-      >
-        <View style={{ alignItems: "center" }}>
+        }}>
+        <View style={{alignItems: 'center'}}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={null}
@@ -145,7 +151,7 @@ const SignUp = (props) => {
                 <View>
                   <View style={styles.imageView}>
                     <Image
-                      source={require("../../assets/images/splash.png")}
+                      source={require('../../assets/images/splash.png')}
                       style={styles.profileImage}
                     />
                   </View>
@@ -158,14 +164,13 @@ const SignUp = (props) => {
                 <AppForm
                   validationSchema={validationSchema}
                   initialValues={{
-                    userName: "",
-                    phoneNumber: "",
-                    email: "",
-                    password: "",
-                    cpassword: "",
+                    userName: '',
+                    phoneNumber: '',
+                    email: '',
+                    password: '',
+                    cpassword: '',
                   }}
-                  onSubmit={handleSubmit}
-                >
+                  onSubmit={handleSubmit}>
                   <AppFormField
                     name="userName"
                     autoCapitalize="words"
@@ -188,15 +193,36 @@ const SignUp = (props) => {
                   />
                   <TouchableOpacity
                     onPress={() => setShow(true)}
-                    style={styles.callingCodeContainer}
-                  >
+                    style={styles.callingCodeContainer}>
+                    {show ? (
+                      <CountryPicker
+                        withFilter
+                        withFlag
+                        withCallingCode
+                        visible={show}
+                        containerButtonStyle={styles.callingCodeContent}
+                        onSelect={country => {
+                          setCountryName(country.name);
+                          setShow(false);
+                        }}
+                      />
+                    ) : countryName === null ? (
+                      <Text style={styles.countryName2}>Select country</Text>
+                    ) : (
+                      <Text style={styles.countryName}>{countryName}</Text>
+                    )}
+                  </TouchableOpacity>
+
+                  {/* <TouchableOpacity
+                    onPress={() => setShow(true)}
+                    style={styles.callingCodeContainer}>
                     <View style={styles.callingCodeContent}>
-                      {countryName !== "" ? (
+                      {countryName !== '' ? (
                         <Text style={styles.countryFlag}>
-                          {`${countryFlag} ${countryName} `}
+                          {` ${countryName} `}
                         </Text>
                       ) : (
-                        <Text style={{ color: "#9d9d9e" }}>Your Country</Text>
+                        <Text style={{color: '#9d9d9e'}}>Your Country</Text>
                       )}
                       <Icon
                         name="chevron-thin-down"
@@ -205,12 +231,12 @@ const SignUp = (props) => {
                       />
                     </View>
                   </TouchableOpacity>
-                  {countryName !== "" && (
+                  {countryName !== '' && (
                     <ErrorMessage
                       error="Please select country"
                       visible={countryError}
                     />
-                  )}
+                  )} */}
                   <AppFormField
                     name="email"
                     autoCapitalize="none"
@@ -238,7 +264,7 @@ const SignUp = (props) => {
                     autoCorrect={false}
                     placeholder="Enter Password"
                     trim
-                    maxLength={10}
+                    minLength={6}
                     style={styles.textInput}
                     containerStyle={styles.textInputContainer}
                   />
@@ -250,16 +276,6 @@ const SignUp = (props) => {
                 </AppForm>
               </>
             }
-          />
-          <CountryPicker
-            show={show}
-            pickerButtonOnPress={(item) => {
-              console.log(item);
-              setCountryName(item.name.en);
-              setCountryFlag(item.flag);
-              setCountryCode(item.dial_code);
-              setShow(false);
-            }}
           />
         </View>
       </TouchableWithoutFeedback>

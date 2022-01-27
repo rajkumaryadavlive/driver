@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import {
   useTheme,
   Avatar,
@@ -10,28 +10,28 @@ import {
   TouchableRipple,
   Switch,
   Divider,
-} from "react-native-paper";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  FontAwesome5,
-  FontAwesome,
-  SimpleLineIcons,
-  Ionicons,
-  Entypo,
-} from "@expo/vector-icons";
-import { Rating } from "react-native-ratings";
+} from 'react-native-paper';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 
-import * as colors from "../../constants/colors";
-import { wp, hp } from "../../constants/dimensions";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+import {Rating} from 'react-native-ratings';
+
+import * as colors from '../../constants/colors';
+import {wp, hp} from '../../constants/dimensions';
 
 export default function SideMenu(props) {
   const {
-    name = "Anchali Evans",
+    name = 'Anchali Evans',
     rating = 3.8,
-    phoneNumber = "+855 34 254 451",
-    points = "799",
+    phoneNumber = '+855 34 254 451',
+    points = '799',
     navigation,
   } = props;
 
@@ -41,16 +41,15 @@ export default function SideMenu(props) {
         <View>
           <View style={styles.profileContainer}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
+              onPress={() => navigation.navigate('EditProfile')}>
               <View style={styles.imageContainer}>
                 <Image
-                  source={require("../../assets/images/user.png")}
+                  source={require('../../assets/images/user.png')}
                   style={styles.image}
                 />
                 <View style={styles.badgeContainer}>
                   <Image
-                    source={require("../../assets/images/silvermedal.png")}
+                    source={require('../../assets/images/silvermedal.png')}
                     style={styles.image}
                   />
                 </View>
@@ -76,7 +75,7 @@ export default function SideMenu(props) {
 
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <MaterialCommunityIcons
                   name="home-outline"
                   color={colors.whiteColor}
@@ -86,12 +85,12 @@ export default function SideMenu(props) {
               label="Home"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate('Home');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <AntDesign
                   name="creditcard"
                   color={colors.whiteColor}
@@ -101,12 +100,12 @@ export default function SideMenu(props) {
               label="Credit"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("CreditScreen");
+                props.navigation.navigate('CreditScreen');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <MaterialCommunityIcons
                   name="file-table-outline"
                   color={colors.whiteColor}
@@ -116,12 +115,12 @@ export default function SideMenu(props) {
               label="Biiling plan"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("BillingPlans");
+                props.navigation.navigate('BillingPlans');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <FontAwesome5
                   name="hand-holding-usd"
                   color={colors.whiteColor}
@@ -131,12 +130,12 @@ export default function SideMenu(props) {
               label="Invite & Earn"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("InviteAndEarn");
+                props.navigation.navigate('InviteAndEarn');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <Ionicons
                   name="wallet-outline"
                   color={colors.whiteColor}
@@ -146,12 +145,12 @@ export default function SideMenu(props) {
               label="My Wallet"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("Wallet");
+                props.navigation.navigate('Wallet');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <Entypo
                   name="back-in-time"
                   color={colors.whiteColor}
@@ -161,12 +160,12 @@ export default function SideMenu(props) {
               label="My Bookings"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("MyBookings");
+                props.navigation.navigate('MyBookings');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <FontAwesome
                   name="trophy"
                   color={colors.whiteColor}
@@ -179,7 +178,7 @@ export default function SideMenu(props) {
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <FontAwesome
                   name="bell-o"
                   color={colors.whiteColor}
@@ -189,12 +188,12 @@ export default function SideMenu(props) {
               label="Notification"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("Notification");
+                props.navigation.navigate('Notification');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <SimpleLineIcons
                   name="user-female"
                   color={colors.whiteColor}
@@ -204,12 +203,12 @@ export default function SideMenu(props) {
               label="Help Center"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("HelpCenter");
+                props.navigation.navigate('HelpCenter');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <FontAwesome5
                   name="ambulance"
                   color={colors.whiteColor}
@@ -219,23 +218,23 @@ export default function SideMenu(props) {
               label="Emergency"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("Emergency");
+                props.navigation.navigate('Emergency');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <Entypo name="language" color={colors.whiteColor} size={size} />
               )}
               label="Language"
               labelStyle={styles.labels}
               onPress={() => {
-                props.navigation.navigate("Language");
+                props.navigation.navigate('Language');
               }}
             />
             <Divider style={styles.divider} />
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <MaterialCommunityIcons
                   name="power"
                   color={colors.whiteColor}
@@ -260,7 +259,7 @@ const styles = StyleSheet.create({
   badgeContainer: {
     width: wp(7),
     height: hp(5),
-    position: "absolute",
+    position: 'absolute',
     bottom: -10,
     right: -5,
   },
@@ -274,12 +273,12 @@ const styles = StyleSheet.create({
   divider: {
     borderWidth: 1,
     borderColor: colors.blueDivider,
-    width: "90%",
-    alignSelf: "center",
+    width: '90%',
+    alignSelf: 'center',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 50,
   },
   imageContainer: {
@@ -287,13 +286,13 @@ const styles = StyleSheet.create({
     height: wp(20),
     borderRadius: wp(10),
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: 'white',
     backgroundColor: colors.whiteColor,
   },
   labels: {
     color: colors.whiteColor,
     marginLeft: -15,
-    fontFamily: "segoeui",
+    fontFamily: 'segoeui',
   },
   name: {
     fontSize: wp(5.5),
@@ -308,14 +307,14 @@ const styles = StyleSheet.create({
     marginTop: hp(0.5),
   },
   profileContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: hp(3),
     marginLeft: hp(3),
   },
   rating: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginTop: hp(0.5),
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
 });
 //   userInfoSection: {

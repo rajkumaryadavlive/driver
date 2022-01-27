@@ -1,21 +1,45 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Switch } from "react-native";
+import React from 'react';
+import {View, Text, TouchableOpacity, Switch} from 'react-native';
 
-import * as colors from "../../constants/colors";
-import styles from "./style";
-import BadgeAndImage from "../../components/BadgeAndImage";
-import BottomButtons from "../../components/BottomButtons";
-import AppButton from "../../components/AppButton";
+import * as colors from '../../constants/colors';
+import styles from './style';
 
-export const InitialStep = ({}) => {
+import Icon from 'react-native-vector-icons/Entypo';
+import AppButton from '../../components/AppButton';
+import {hp, wp} from '../../constants/dimensions';
+
+export const InitialStep = ({backButton}) => {
   return (
     <View style={styles.topContent}>
-      <Text>Set Your Location</Text>
+      <View
+        style={{
+          alignItems: 'center',
+          flexDirection: 'row',
+          backgroundColor: colors.primaryColor,
+          height: hp(10),
+          flex: 1,
+        }}>
+        <Icon
+          name="chevron-thin-left"
+          size={30}
+          color={colors.whiteColor}
+          style={{marginLeft: wp(5)}}
+          onPress={backButton}
+        />
+        <Text
+          style={{
+            color: colors.whiteColor,
+            marginLeft: wp(5),
+            fontSize: hp(3.5),
+          }}>
+          Set Your Location
+        </Text>
+      </View>
     </View>
   );
 };
 
-export const InitialButton = ({ updateDriverLocation }) => {
+export const InitialButton = ({updateDriverLocation}) => {
   return (
     <View style={styles.customBottomLayout}>
       <AppButton title="Confirm" onPress={updateDriverLocation} />

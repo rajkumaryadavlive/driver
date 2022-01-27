@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Image,
@@ -8,47 +8,49 @@ import {
   FlatList,
   Alert,
   ScrollView,
-} from "react-native";
-import { EvilIcons as Icon1, AntDesign as Icon2 } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Yup from "yup";
-import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
+} from 'react-native';
+import Icon1 from 'react-native-vector-icons/EvilIcons';
+import Icon2 from 'react-native-vector-icons/AntDesign';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Yup from 'yup';
+import {Picker} from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-import styles from "./style";
-import * as colors from "../../constants/colors";
+import styles from './style';
+import * as colors from '../../constants/colors';
 import {
   AppForm,
   AppFormField,
   SubmitButton,
   ErrorMessage,
-} from "../../components/forms";
-import AppButton from "../../components/AppButton";
-import { hp, wp } from "../../constants/dimensions";
-import ImagePickerComp from "../../components/ImagePicker";
+} from '../../components/forms';
+import AppButton from '../../components/AppButton';
+import {hp, wp} from '../../constants/dimensions';
+import ImagePickerComp from '../../components/ImagePicker';
 
-import useAuth from "../../hooks/useAuth";
-import profileApi from "../../api/profile";
-import listApi from "../../api/vehicle";
-import CustomActivityIndicator from "../../components/CustomActivityIndicator";
-import CustomImageList from "../../components/CustomImageList";
-import MediaSelectionScreen from "../../components/MediaSelectionScreen";
+import useAuth from '../../hooks/useAuth';
+import profileApi from '../../api/profile';
+import listApi from '../../api/vehicle';
+import CustomActivityIndicator from '../../components/CustomActivityIndicator';
+import CustomImageList from '../../components/CustomImageList';
+import MediaSelectionScreen from '../../components/MediaSelectionScreen';
+import getFcmToken from '../../hooks/getDeviceToken';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().min(3).required().label("Name"),
+  name: Yup.string().min(3).required().label('Name'),
   phone: Yup.string()
     .required()
-    .label("Phone No.")
-    .min(10, "Phone number is not valid")
+    .label('Phone No.')
+    .min(10, 'Phone number is not valid')
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-      "Phone number is not valid"
+      'Phone number is not valid',
     ),
-  email: Yup.string().email().required().label("Email-id"),
+  email: Yup.string().email().required().label('Email-id'),
 });
 
-const EditProfileScreen = (props) => {
-  const { navigation, route } = props;
+const EditProfileScreen = props => {
+  const {navigation, route} = props;
 
   const [loaded, setLoaded] = useState(true);
   const [userData, setUserData] = useState({});
@@ -93,37 +95,37 @@ const EditProfileScreen = (props) => {
 
   // const userToken = route.params.userToken;
 
-  console.log("====================================");
+  console.log('====================================');
   console.log(userData);
-  console.log("====================================");
+  console.log('====================================');
 
-  const { token: userToken } = useAuth();
+  const {token: userToken} = useAuth();
 
-  const getDateFormat = (date) => {
-    let dd = String(date.getDate()).padStart(2, "0");
-    let mm = String(date.getMonth() + 1).padStart(2, "0");
+  const getDateFormat = date => {
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
     let yyyy = date.getFullYear();
 
-    let newDate = yyyy + "-" + mm + "-" + dd;
+    let newDate = yyyy + '-' + mm + '-' + dd;
 
     let today = new Date().getFullYear();
     let age = today - yyyy;
 
-    return { newDate, age };
+    return {newDate, age};
   };
 
   const initialValues = {
-    name: "",
-    phone: "",
-    email: "",
-    licenseNumber: "",
-    mfgYear: "",
-    vehicleModel: "",
-    vehicleManufacturer: "",
-    vehicleName: "",
-    vehiclePlateNumber: "",
-    colour: "",
-    insuranceNumber: "",
+    name: '',
+    phone: '',
+    email: '',
+    licenseNumber: '',
+    mfgYear: '',
+    vehicleModel: '',
+    vehicleManufacturer: '',
+    vehicleName: '',
+    vehiclePlateNumber: '',
+    colour: '',
+    insuranceNumber: '',
   };
 
   const newData = {
@@ -172,67 +174,67 @@ const EditProfileScreen = (props) => {
     setInsEndDate(currentDate);
   };
 
-  const { newDate: dobNewDate, age: dobAge } = getDateFormat(dobDate);
-  const { newDate: newInsStrDate } = getDateFormat(insStrDate);
-  const { newDate: newInsEndDate } = getDateFormat(insEndDate);
+  const {newDate: dobNewDate, age: dobAge} = getDateFormat(dobDate);
+  const {newDate: newInsStrDate} = getDateFormat(insStrDate);
+  const {newDate: newInsEndDate} = getDateFormat(insEndDate);
 
-  const removePucImage = (id) => {
-    Alert.alert("Delete", "Are you sure you want to delete this image", [
+  const removePucImage = path => {
+    Alert.alert('Delete', 'Are you sure you want to delete this image', [
       {
-        text: "Yes",
+        text: 'Yes',
         onPress: () => {
           const filteredArr = pucImages.filter(
-            (image) => image.id.indexOf(id) === -1
+            image => image.path.indexOf(path) === -1,
           );
           setPucImages([...filteredArr]);
         },
       },
-      { text: "No" },
+      {text: 'No'},
     ]);
   };
-  const removeInsImage = (id) => {
-    Alert.alert("Delete", "Are you sure you want to delete this image", [
+  const removeInsImage = path => {
+    Alert.alert('Delete', 'Are you sure you want to delete this image', [
       {
-        text: "Yes",
+        text: 'Yes',
         onPress: () => {
           const filteredArr = insuranceImages.filter(
-            (image) => image.id.indexOf(id) === -1
+            image => image.path.indexOf(path) === -1,
           );
           setInsuranceImages([...filteredArr]);
         },
       },
-      { text: "No" },
+      {text: 'No'},
     ]);
   };
-  const removeVehicleImage = (id) => {
-    Alert.alert("Delete", "Are you sure you want to delete this image", [
+  const removeVehicleImage = path => {
+    Alert.alert('Delete', 'Are you sure you want to delete this image', [
       {
-        text: "Yes",
+        text: 'Yes',
         onPress: () => {
           const filteredArr = vehicleImages.filter(
-            (image) => image.id.indexOf(id) === -1
+            image => image.path.indexOf(path) === -1,
           );
           setVehicleImages([...filteredArr]);
         },
       },
-      { text: "No" },
+      {text: 'No'},
     ]);
   };
 
-  const FieldTitle = ({ title, required, starColor = "grey" }) => {
+  const FieldTitle = ({title, required, starColor = 'grey'}) => {
     return (
       <Text style={styles.fieldsTitle}>
         {title}
-        {required && <Text style={{ color: starColor }}> *</Text>}
+        {required && <Text style={{color: starColor}}> *</Text>}
       </Text>
     );
   };
 
-  const IdComponent = ({ image, field }) => {
+  const IdComponent = ({image, field}) => {
     return (
       <View style={styles.idComp}>
-        {image !== "" ? (
-          <Image source={{ uri: image }} style={styles.image} />
+        {image !== '' ? (
+          <Image source={{uri: image}} style={styles.image} />
         ) : (
           <Icon2 name="idcard" size={55} color="grey" />
         )}
@@ -243,7 +245,7 @@ const EditProfileScreen = (props) => {
     );
   };
 
-  const ImageArrayComp = ({ fieldTitle, children }) => {
+  const ImageArrayComp = ({fieldTitle, children}) => {
     return (
       <View style={styles.photoContainer}>
         <View>
@@ -256,10 +258,9 @@ const EditProfileScreen = (props) => {
             }}
             contentContainerStyle={{
               paddingHorizontal: 2,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             {children}
           </ScrollView>
         </View>
@@ -273,7 +274,7 @@ const EditProfileScreen = (props) => {
       console.log(result.problem);
       return;
     } else {
-      setUserData({ ...result.data.data });
+      setUserData({...result.data.data});
       const {
         gender,
         dob,
@@ -289,13 +290,13 @@ const EditProfileScreen = (props) => {
         profile,
       } = result.data.data;
 
-      profile === ""
+      profile === ''
         ? setProfileImg(
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg"
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg',
           )
         : setProfileImg(profile);
       setGender(gender);
-      dob === "" ? setDobDate(new Date()) : setDobDate(new Date(dob));
+      dob === '' ? setDobDate(new Date()) : setDobDate(new Date(dob));
 
       setDocumentFrontImg(frontImg);
 
@@ -306,10 +307,10 @@ const EditProfileScreen = (props) => {
       setVehicleImages([...vehImgs]);
       setFuelType(fuelT);
       setVehicleId(vehicleTypeId);
-      insStrD === ""
+      insStrD === ''
         ? setInsStrDate(new Date())
         : setInsStrDate(new Date(insStrD));
-      insEndD === ""
+      insEndD === ''
         ? setInsStrDate(new Date())
         : setInsEndDate(new Date(insEndD));
     }
@@ -320,29 +321,29 @@ const EditProfileScreen = (props) => {
     try {
       const result = await listApi.getVehicleTypeList(userToken);
       if (!result.ok) {
-        console.log("This is vehicle data error", result.data.message);
+        console.log('This is vehicle data error', result.data.message);
       } else {
         const list = result.data.data.list;
-        console.log("====================================");
+        console.log('====================================');
 
         setListData([...list]);
       }
     } catch (error) {
-      console.log("====================================");
+      console.log('====================================');
       console.log(error);
-      console.log("====================================");
+      console.log('====================================');
     }
   };
 
   const getVehicleType = () => {
     listData
-      .filter((val) => vehicleId === val._id)
-      .map((vehicleType) => {
+      .filter(val => vehicleId === val._id)
+      .map(vehicleType => {
         setSelectedVehicle(vehicleType.type);
       });
   };
 
-  const handleSubmit = async (userInfo) => {
+  const handleSubmit = async userInfo => {
     if (gender === null) return setGenderError(true);
     if (selectedVehicle === null) return setVehicleTypeError(true);
     if (dobAge < 18) return setDobError(true);
@@ -363,22 +364,29 @@ const EditProfileScreen = (props) => {
       vehicleTypeId: vehicleId,
       profileimage: profileImg,
     };
-    console.log("====================================");
-    console.log("this is handle submit", data);
-    console.log("====================================");
-    const result = await profileApi.editProfileDriver(data, userToken);
+    console.log('====================================');
+    console.log('this is handle submit', data);
+    console.log('====================================');
+
+    const deviceToken = await getFcmToken();
+
+    const result = await profileApi.editProfileDriver(
+      data,
+      userToken,
+      deviceToken,
+    );
     // console.log("This is the result", result);
     if (!result.ok) {
-      console.log("====================================");
-      console.log("Could not update..", result);
-      alert("Error while updating...");
-      console.log("====================================");
+      console.log('====================================');
+      console.log('Could not update..', result.config.data._parts);
+      alert('Error while updating...');
+      console.log('====================================');
     } else {
-      console.log("====================================");
+      console.log('====================================');
       console.log(result.data);
-      alert("Updated Successfully...");
-      console.log("====================================");
-      navigation.navigate(userData.isVerified ? "Drawer" : "Verification");
+      alert('Updated Successfully...');
+      console.log('====================================');
+      navigation.navigate(userData.isVerified ? 'Drawer' : 'Verification');
     }
   };
 
@@ -389,8 +397,8 @@ const EditProfileScreen = (props) => {
       return false;
     };
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
+      'hardwareBackPress',
+      backAction,
     );
     return () => {
       backHandler.remove();
@@ -407,23 +415,18 @@ const EditProfileScreen = (props) => {
         initialValues={newData || initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        enableReinitialize={true}
-      >
+        enableReinitialize={true}>
         {!vehicleInfo ? (
           <View style={styles.contentContainer}>
             <CustomActivityIndicator visible={loaded} />
             <KeyboardAwareScrollView>
               <View style={styles.imageView}>
-                <Image
-                  source={{ uri: profileImg }}
-                  style={styles.profileImage}
-                />
+                <Image source={{uri: profileImg}} style={styles.profileImage} />
                 <ImagePickerComp
-                  getImageUrl={(url) => {
+                  getImageUrl={url => {
                     setProfileImg(url);
                   }}
-                  componentStyle={styles.iconContainer}
-                >
+                  componentStyle={styles.iconContainer}>
                   <Icon1 name="camera" size={30} color={colors.primaryColor} />
                 </ImagePickerComp>
               </View>
@@ -472,8 +475,7 @@ const EditProfileScreen = (props) => {
                     selectedValue={gender}
                     onValueChange={(itemValue, itemIndex) => {
                       setGender(itemValue);
-                    }}
-                  >
+                    }}>
                     <Picker.Item label="Male" value="Male" />
                     <Picker.Item label="Female" value="Female" />
                     <Picker.Item label="Other" value="Other" />
@@ -498,11 +500,11 @@ const EditProfileScreen = (props) => {
                         minimumDate={new Date(2054)}
                       />
                     ) : !dobTouched ? (
-                      <Text style={{ paddingLeft: 10, color: "black" }}>
+                      <Text style={{paddingLeft: 10, color: 'black'}}>
                         {userData.dob}
                       </Text>
                     ) : (
-                      <Text style={{ paddingLeft: 10, color: "black" }}>
+                      <Text style={{paddingLeft: 10, color: 'black'}}>
                         {dobNewDate}
                       </Text>
                     )}
@@ -525,18 +527,18 @@ const EditProfileScreen = (props) => {
               </View>
               {!vehicleInfo && (
                 <AppButton
-                  title={"Next"}
-                  style={{ width: wp(70), color: colors.primaryColor }}
+                  title={'Next'}
+                  style={{width: wp(70), color: colors.primaryColor}}
                   onPress={() => {
                     setVehicleInfo(true);
-                    navigation.setOptions({ title: "Vehicle Information" });
+                    navigation.setOptions({title: 'Vehicle Information'});
                   }}
                 />
               )}
             </KeyboardAwareScrollView>
           </View>
         ) : (
-          <View style={[styles.contentContainer, { marginTop: 10 }]}>
+          <View style={[styles.contentContainer, {marginTop: 10}]}>
             <FlatList
               data={null}
               ListHeaderComponent={
@@ -552,12 +554,11 @@ const EditProfileScreen = (props) => {
                         onValueChange={(itemValue, itemIndex) => {
                           setSelectedVehicle(itemValue);
                           listData
-                            .filter((val) => itemValue === val.type)
-                            .map((data) => setVehicleId(data._id));
-                        }}
-                      >
+                            .filter(val => itemValue === val.type)
+                            .map(data => setVehicleId(data._id));
+                        }}>
                         <Picker.Item label="Select Type..." value={null} />
-                        {listData.map((item) => (
+                        {listData.map(item => (
                           <Picker.Item
                             key={item._id}
                             label={item.type}
@@ -632,8 +633,7 @@ const EditProfileScreen = (props) => {
                         selectedValue={fuelType}
                         onValueChange={(itemValue, itemIndex) => {
                           setFuelType(itemValue);
-                        }}
-                      >
+                        }}>
                         <Picker.Item label="Select type" value={null} />
                         <Picker.Item label="Petrol" value="petrol" />
                         <Picker.Item label="Diesel" value="diesel" />
@@ -683,7 +683,7 @@ const EditProfileScreen = (props) => {
                             minimumDate={new Date(2054)}
                           />
                         ) : (
-                          <Text style={{ paddingLeft: 10, color: "black" }}>
+                          <Text style={{paddingLeft: 10, color: 'black'}}>
                             {!insStrTouched
                               ? userData.insuranceStartDate
                               : newInsStrDate}
@@ -710,7 +710,7 @@ const EditProfileScreen = (props) => {
                             minimumDate={new Date()}
                           />
                         ) : (
-                          <Text style={{ paddingLeft: 10, color: "black" }}>
+                          <Text style={{paddingLeft: 10, color: 'black'}}>
                             {!insEndTouched
                               ? userData.insuranceEndDate
                               : newInsEndDate}
@@ -730,7 +730,7 @@ const EditProfileScreen = (props) => {
                         removeImage={removePucImage}
                       />
                       <MediaSelectionScreen
-                        getImageList={(imgArr) =>
+                        getImageList={imgArr =>
                           setPucImages([...pucImages, ...imgArr])
                         }
                       />
@@ -741,7 +741,7 @@ const EditProfileScreen = (props) => {
                         removeImage={removeInsImage}
                       />
                       <MediaSelectionScreen
-                        getImageList={(imgArr) =>
+                        getImageList={imgArr =>
                           setInsuranceImages([...insuranceImages, ...imgArr])
                         }
                       />
@@ -750,15 +750,13 @@ const EditProfileScreen = (props) => {
                     <FieldTitle title="Document Images (Front & Back)" />
                     <View style={styles.photoContainer}>
                       <ImagePickerComp
-                        getImageUrl={(url) => {
+                        getImageUrl={url => {
                           setDocumentFrontImg(url);
-                        }}
-                      >
+                        }}>
                         <IdComponent image={documentFrontImg} />
                       </ImagePickerComp>
                       <ImagePickerComp
-                        getImageUrl={(url) => setDocumentBackImg(url)}
-                      >
+                        getImageUrl={url => setDocumentBackImg(url)}>
                         <IdComponent image={documentBackImg} />
                       </ImagePickerComp>
                     </View>
@@ -768,7 +766,7 @@ const EditProfileScreen = (props) => {
                         removeImage={removeVehicleImage}
                       />
                       <MediaSelectionScreen
-                        getImageList={(imgArr) =>
+                        getImageList={imgArr =>
                           setVehicleImages([...vehicleImages, ...imgArr])
                         }
                       />
@@ -780,10 +778,9 @@ const EditProfileScreen = (props) => {
                 <>
                   <View
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-evenly",
-                    }}
-                  >
+                      flexDirection: 'row',
+                      justifyContent: 'space-evenly',
+                    }}>
                     <AppButton
                       title="Back"
                       style={{
@@ -792,7 +789,7 @@ const EditProfileScreen = (props) => {
                       }}
                       onPress={() => {
                         setVehicleInfo(false);
-                        navigation.setOptions({ title: "Edit Profile" });
+                        navigation.setOptions({title: 'Edit Profile'});
                       }}
                     />
                     <SubmitButton

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import {
-  FontAwesome5 as Icon,
-  EvilIcons,
-  SimpleLineIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import React, {useEffect, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 
-import BadgeAndImage from "../../components/BadgeAndImage";
-import * as colors from "../../constants/colors";
-import { hp, wp } from "../../constants/dimensions";
-import styles from "./style";
-import AppButton from "../../components/AppButton";
-import BottomButtons from "../../components/BottomButtons";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const NewJobTopContainer = ({ onPressReject, sideMenuOpen }) => {
+import BadgeAndImage from '../../components/BadgeAndImage';
+import * as colors from '../../constants/colors';
+import {hp, wp} from '../../constants/dimensions';
+import styles from './style';
+import AppButton from '../../components/AppButton';
+import BottomButtons from '../../components/BottomButtons';
+
+export const NewJobTopContainer = ({onPressReject, sideMenuOpen}) => {
   const Dot = () => {
     return <View style={styles.dot} />;
   };
@@ -25,7 +24,7 @@ export const NewJobTopContainer = ({ onPressReject, sideMenuOpen }) => {
         <BadgeAndImage />
       </TouchableOpacity>
       <View style={styles.newJob}>
-        <View style={{ marginRight: hp(7) }}>
+        <View style={{marginRight: hp(7)}}>
           <Text style={styles.newJobText}>New Job</Text>
           <View style={styles.threeDots}>
             <Dot />
@@ -39,9 +38,8 @@ export const NewJobTopContainer = ({ onPressReject, sideMenuOpen }) => {
             <Text
               style={[
                 styles.buttonText,
-                { color: colors.whiteColor, fontSize: 15 },
-              ]}
-            >
+                {color: colors.whiteColor, fontSize: 15},
+              ]}>
               Reject
             </Text>
           </View>
@@ -73,7 +71,7 @@ export const NewJobBottomContainer = ({
   let newDur = (Math.round(duration * 100) / 100).toFixed(2);
 
   let newDuration = newDur.toString();
-  let arr = newDuration.split(".");
+  let arr = newDuration.split('.');
   let min = parseInt(arr[0]);
   let sec = parseInt(arr[1]);
 
@@ -81,7 +79,7 @@ export const NewJobBottomContainer = ({
   let second = sec > 60 ? sec - 60 && minutes + 1 : sec;
   return (
     <>
-      <View style={[styles.customBottomLayout, { bottom: hp(25) }]}>
+      <View style={[styles.customBottomLayout, {bottom: hp(25)}]}>
         <View>
           <BottomButtons onPress={onPressZoomIn} iconName="plus" fontAwesome />
           <BottomButtons
@@ -96,7 +94,7 @@ export const NewJobBottomContainer = ({
       </View>
       {seconds > 0 && (
         <View style={styles.customBottomLayout2}>
-          <View style={[styles.topContainer, { height: hp(25) }]}>
+          <View style={[styles.topContainer, {height: hp(25)}]}>
             <View style={styles.bottomContent}>
               <View style={styles.timerContainer}>
                 <Text style={styles.timerText}>
@@ -119,7 +117,7 @@ export const NewJobBottomContainer = ({
             <View style={styles.divider} />
             <View style={styles.addressContainer}>
               <EvilIcons name="location" size={hp(4)} color="black" />
-              <Text numberOfLines={1} style={{ width: "93%" }}>
+              <Text numberOfLines={1} style={{width: '93%'}}>
                 Address this is the address from another component that will be
                 available from another component
               </Text>
@@ -127,16 +125,15 @@ export const NewJobBottomContainer = ({
           </View>
           <View
             style={{
-              position: "absolute",
+              position: 'absolute',
               bottom: 0,
               width: wp(100),
-            }}
-          >
+            }}>
             <AppButton
               title="ACCEPT"
               onPress={onPressAccept}
-              style={{ width: wp(90), alignSelf: "center" }}
-              textStyle={{ fontWeight: "700" }}
+              style={{width: wp(90), alignSelf: 'center'}}
+              textStyle={{fontWeight: '700'}}
             />
           </View>
         </View>

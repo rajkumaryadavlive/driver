@@ -1,13 +1,13 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
-import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {View, Text, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import styles from "./style";
-import { primaryColor } from "../../constants/colors";
-import Screen from "../../components/Screen";
+import styles from './style';
+import {primaryColor} from '../../constants/colors';
+import Screen from '../../components/Screen';
 
-const HelpCenterScreen = (props) => {
-  const ContentComponent = ({ body, iconName = "phone-classic" }) => {
+const HelpCenterScreen = props => {
+  const ContentComponent = ({body, iconName = 'phone-classic'}) => {
     return (
       <View style={styles.iconAndNumbers}>
         <Icon name={iconName} size={22} color={primaryColor} />
@@ -20,7 +20,7 @@ const HelpCenterScreen = (props) => {
     <Screen>
       <View style={styles.container}>
         <Image
-          source={require("../../assets/images/helpcenter.png")}
+          source={require('../../assets/images/helpcenter.png')}
           style={styles.image}
         />
         <Text style={styles.FYItext}>For more information, Please contact</Text>

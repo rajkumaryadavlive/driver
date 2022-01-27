@@ -1,23 +1,23 @@
-import { StyleSheet } from "react-native";
-import { wp, hp } from "../../constants/dimensions";
-import * as colors from "../../constants/colors";
+import {StyleSheet} from 'react-native';
+import {wp, hp} from '../../constants/dimensions';
+import * as colors from '../../constants/colors';
 
 export default StyleSheet.create({
   addressContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 5,
   },
   badgeContainer: {
     width: wp(4),
     height: hp(3),
-    position: "absolute",
+    position: 'absolute',
     bottom: -5,
     right: 0,
   },
   bottomContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignSelf: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
     width: wp(90),
     paddingVertical: hp(1),
   },
@@ -30,8 +30,8 @@ export default StyleSheet.create({
     paddingHorizontal: wp(4),
     paddingVertical: wp(1),
     backgroundColor: colors.whiteColor,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 10,
@@ -39,21 +39,21 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   customBottomLayout: {
-    position: "absolute",
+    position: 'absolute',
     bottom: hp(5),
     width: wp(90),
-    justifyContent: "space-between",
-    flexDirection: "row",
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   customBottomLayout2: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     width: wp(100),
-    justifyContent: "space-between",
-    flexDirection: "row",
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   customerImageContainer: {
     width: wp(18),
@@ -75,14 +75,14 @@ export default StyleSheet.create({
     borderRadius: wp(5),
   },
   durationAndDistance: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   durationAndDistanceText: {
     color: colors.darkGrey,
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: wp(10),
   },
   imageContainer: {
@@ -95,33 +95,33 @@ export default StyleSheet.create({
   },
   imageAndCustomerInfo: {
     marginTop: hp(3),
-    flexDirection: "row",
+    flexDirection: 'row',
     marginLeft: wp(2),
     width: wp(98),
     height: hp(16),
-    position: "absolute",
+    position: 'absolute',
     top: 0,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
   newJob: {
-    alignItems: "center",
-    justifyContent: "flex-end",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   newJobText: {
     color: colors.darkGrey,
     fontSize: 25,
-    fontWeight: "700",
-    textAlign: "center",
+    fontWeight: '700',
+    textAlign: 'center',
   },
   orderStarted: {
     width: wp(100),
-    justifyContent: "center",
+    justifyContent: 'center',
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     marginRight: hp(5),
   },
   orderStartedText: {
@@ -129,23 +129,23 @@ export default StyleSheet.create({
     color: colors.darkGrey,
   },
   rejectButtonContainer: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     borderWidth: 0,
     paddingHorizontal: wp(6),
     paddingVertical: wp(1.5),
     borderRadius: wp(5),
   },
   switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     width: wp(20),
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   threeDots: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     width: wp(25),
-    alignSelf: "center",
+    alignSelf: 'center',
     marginTop: hp(1),
   },
   timeToReachAndDistance: {
@@ -157,12 +157,12 @@ export default StyleSheet.create({
     width: wp(17),
     height: wp(17),
     borderRadius: wp(10),
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   timerText: {
     fontSize: hp(4),
-    fontWeight: "700",
+    fontWeight: '700',
     color: colors.primaryColor,
   },
   topContainer: {
@@ -172,11 +172,11 @@ export default StyleSheet.create({
     height: hp(7),
   },
   topContent: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: wp(95),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: wp(100),
   },
 });

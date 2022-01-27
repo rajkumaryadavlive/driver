@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
-import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import React from 'react';
+import {View, Text, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import styles from "./style";
+import styles from './style';
 
-const IncomingCallScreen = (props) => {
+const IncomingCallScreen = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Incoming Call</Text>
@@ -13,7 +13,7 @@ const IncomingCallScreen = (props) => {
           <Image
             source={{
               //   uri: "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png",
-              uri: "https://cdn.psychologytoday.com/sites/default/files/styles/article-inline-half-caption/public/field_blog_entry_images/2018-09/shutterstock_648907024.jpg?itok=0hb44OrI",
+              uri: 'https://cdn.psychologytoday.com/sites/default/files/styles/article-inline-half-caption/public/field_blog_entry_images/2018-09/shutterstock_648907024.jpg?itok=0hb44OrI',
             }}
             style={styles.image}
           />
@@ -27,7 +27,7 @@ const IncomingCallScreen = (props) => {
               color="white"
               style={styles.pickUpCallIcon}
               size={35}
-              onPress={() => console.log("This is from pick up")}
+              onPress={() => console.log('This is from pick up')}
             />
           </View>
           <View style={styles.iconContainer}>
@@ -36,7 +36,7 @@ const IncomingCallScreen = (props) => {
               color="white"
               style={styles.endCallIcon}
               size={35}
-              onPress={() => console.log("This is from end up call")}
+              onPress={() => console.log('This is from end up call')}
             />
           </View>
         </View>

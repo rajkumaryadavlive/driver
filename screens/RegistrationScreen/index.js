@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { Image, Text, View, TextInput, TouchableOpacity } from "react-native";
+import React, {useState} from 'react';
+import {Image, Text, View, TextInput, TouchableOpacity} from 'react-native';
 
-import { Picker } from "@react-native-picker/picker";
-import { EvilIcons as Icon, Feather } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Yup from "yup";
+import {Picker} from '@react-native-picker/picker';
+import Icon from 'react-native-vector-icons/EvilIcons';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Yup from 'yup';
 
-import styles from "./style";
-import * as colors from "../../constants/colors";
-import { wp, hp } from "../../constants/dimensions";
-import Screen from "../../components/Screen";
+import styles from './style';
+import * as colors from '../../constants/colors';
+import {wp, hp} from '../../constants/dimensions';
+import Screen from '../../components/Screen';
 import {
   AppForm,
   AppFormField,
   ErrorMessage,
   SubmitButton,
-} from "../../components/forms";
-import AppTextInput from "../../components/AppTextInput";
+} from '../../components/forms';
+import AppTextInput from '../../components/AppTextInput';
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string().required().min(3, "Name is too short").label("Name"),
+  userName: Yup.string().required().min(3, 'Name is too short').label('Name'),
   // phoneNumber: Yup.string()
   //   .required("This field is Required")
   //   .min(10, "Phone number is not valid")
@@ -31,31 +31,31 @@ const validationSchema = Yup.object().shape({
     .required()
     .min(4)
     .max(15)
-    .label("Plate Number"),
+    .label('Plate Number'),
 });
 
-const Registration = ({ navigation, route }) => {
+const Registration = ({navigation, route}) => {
   const [error, setError] = useState();
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
   const phoneNumber = route.params.number;
 
-  const FieldTitle = ({ title }) => {
+  const FieldTitle = ({title}) => {
     return (
       <Text style={styles.fieldName}>
         {title}
-        <Text style={{ color: "red" }}> *</Text>
+        <Text style={{color: 'red'}}> *</Text>
       </Text>
     );
   };
 
-  const handleSubmit = (userInfo) => {
+  const handleSubmit = userInfo => {
     if (selectedVehicle === null) {
-      setError("Select Vehicle Type");
+      setError('Select Vehicle Type');
     } else {
-      setError("");
-      console.log(userInfo, "Vehicle selected is " + selectedVehicle);
-      navigation.navigate("Drawer");
+      setError('');
+      console.log(userInfo, 'Vehicle selected is ' + selectedVehicle);
+      navigation.navigate('Drawer');
     }
   };
 
@@ -67,27 +67,25 @@ const Registration = ({ navigation, route }) => {
             {/* <Text style={styles.header}>Driver Registration</Text> */}
             <View style={styles.imageView}>
               <Image
-                source={require("../../assets/images/user.png")}
+                source={require('../../assets/images/user.png')}
                 style={styles.profileImage}
               />
               <TouchableOpacity
                 style={styles.iconContainer}
                 onPress={() => {
-                  console.log("This is from camera icon in signup page");
-                }}
-              >
+                  console.log('This is from camera icon in signup page');
+                }}>
                 <Icon name="camera" size={30} color={colors.primaryColor} />
               </TouchableOpacity>
             </View>
             <AppForm
               validationSchema={validationSchema}
               initialValues={{
-                userName: "",
+                userName: '',
                 // phoneNumber: "",
-                vehiclePlateNumber: "",
+                vehiclePlateNumber: '',
               }}
-              onSubmit={handleSubmit}
-            >
+              onSubmit={handleSubmit}>
               <FieldTitle title="Name" required />
               <AppFormField
                 name="userName"
@@ -115,8 +113,8 @@ const Registration = ({ navigation, route }) => {
                 value={phoneNumber}
                 keyboardType="numeric"
                 maxLength={10}
-                containerStyle={[styles.textInput, { padding: 0 }]}
-                style={{ width: "82%", padding: hp(2) }}
+                containerStyle={[styles.textInput, {padding: 0}]}
+                style={{width: '82%', padding: hp(2)}}
                 rightIconColor={colors.primaryColor}
                 rightIcon="check-circle-outline"
               />
@@ -126,9 +124,8 @@ const Registration = ({ navigation, route }) => {
                   selectedValue={selectedVehicle}
                   onValueChange={(itemValue, itemIndex) => {
                     setSelectedVehicle(itemValue);
-                    setError("");
-                  }}
-                >
+                    setError('');
+                  }}>
                   <Picker.Item label="Select Type..." value={null} />
                   <Picker.Item label="Vehicle 1" value="Vehicle 1" />
                   <Picker.Item label="Vehicle 2" value="Vehicle 2" />
@@ -156,8 +153,8 @@ const Registration = ({ navigation, route }) => {
         </KeyboardAwareScrollView>
       </Screen>
       <View style={styles.editProfileButton}>
-        <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
-          <View style={{ paddingHorizontal: 3 }}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+          <View style={{paddingHorizontal: 3}}>
             <Text style={styles.editProfileText}>Edit Profile</Text>
           </View>
         </TouchableOpacity>
