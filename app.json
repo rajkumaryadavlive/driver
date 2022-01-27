@@ -1,47 +1,4 @@
 {
-  "expo": {
-    "name": "WeTaxi",
-    "slug": "WeTaxiDriver",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./src/assets/images/cmplogo_sm.png",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "googleServicesFile": "./google-services.json",
-      "supportsTablet": true,
-      "config": {
-        "googleMapsApiKey": "AIzaSyD6M4Qgp4QzRf1PMYCsOTpDuVYSm0GAFbU"
-      }
-    },
-    "android": {
-      "package": "com.questglt.wetaxi",
-      "googleServicesFile": "./google-services.json",
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/cmplogo_sm.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyD6M4Qgp4QzRf1PMYCsOTpDuVYSm0GAFbU"
-        }
-      },
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
-      ]
-    },
-    "web": {
-      "favicon": "./src/assets/images/cmplogo_sm.png"
-    },
-    "plugins": ["@react-native-firebase/app", "expo-image-picker"]
-  }
+  "name": "WeTaxi",
+  "displayName": "WeTaxi"
 }

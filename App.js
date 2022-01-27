@@ -1,52 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 
-import { Provider } from "react-redux";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
-import { NavigationContainer } from "@react-navigation/native";
+import {Button, Image, Text, View} from 'react-native';
 
-import { store } from "./src/store/store";
-import AppNavigator from "./src/routes/AppNavigator";
+import AppNavigator from './src/routes/AppNavigator';
+import AuthContext from './src/auth/context';
+import ForegroundHandler from './src/utils/ForegroundHandler';
+import {
+  requestUserPermission,
+  notificationListener,
+} from './src/utils/notificationServices';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import Screen from "./src/components/Screen";
-import DrawerStack from "./src/routes/DrawerStack";
-import { Text, Alert, Button, View, Dimensions } from "react-native";
-import AuthContext from "./src/auth/context";
+import Screen from './src/components/Screen';
+import ImagePicker from 'react-native-image-crop-picker';
 
-import { wp } from "./src/constants/dimensions";
-import MultipleBarGraph from "./src/components/MultipleBarGraph";
-
-import { requestUserPermission } from "./src/utils/notificationsServices";
+import {LogBox} from 'react-native';
 
 export default function App() {
-  const [token, setToken] = useState("");
+  LogBox.ignoreLogs([
+    "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+  ]);
+  LogBox.ignoreLogs([
+    "EventEmitter.removeListener('deviceEventName', ...): Method has been deprecated. Please instead use `remove()` on the subscription returned by `EventEmitter.addListener",
+  ]);
+  const [token, setToken] = useState('');
 
-  const [loaded] = useFonts({
-    calibri: require("./src/assets/fonts/calibri.ttf"),
-    segoeui: require("./src/assets/fonts/segoeui.ttf"),
-  });
+  const [imageUrl, setImageUrl] = useState(null);
 
-  // useEffect(() => {
-  //   requestUserPermission();
-  // }, []);
+  const foregroundHandler = () => {
+    return <ForegroundHandler />;
+  };
 
-  if (!loaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <AuthContext.Provider value={{ token, setToken }}>
-        <Provider store={store}>
-          <AppNavigator />
-        </Provider>
+  useEffect(() => {
+    requestUserPermission();
+    notificationListener();
+  }, []);
+
+  const imagePicker = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      multiple: true,
+    }).then(image => {
+      console.log(image);
+      setImageUrl(image.path);
+    });
+  };
+
+  return (
+    <GestureHandlerRootView style={{flex: 1}}>
+      <AuthContext.Provider value={{token, setToken}}>
+        {foregroundHandler()}
+        <AppNavigator />
       </AuthContext.Provider>
-
-      // <NavigationContainer>
-      //   <DrawerStack />
-      // </NavigationContainer>
-      // <EditProfileScreen />
-      // <Screen>
-      //   <MultipleBarGraph />
-      // </Screen>
-    );
-  }
+    </GestureHandlerRootView>
+    // <Screen>
+    //   <Button title="Image picker" onPress={imagePicker} />
+    //   <Image source={{uri: imageUrl}} style={{width: 200, height: 200}} />
+    // </Screen>
+  );
 }
